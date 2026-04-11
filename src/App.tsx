@@ -6,6 +6,7 @@ import Benefits from './components/Benefits';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import AdminEntryLink from './components/AdminEntryLink';
 import { copy, Language } from './i18n';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Contact content={content.contact} />
       <Footer content={content.footer} />
       <WhatsAppButton content={content.whatsapp} />
+      <AdminEntryLink />
     </div>
   );
 }

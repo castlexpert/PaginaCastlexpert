@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Send, Mail, CheckCircle } from 'lucide-react';
 import type { AppCopy } from '../i18n';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const publicApi = import.meta.env.VITE_PUBLIC_API_URL?.replace(/\/$/, '') || 'http://localhost:8788';
 
 type ContactProps = {
   content: AppCopy['contact'];
@@ -25,7 +25,7 @@ export default function Contact({ content }: ContactProps) {
     setSuccess(false);
 
     try {
-      const response = await fetch(`${SUPABASE_URL}/functions/v1/contact`, {
+      const response = await fetch(`${publicApi}/api/public/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
