@@ -21,3 +21,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Binarios locales (no versionar)
+supabase/local/postgrest/
