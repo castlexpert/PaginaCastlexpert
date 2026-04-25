@@ -1,5 +1,3 @@
-$ErrorActionPreference = 'Stop'
-
 param(
   [string]$TaskName = 'PaginaCastlexpert-GitHub-Backup',
   [ValidateSet('Hourly','Daily')]
@@ -7,6 +5,8 @@ param(
   [int]$EveryHours = 4,
   [string]$At = '19:00'
 )
+
+$ErrorActionPreference = 'Stop'
 
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $backupScript = (Resolve-Path (Join-Path $PSScriptRoot 'backup-to-github.ps1')).Path
@@ -23,7 +23,7 @@ if ($Schedule -eq 'Hourly') {
   $trigger = New-ScheduledTaskTrigger -Daily -At $At
 }
 
-$principal = New-ScheduledTaskPrincipal -UserId $env:UserName -LogonType S4U -RunLevel Highest
+$principal = New-ScheduledTaskPrincipal -UserId $env:UserName -LogonType Interactive -RunLevel Limited
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew
 
 $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $settings
