@@ -188,7 +188,7 @@ CREATE INDEX IF NOT EXISTS apk_sync_audit_system_idx ON "WAdmin".apk_sync_audit 
 INSERT INTO "WAdmin".admin_vip_credentials (email, password_hash, notes)
 VALUES (
   'castlexpertcr@gmail.com',
-  "WAdmin".crypt('castleX', "WAdmin".gen_salt('bf'::text)),
+  crypt('castleX', gen_salt('bf'::text)),
   'Usuario VIP por defecto — en Supabase Auth debe existir el mismo usuario.'
 )
 ON CONFLICT (email) DO NOTHING;
