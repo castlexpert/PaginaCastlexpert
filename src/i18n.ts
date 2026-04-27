@@ -9,6 +9,7 @@ export type AppCopy = {
     description: string;
     primaryCta: string;
     secondaryCta: string;
+    processCta: string;
     recommendation: string;
     revenueLabel: string;
     growthStat: string;
@@ -26,7 +27,7 @@ export type AppCopy = {
   process: {
     title: string;
     subtitle: string;
-    steps: Array<{ title: string; description: string; number: string }>;
+    steps: Array<{ title: string; description: string; number: string; image?: string }>;
   };
   benefits: {
     title: string;
@@ -83,6 +84,7 @@ export const copy: Record<Language, AppCopy> = {
         'Diseñamos herramientas prácticas para el control de operaciones, automatización y crecimiento. Todo claro, rápido y adaptado a tu empresa.',
       primaryCta: 'Empezar proyecto',
       secondaryCta: 'Ver servicios',
+      processCta: '¿Cómo funciona?',
       recommendation: 'Recomendado por clientes en Costa Rica',
       revenueLabel: 'Ingresos',
       growthStat: '+34% de crecimiento operativo en 90 días',
@@ -116,10 +118,10 @@ export const copy: Record<Language, AppCopy> = {
       title: '¿Cómo funciona?',
       subtitle: 'De la idea a la realidad en 4 simples pasos',
       steps: [
-        { title: 'Idea', description: 'Cuéntanos qué necesitas. Nos reunimos contigo para entender tu visión.', number: '01' },
-        { title: 'Diseño rápido', description: 'Creamos un prototipo funcional que puedes revisar y aprobar.', number: '02' },
-        { title: 'Desarrollo ágil', description: 'Desarrollamos tu app con las mejores prácticas y tecnologías.', number: '03' },
-        { title: 'Entrega + soporte', description: 'Recibe tu app lista para usar con soporte continuo incluido.', number: '04' },
+        { title: 'Idea', description: 'Cuéntanos qué necesitas. Nos reunimos contigo para entender tu visión.', number: '01', image: '/process/idea.webp' },
+        { title: 'Diseño rápido', description: 'Creamos un prototipo funcional que puedes revisar y aprobar.', number: '02', image: '/process/design.webp' },
+        { title: 'Desarrollo ágil', description: 'Desarrollamos tu app con las mejores prácticas y tecnologías.', number: '03', image: '/process/develop.webp' },
+        { title: 'Entrega + soporte', description: 'Recibe tu app lista para usar con soporte continuo incluido.', number: '04', image: '/process/delivery.webp' },
       ],
     },
     benefits: {
@@ -181,6 +183,7 @@ export const copy: Record<Language, AppCopy> = {
         'We design practical tools for operations control, automation, and growth. Everything is clear, fast, and tailored to your business.',
       primaryCta: 'Start project',
       secondaryCta: 'View services',
+      processCta: 'How does it work?',
       recommendation: 'Recommended by clients in Costa Rica',
       revenueLabel: 'Revenue',
       growthStat: '+34% operational growth in 90 days',
@@ -214,10 +217,10 @@ export const copy: Record<Language, AppCopy> = {
       title: 'How does it work?',
       subtitle: 'From idea to reality in 4 simple steps',
       steps: [
-        { title: 'Idea', description: 'Tell us what you need. We meet with you to understand your vision.', number: '01' },
-        { title: 'Fast design', description: 'We create a functional prototype for you to review and approve.', number: '02' },
-        { title: 'Agile development', description: 'We build your app with modern best practices and technology.', number: '03' },
-        { title: 'Delivery + support', description: 'Receive your app ready to use with ongoing support included.', number: '04' },
+        { title: 'Idea', description: 'Tell us what you need. We meet with you to understand your vision.', number: '01', image: '/process/idea.webp' },
+        { title: 'Fast design', description: 'We create a functional prototype for you to review and approve.', number: '02', image: '/process/design.webp' },
+        { title: 'Agile development', description: 'We build your app with modern best practices and technology.', number: '03', image: '/process/develop.webp' },
+        { title: 'Delivery + support', description: 'Receive your app ready to use with ongoing support included.', number: '04', image: '/process/delivery.webp' },
       ],
     },
     benefits: {

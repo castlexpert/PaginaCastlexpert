@@ -27,9 +27,9 @@ export default function Benefits({ content }: BenefitsProps) {
             return (
               <div
                 key={index}
-                className="relative p-8 rounded-2xl bg-white/25 backdrop-blur-2xl border border-black/15 hover:bg-white/30 hover:border-black/25 transition-all duration-300 h-full hover:shadow-xl hover:shadow-black/10"
+                className="relative p-8 cx-card cx-card-hover h-full"
               >
-                <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-2xl border border-black/15 flex items-center justify-center mb-6 shadow-md shadow-black/5">
+                <div className="w-14 h-14 rounded-xl cx-card-surface flex items-center justify-center mb-6 shadow-md shadow-black/5">
                   <Icon className="w-7 h-7 text-black" />
                 </div>
 
@@ -41,7 +41,7 @@ export default function Benefits({ content }: BenefitsProps) {
           })}
         </div>
 
-        <div className="mt-16 p-8 md:p-12 rounded-3xl bg-white/25 backdrop-blur-2xl border border-black/15 text-center shadow-lg shadow-black/5">
+        <div className="mt-16 p-8 md:p-12 rounded-3xl cx-card cx-card-hover text-center">
           <h3 className="text-3xl font-bold text-black mb-4">{content.ctaTitle}</h3>
           <p className="text-xl text-zinc-600 mb-8 max-w-2xl mx-auto">{content.ctaDescription}</p>
           <button

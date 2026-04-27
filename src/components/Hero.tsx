@@ -3,8 +3,11 @@
   CheckCircle,
   Facebook,
   Instagram,
+  Menu,
   Star,
+  X,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import type { AppCopy } from '../i18n';
 
 type HeroProps = {
@@ -13,6 +16,8 @@ type HeroProps = {
 };
 
 export default function Hero({ content, onToggleLanguage }: HeroProps) {
+  const [mobileDockOpen, setMobileDockOpen] = useState(false);
+
   const scrollToSection = (id: string) => {
     if (id === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -21,11 +26,19 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileDockOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   return (
     <section className="relative min-h-screen overflow-hidden px-4 pb-28 pt-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-8">
         <header className="flex flex-wrap items-center justify-between gap-4 px-2">
-          <div className="text-4xl italic tracking-tight text-zinc-900 font-display">Castlexpert</div>
+          <div className="text-4xl italic tracking-tight text-zinc-900 font-display">CastleXpert</div>
 
           <div className="flex items-center gap-4 rounded-full border border-black/10 bg-white/30 px-4 py-2 backdrop-blur-2xl">
             <div className="flex items-center gap-2 text-sm text-zinc-700">
@@ -82,6 +95,12 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
                 >
                   {content.secondaryCta}
                 </button>
+                <button
+                  onClick={() => scrollToSection('process')}
+                  className="rounded-xl border border-black/10 bg-[#e6ead7] px-6 py-3.5 font-semibold text-zinc-900 transition hover:bg-[#dbe1c8]"
+                >
+                  {content.processCta}
+                </button>
               </div>
 
               <div className="mt-10 border-t border-black/10 pt-5">
@@ -103,7 +122,7 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
                 <div className="pointer-events-none absolute inset-x-[12%] top-10 h-24 rounded-full bg-white/35 blur-3xl"></div>
                 <div className="pointer-events-none absolute inset-x-[15%] bottom-8 h-16 rounded-full bg-[#e7dcc8]/55 blur-3xl"></div>
                 <img
-                  src="/hero-showcase-clean.png"
+                  src="/hero-principal.webp"
                   alt="Vista previa de aplicación móvil"
                   loading="eager"
                   decoding="async"
@@ -135,6 +154,44 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
           {content.navCta}
         </button>
       </nav>
+
+      <div className="fixed bottom-6 right-6 z-50 md:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileDockOpen((v) => !v)}
+          className="cx-card cx-card-hover flex h-14 w-14 items-center justify-center"
+          aria-label={mobileDockOpen ? 'Cerrar menú' : 'Abrir menú'}
+        >
+          {mobileDockOpen ? <X className="h-6 w-6 text-zinc-900" /> : <Menu className="h-6 w-6 text-zinc-900" />}
+        </button>
+
+        {mobileDockOpen && (
+          <div className="mt-3 w-[min(78vw,320px)] rounded-2xl cx-card p-2">
+            {content.dockItems.map((item) => (
+              <button
+                key={item.target}
+                onClick={() => {
+                  setMobileDockOpen(false);
+                  scrollToSection(item.target);
+                }}
+                className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-zinc-800 transition hover:bg-white/25"
+              >
+                <span>{item.label}</span>
+                <ArrowRight className="h-4 w-4 text-zinc-700" />
+              </button>
+            ))}
+            <button
+              onClick={() => {
+                setMobileDockOpen(false);
+                scrollToSection('contact');
+              }}
+              className="mt-2 w-full rounded-xl bg-[#0d4d38] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#0b3f2f]"
+            >
+              {content.navCta}
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

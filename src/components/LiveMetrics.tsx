@@ -44,9 +44,9 @@ export default function LiveMetrics() {
 
   return (
     <div className="fixed bottom-6 left-6 z-40 hidden md:block">
-      <div className="relative px-6 py-4 rounded-xl bg-white/20 backdrop-blur-2xl border border-black/15 shadow-xl shadow-black/10">
+      <div className="relative px-6 py-4 rounded-xl cx-card shadow-xl shadow-black/10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur-2xl border border-black/15 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg cx-card-surface flex items-center justify-center">
             <Eye className="w-5 h-5 text-black" />
           </div>
           <div>

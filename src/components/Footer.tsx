@@ -16,12 +16,12 @@ export default function Footer({ content }: FooterProps) {
             <div className="flex items-center gap-3 mb-4">
               <img
                 src="/castlexpert-logo.png"
-                alt="Logo oficial de Castlexpert"
+                alt="Logo oficial de CastleXpert"
                 className="h-12 w-12 object-contain"
                 loading="lazy"
                 decoding="async"
               />
-              <span className="text-2xl font-bold text-black">Castlexpert</span>
+              <span className="text-2xl font-bold text-black">CastleXpert</span>
             </div>
             <p className="text-zinc-600 mb-4">{content.description}</p>
             <p className="text-zinc-500 text-sm">castlexpertcr.com</p>
@@ -73,7 +73,7 @@ export default function Footer({ content }: FooterProps) {
         </div>
 
         <div className="pt-8 border-t border-black/15 text-center text-zinc-600">
-          <p>&copy; {new Date().getFullYear()} Castlexpert. {content.rights}</p>
+          <p>&copy; {new Date().getFullYear()} CastleXpert. {content.rights}</p>
         </div>
       </div>
     </footer>

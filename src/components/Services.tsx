@@ -50,9 +50,9 @@ export default function Services({ content }: ServicesProps) {
             return (
               <div
                 key={index}
-                className="group p-6 rounded-2xl bg-white/25 backdrop-blur-2xl border border-black/15 hover:bg-white/30 hover:border-black/25 transition-all duration-300 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-1"
+                className="group p-6 cx-card cx-card-hover hover:-translate-y-1"
               >
-                <div className="w-12 h-12 rounded-lg bg-white/20 backdrop-blur-2xl border border-black/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-md shadow-black/5">
+                <div className="w-12 h-12 rounded-lg cx-card-surface flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-md shadow-black/5">
                   <Icon className="w-6 h-6 text-black" />
                 </div>
                 <h3 className="text-xl font-semibold text-black mb-2">{service.title}</h3>
@@ -70,9 +70,9 @@ export default function Services({ content }: ServicesProps) {
               return (
                 <div
                   key={index}
-                  className="group relative p-8 rounded-2xl bg-white/25 backdrop-blur-2xl border border-black/15 hover:bg-white/30 transition-all duration-300 hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-2"
+                  className="group relative p-8 cx-card cx-card-hover hover:-translate-y-2"
                 >
-                  <div className="w-16 h-16 rounded-xl bg-white/20 backdrop-blur-2xl border border-black/15 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-md shadow-black/5">
+                  <div className="w-16 h-16 rounded-xl cx-card-surface flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-md shadow-black/5">
                     <Icon className="w-8 h-8 text-black" />
                   </div>
                   <h4 className="text-2xl font-bold text-black mb-3">{service.title}</h4>
