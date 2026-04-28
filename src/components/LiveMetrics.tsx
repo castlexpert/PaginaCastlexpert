@@ -1,7 +1,10 @@
 ﻿import { useState, useEffect } from 'react';
 import { Eye } from 'lucide-react';
 
-const publicApi = import.meta.env.VITE_PUBLIC_API_URL?.replace(/\/$/, '') || 'http://localhost:8788';
+const publicApi =
+  import.meta.env.VITE_PUBLIC_API_URL?.replace(/\/$/, '') ||
+  import.meta.env.VITE_ADMIN_URL?.replace(/\/$/, '') ||
+  '';
 
 export default function LiveMetrics() {
   const [visitCount, setVisitCount] = useState<number>(0);

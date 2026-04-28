@@ -12,7 +12,9 @@ import {
   Globe,
   Monitor,
 } from 'lucide-react';
+import { useMemo, useState } from 'react';
 import type { AppCopy } from '../i18n';
+import ServiceModal, { type ServiceModalContent } from './ServiceModal';
 
 const serviceIcons = [
   Smartphone,
@@ -34,6 +36,14 @@ type ServicesProps = {
 };
 
 export default function Services({ content }: ServicesProps) {
+  const [active, setActive] = useState<{ kind: 'item' | 'main'; index: number } | null>(null);
+
+  const activeModal: ServiceModalContent | null = useMemo(() => {
+    if (!active) return null;
+    const source = active.kind === 'item' ? content.itemModals : content.mainModals;
+    return source[active.index] ?? null;
+  }, [active, content.itemModals, content.mainModals]);
+
   return (
     <section id="services" className="py-24 relative bg-[#f2efe8]">
       <div className="absolute inset-0 bg-gradient-to-b from-[#f2efe8] via-[#f6f3ec] to-[#ece8df]"></div>
@@ -48,16 +58,19 @@ export default function Services({ content }: ServicesProps) {
           {content.items.map((service, index) => {
             const Icon = serviceIcons[index];
             return (
-              <div
+              <button
                 key={index}
-                className="group p-6 cx-card cx-card-hover hover:-translate-y-1"
+                type="button"
+                onClick={() => setActive({ kind: 'item', index })}
+                className="group p-6 cx-card cx-card-hover hover:-translate-y-1 text-left"
+                aria-label={`${service.title}. Ver detalle`}
               >
                 <div className="w-12 h-12 rounded-lg cx-card-surface flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-md shadow-black/5">
                   <Icon className="w-6 h-6 text-black" />
                 </div>
                 <h3 className="text-xl font-semibold text-black mb-2">{service.title}</h3>
                 <p className="text-zinc-600">{service.description}</p>
-              </div>
+              </button>
             );
           })}
         </div>
@@ -68,21 +81,38 @@ export default function Services({ content }: ServicesProps) {
             {content.mainItems.map((service, index) => {
               const Icon = mainServiceIcons[index];
               return (
-                <div
+                <button
                   key={index}
-                  className="group relative p-8 cx-card cx-card-hover hover:-translate-y-2"
+                  type="button"
+                  onClick={() => setActive({ kind: 'main', index })}
+                  className="group relative p-8 cx-card cx-card-hover hover:-translate-y-2 text-left"
+                  aria-label={`${service.title}. Ver detalle`}
                 >
                   <div className="w-16 h-16 rounded-xl cx-card-surface flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-md shadow-black/5">
                     <Icon className="w-8 h-8 text-black" />
                   </div>
                   <h4 className="text-2xl font-bold text-black mb-3">{service.title}</h4>
                   <p className="text-zinc-600 text-lg">{service.description}</p>
-                </div>
+                </button>
               );
             })}
           </div>
         </div>
       </div>
+
+      <ServiceModal
+        open={Boolean(activeModal)}
+        onClose={() => setActive(null)}
+        content={
+          activeModal ?? {
+            title: '',
+            description: '',
+            highlights: [],
+            images: [],
+          }
+        }
+        labels={content.modalLabels}
+      />
     </section>
   );
 }

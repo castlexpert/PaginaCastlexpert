@@ -23,8 +23,8 @@ function App() {
         content={content.hero}
         onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
       />
-      <Services content={content.services} />
       <HowItWorks content={content.process} />
+      <Services content={content.services} />
       <Benefits content={content.benefits} />
       <Contact content={content.contact} />
       <Footer content={content.footer} />

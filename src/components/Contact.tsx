@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { Send, Mail, CheckCircle } from 'lucide-react';
 import type { AppCopy } from '../i18n';
 
-const publicApi = import.meta.env.VITE_PUBLIC_API_URL?.replace(/\/$/, '') || 'http://localhost:8788';
+const publicApi =
+  import.meta.env.VITE_PUBLIC_API_URL?.replace(/\/$/, '') ||
+  import.meta.env.VITE_ADMIN_URL?.replace(/\/$/, '') ||
+  '';
 
 type ContactProps = {
   content: AppCopy['contact'];
@@ -67,8 +70,8 @@ export default function Contact({ content }: ContactProps) {
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-black mb-2">{content.emailLabel}</h3>
-                <a href="mailto:info@castlexpertcr.com" className="text-zinc-700 hover:text-black transition-colors">
-                  info@castlexpertcr.com
+                <a href="mailto:info@castlexpert.com" className="text-zinc-700 hover:text-black transition-colors">
+                  info@castlexpert.com
                 </a>
               </div>
             </div>

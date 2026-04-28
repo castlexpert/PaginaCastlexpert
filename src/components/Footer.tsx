@@ -24,7 +24,7 @@ export default function Footer({ content }: FooterProps) {
               <span className="text-2xl font-bold text-black">CastleXpert</span>
             </div>
             <p className="text-zinc-600 mb-4">{content.description}</p>
-            <p className="text-zinc-500 text-sm">castlexpertcr.com</p>
+            <p className="text-zinc-500 text-sm">castlexpert.com</p>
           </div>
 
           <div>
@@ -63,7 +63,7 @@ export default function Footer({ content }: FooterProps) {
                 <Instagram className="w-5 h-5 text-zinc-600 group-hover:text-black transition-colors" />
               </a>
               <a
-                href="mailto:info@castlexpertcr.com"
+                href="mailto:info@castlexpert.com"
                 className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur-2xl border border-black/15 flex items-center justify-center hover:bg-white/30 hover:border-black/25 transition-all group"
               >
                 <Mail className="w-5 h-5 text-zinc-600 group-hover:text-black transition-colors" />

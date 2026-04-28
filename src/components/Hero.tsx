@@ -155,7 +155,7 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
         </button>
       </nav>
 
-      <div className="fixed bottom-6 right-6 z-50 md:hidden">
+      <div className="fixed bottom-6 left-6 z-50 md:hidden">
         <button
           type="button"
           onClick={() => setMobileDockOpen((v) => !v)}
