@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { Send, Mail, CheckCircle } from 'lucide-react';
 import type { AppCopy } from '../i18n';
+import { getPublicApi } from '../lib/publicApi';
 
-const publicApi =
-  import.meta.env.VITE_PUBLIC_API_URL?.replace(/\/$/, '') ||
-  import.meta.env.VITE_ADMIN_URL?.replace(/\/$/, '') ||
-  '';
+const publicApi = getPublicApi();
 
 type ContactProps = {
   content: AppCopy['contact'];
@@ -28,10 +26,11 @@ export default function Contact({ content }: ContactProps) {
     setSuccess(false);
 
     try {
-      const response = await fetch(`${publicApi}/api/public/contact`, {
+      const response = await fetch(`${publicApi.baseUrl}/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(publicApi.headers ?? {}),
         },
         body: JSON.stringify(formData),
       });

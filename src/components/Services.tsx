@@ -36,13 +36,14 @@ type ServicesProps = {
 };
 
 export default function Services({ content }: ServicesProps) {
-  const [active, setActive] = useState<{ kind: 'item' | 'main'; index: number } | null>(null);
+  const [active, setActive] = useState<{ kind: 'item' | 'main' | 'demo'; index: number } | null>(null);
 
   const activeModal: ServiceModalContent | null = useMemo(() => {
     if (!active) return null;
+    if (active.kind === 'demo') return content.demos.modals[active.index] ?? null;
     const source = active.kind === 'item' ? content.itemModals : content.mainModals;
     return source[active.index] ?? null;
-  }, [active, content.itemModals, content.mainModals]);
+  }, [active, content.demos.modals, content.itemModals, content.mainModals]);
 
   return (
     <section id="services" className="py-24 relative bg-[#f2efe8]">
@@ -73,6 +74,28 @@ export default function Services({ content }: ServicesProps) {
               </button>
             );
           })}
+        </div>
+
+        <div className="mt-14">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-black mb-3 text-black">{content.demos.title}</h3>
+            <p className="text-lg text-zinc-600 max-w-2xl mx-auto">{content.demos.subtitle}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {content.demos.items.map((item, index) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={() => setActive({ kind: 'demo', index })}
+                className="group p-6 cx-card cx-card-hover hover:-translate-y-1 text-left"
+                aria-label={`${item.title}. Ver detalle`}
+              >
+                <h4 className="text-xl font-extrabold text-black mb-2">{item.title}</h4>
+                <p className="text-zinc-600">{item.description}</p>
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="mt-20">
@@ -109,6 +132,7 @@ export default function Services({ content }: ServicesProps) {
             description: '',
             highlights: [],
             images: [],
+            links: [],
           }
         }
         labels={content.modalLabels}

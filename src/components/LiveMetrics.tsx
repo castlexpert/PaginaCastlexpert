@@ -1,10 +1,8 @@
 ﻿import { useState, useEffect } from 'react';
 import { Eye } from 'lucide-react';
+import { getPublicApi } from '../lib/publicApi';
 
-const publicApi =
-  import.meta.env.VITE_PUBLIC_API_URL?.replace(/\/$/, '') ||
-  import.meta.env.VITE_ADMIN_URL?.replace(/\/$/, '') ||
-  '';
+const publicApi = getPublicApi();
 
 export default function LiveMetrics() {
   const [visitCount, setVisitCount] = useState<number>(0);
@@ -13,8 +11,11 @@ export default function LiveMetrics() {
   useEffect(() => {
     const trackVisit = async () => {
       try {
-        const response = await fetch(`${publicApi}/api/public/visits`, {
+        const response = await fetch(`${publicApi.baseUrl}/visits`, {
           method: 'POST',
+          headers: {
+            ...(publicApi.headers ?? {}),
+          },
         });
 
         if (response.ok) {
@@ -32,7 +33,11 @@ export default function LiveMetrics() {
 
     const interval = setInterval(async () => {
       try {
-        const response = await fetch(`${publicApi}/api/public/visits`);
+        const response = await fetch(`${publicApi.baseUrl}/visits`, {
+          headers: {
+            ...(publicApi.headers ?? {}),
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setVisitCount(data.count);

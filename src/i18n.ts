@@ -39,6 +39,20 @@ export type AppCopy = {
       close: string;
       gallery: string;
       highlights: string;
+      links: string;
+      open: string;
+    };
+    demos: {
+      title: string;
+      subtitle: string;
+      items: Array<{ title: string; description: string }>;
+      modals: Array<{
+        title: string;
+        description: string;
+        highlights: string[];
+        images: string[];
+        links: Array<{ label: string; url: string }>;
+      }>;
     };
   };
   process: {
@@ -154,7 +168,12 @@ export const copy: Record<Language, AppCopy> = {
             'Conteos cíclicos y auditoría para control total.',
             'Reportes para compras y proyección de demanda.',
           ],
-          images: [],
+          images: [
+            '/services/inventory/inventory-1.webp',
+            '/services/inventory/inventory-2.webp',
+            '/services/inventory/inventory-3.webp',
+            '/services/inventory/inventory-4.webp',
+          ],
         },
         {
           title: 'Control de órdenes',
@@ -167,7 +186,12 @@ export const copy: Record<Language, AppCopy> = {
             'Historial por cliente y por fecha.',
             'Panel rápido para operación diaria.',
           ],
-          images: [],
+          images: [
+            '/services/orders/orders-1.webp',
+            '/services/orders/orders-2.webp',
+            '/services/orders/orders-3.webp',
+            '/services/orders/orders-4.webp',
+          ],
         },
         {
           title: 'Órdenes de trabajo',
@@ -312,6 +336,80 @@ export const copy: Record<Language, AppCopy> = {
         close: 'Cerrar',
         gallery: 'Imágenes',
         highlights: 'Lo que incluye',
+        links: 'Demos',
+        open: 'Abrir',
+      },
+      demos: {
+        title: 'DEMOS',
+        subtitle: 'Ejemplos para visualizar cómo se vería tu solución antes de implementarla.',
+        items: [
+          { title: 'Soluciones Personales', description: 'Demos para uso individual: control, organización y productividad.' },
+          { title: 'Soluciones Familiares', description: 'Demos pensados para el hogar: coordinación, recordatorios y control.' },
+          { title: 'Soluciones Empresa', description: 'Demos para operaciones empresariales: procesos, reportes y control.' },
+          { title: 'Soluciones PYME', description: 'Demos ideales para pymes: herramientas simples que escalan contigo.' },
+        ],
+        modals: [
+          {
+            title: 'Soluciones Personales',
+            description:
+              'Prueba demos diseñados para ayudarte a organizarte, dar seguimiento a tareas y mantener tu día a día bajo control. Ideales para validar la idea rápido y ver cómo una app puede simplificar tus hábitos.',
+            highlights: [
+              'Flujos simples para registrar y consultar información.',
+              'Interfaz rápida y enfocada en productividad.',
+              'Listo para evolucionar a una app completa.',
+            ],
+            images: [],
+            links: [
+              { label: 'Demo Web', url: '' },
+              { label: 'APK (Android)', url: '' },
+            ],
+          },
+          {
+            title: 'Soluciones Familiares',
+            description:
+              'Demos orientados a coordinación familiar: recordatorios, listas, organización de actividades y control compartido. Perfectos para visualizar una solución fácil de usar por todos.',
+            highlights: [
+              'Enfoque en simplicidad y comunicación.',
+              'Recordatorios y organización por categorías.',
+              'Pensado para uso en móvil.',
+            ],
+            images: [],
+            links: [
+              { label: 'Demo Web', url: '' },
+              { label: 'APK (Android)', url: '' },
+            ],
+          },
+          {
+            title: 'Soluciones Empresa',
+            description:
+              'Demos para procesos empresariales: seguimiento de operaciones, orden, reportes y visibilidad. Útiles para ver cómo se estructura un sistema para equipos y roles.',
+            highlights: [
+              'Paneles y estados para control operativo.',
+              'Reportes claros para decisiones rápidas.',
+              'Base sólida para crecer por módulos.',
+            ],
+            images: [],
+            links: [
+              { label: 'Demo Web', url: '' },
+              { label: 'APK (Android)', url: '' },
+            ],
+          },
+          {
+            title: 'Soluciones PYME',
+            description:
+              'Demos pensados para pymes: herramientas prácticas para controlar inventario, órdenes, gastos y tareas sin complejidad. Ideales para empezar con lo esencial y escalar luego.',
+            highlights: [
+              'Implementación rápida tipo MVP.',
+              'Enfoque en ahorro de tiempo y control.',
+              'Escalable: agrega funcionalidades cuando lo necesites.',
+            ],
+            images: [],
+            links: [
+              { label: 'Demo Web', url: '' },
+              { label: 'APK (Android)', url: '' },
+            ],
+          },
+        ],
       },
     },
     process: {
@@ -436,7 +534,12 @@ export const copy: Record<Language, AppCopy> = {
             'Cycle counts and audit trail for full control.',
             'Reports that support smarter purchasing.',
           ],
-          images: [],
+          images: [
+            '/services/inventory/inventory-1.webp',
+            '/services/inventory/inventory-2.webp',
+            '/services/inventory/inventory-3.webp',
+            '/services/inventory/inventory-4.webp',
+          ],
         },
         {
           title: 'Order management',
@@ -449,7 +552,12 @@ export const copy: Record<Language, AppCopy> = {
             'Customer history and date‑based tracking.',
             'Fast daily operations board.',
           ],
-          images: [],
+          images: [
+            '/services/orders/orders-1.webp',
+            '/services/orders/orders-2.webp',
+            '/services/orders/orders-3.webp',
+            '/services/orders/orders-4.webp',
+          ],
         },
         {
           title: 'Work orders',
@@ -594,6 +702,80 @@ export const copy: Record<Language, AppCopy> = {
         close: 'Close',
         gallery: 'Gallery',
         highlights: 'Highlights',
+        links: 'Demos',
+        open: 'Open',
+      },
+      demos: {
+        title: 'DEMOS',
+        subtitle: 'Quick examples to visualize your solution before building the full product.',
+        items: [
+          { title: 'Personal Solutions', description: 'Individual-focused demos for organization and productivity.' },
+          { title: 'Family Solutions', description: 'Household demos for coordination, reminders, and shared control.' },
+          { title: 'Business Solutions', description: 'Operational demos for teams, workflows, and reporting.' },
+          { title: 'SMB Solutions', description: 'Small-business demos: simple tools that scale as you grow.' },
+        ],
+        modals: [
+          {
+            title: 'Personal Solutions',
+            description:
+              'Explore demos designed to help you stay organized, track tasks, and keep daily routines under control. Ideal to validate the idea quickly and see how an app can simplify habits.',
+            highlights: [
+              'Fast flows to capture and review information.',
+              'Clean UI focused on productivity.',
+              'Ready to evolve into a full app.',
+            ],
+            images: [],
+            links: [
+              { label: 'Web demo', url: '' },
+              { label: 'APK (Android)', url: '' },
+            ],
+          },
+          {
+            title: 'Family Solutions',
+            description:
+              'Demos built for family coordination: reminders, lists, shared activities, and simple organization. Great to visualize a solution that everyone can use easily.',
+            highlights: [
+              'Simple and friendly experience.',
+              'Reminders and categorized organization.',
+              'Designed mobile-first.',
+            ],
+            images: [],
+            links: [
+              { label: 'Web demo', url: '' },
+              { label: 'APK (Android)', url: '' },
+            ],
+          },
+          {
+            title: 'Business Solutions',
+            description:
+              'Operational demos for teams: tracking, status flows, reporting, and visibility. Useful to see how a system is structured with roles and shared processes.',
+            highlights: [
+              'Operational boards and clear statuses.',
+              'Actionable reporting for quick decisions.',
+              'Solid base to scale by modules.',
+            ],
+            images: [],
+            links: [
+              { label: 'Web demo', url: '' },
+              { label: 'APK (Android)', url: '' },
+            ],
+          },
+          {
+            title: 'SMB Solutions',
+            description:
+              'Demos for small businesses: practical tools for inventory, orders, expenses, and tasks—without complexity. Start with the essentials and scale when you are ready.',
+            highlights: [
+              'Fast MVP-style rollout.',
+              'Focus on saving time and gaining control.',
+              'Scalable: add features as needed.',
+            ],
+            images: [],
+            links: [
+              { label: 'Web demo', url: '' },
+              { label: 'APK (Android)', url: '' },
+            ],
+          },
+        ],
       },
     },
     process: {

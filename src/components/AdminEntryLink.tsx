@@ -1,6 +1,6 @@
 import { Shield } from 'lucide-react';
 
-const defaultAdminUrl = 'https://admin.castlexpert.com';
+const defaultAdminUrl = 'https://web-production-8cc57.up.railway.app';
 
 export default function AdminEntryLink() {
   const base = import.meta.env.VITE_ADMIN_URL?.replace(/\/$/, '') || defaultAdminUrl;
