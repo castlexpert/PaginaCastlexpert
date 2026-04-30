@@ -7,10 +7,13 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import AdminEntryLink from './components/AdminEntryLink';
+import AboutModal from './components/AboutModal';
+import ChatWidget from './components/ChatWidget';
 import { copy, Language } from './i18n';
 
 function App() {
   const [language, setLanguage] = useState<Language>('es');
+  const [aboutOpen, setAboutOpen] = useState(false);
   const content = copy[language];
 
   useEffect(() => {
@@ -27,7 +30,9 @@ function App() {
       <Services content={content.services} />
       <Benefits content={content.benefits} />
       <Contact content={content.contact} />
-      <Footer content={content.footer} />
+      <Footer content={content.footer} onOpenAbout={() => setAboutOpen(true)} />
+      <AboutModal open={aboutOpen} onClose={() => setAboutOpen(false)} content={content.about} />
+      <ChatWidget content={content.chat} language={language} />
       <WhatsAppButton content={content.whatsapp} />
       <AdminEntryLink />
     </div>

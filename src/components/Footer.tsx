@@ -3,9 +3,10 @@ import type { AppCopy } from '../i18n';
 
 type FooterProps = {
   content: AppCopy['footer'];
+  onOpenAbout: () => void;
 };
 
-export default function Footer({ content }: FooterProps) {
+export default function Footer({ content, onOpenAbout }: FooterProps) {
   return (
     <footer className="relative py-12 border-t border-black/15 bg-[#ebe6dd]">
       <div className="absolute inset-0 bg-gradient-to-b from-[#f1ece2] to-[#e6e0d4]"></div>
@@ -30,6 +31,15 @@ export default function Footer({ content }: FooterProps) {
           <div>
             <h3 className="text-black font-semibold mb-4">{content.linksTitle}</h3>
             <ul className="space-y-2">
+              <li>
+                <button
+                  type="button"
+                  onClick={onOpenAbout}
+                  className="text-zinc-600 hover:text-black transition-colors"
+                >
+                  {content.aboutLink}
+                </button>
+              </li>
               <li>
                 <a href="#services" className="text-zinc-600 hover:text-black transition-colors">
                   {content.servicesLink}

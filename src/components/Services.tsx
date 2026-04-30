@@ -11,6 +11,7 @@ import {
   TrendingUp,
   Globe,
   Monitor,
+  ServerCog,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import type { AppCopy } from '../i18n';
@@ -27,6 +28,7 @@ const serviceIcons = [
   Bell,
   BarChart3,
   TrendingUp,
+  ServerCog,
 ];
 
 const mainServiceIcons = [Smartphone, Globe, Monitor];

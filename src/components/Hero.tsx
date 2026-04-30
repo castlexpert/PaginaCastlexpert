@@ -74,6 +74,10 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
                 <CheckCircle className="h-4 w-4" />
                 {content.badge}
               </div>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/30 px-4 py-2 text-xs uppercase tracking-[0.14em] text-zinc-700 backdrop-blur-2xl">
+                <CheckCircle className="h-4 w-4" />
+                {content.architectureBadge}
+              </div>
 
               <h1 className="font-display text-5xl leading-[1.02] text-zinc-950 sm:text-6xl lg:text-7xl">
                 {content.title}

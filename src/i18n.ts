@@ -5,6 +5,7 @@ export type AppCopy = {
     dockItems: Array<{ label: string; target: string }>;
     availability: string;
     badge: string;
+    architectureBadge: string;
     title: string;
     description: string;
     primaryCta: string;
@@ -60,6 +61,26 @@ export type AppCopy = {
     subtitle: string;
     steps: Array<{ title: string; description: string; number: string; image?: string }>;
   };
+  about: {
+    title: string;
+    paragraphs: [string, string, string];
+    close: string;
+  };
+  chat: {
+    launcherLabel: string;
+    title: string;
+    subtitle: string;
+    placeholder: string;
+    send: string;
+    sending: string;
+    askAdvisor: string;
+    phoneLabel: string;
+    phonePlaceholder: string;
+    advisorSent: string;
+    advisorError: string;
+    assistantName: string;
+    welcome: string;
+  };
   benefits: {
     title: string;
     subtitle: string;
@@ -89,6 +110,7 @@ export type AppCopy = {
   footer: {
     description: string;
     linksTitle: string;
+    aboutLink: string;
     servicesLink: string;
     contactLink: string;
     followUs: string;
@@ -110,9 +132,10 @@ export const copy: Record<Language, AppCopy> = {
       ],
       availability: 'Disponible para trabajar',
       badge: 'Soluciones móviles premium',
-      title: 'Impulsa tu negocio con apps y sistemas a medida',
+      architectureBadge: 'Arquitectura de Aplicaciones',
+      title: 'Diseño de Apps y Arquitectura Digital',
       description:
-        'Diseñamos herramientas prácticas para el control de operaciones, automatización y crecimiento. Todo claro, rápido y adaptado a tu empresa.',
+        'Diseñamos herramientas prácticas para empresas y proyectos personales, automatizando procesos y potenciando su crecimiento.',
       primaryCta: 'Empezar proyecto',
       secondaryCta: 'Ver servicios',
       processCta: '¿Cómo funciona?',
@@ -125,7 +148,7 @@ export const copy: Record<Language, AppCopy> = {
     },
     services: {
       title: 'Nuestras Soluciones',
-      subtitle: 'Herramientas poderosas para hacer crecer tu negocio',
+      subtitle: 'Apps, sistemas y arquitectura web para hacer crecer tu negocio',
       items: [
         { title: 'Microapps de seguimiento', description: 'Apps ligeras para rastrear lo que necesites en tiempo real' },
         { title: 'Control de inventarios', description: 'Gestiona tu stock de forma eficiente desde cualquier lugar' },
@@ -136,6 +159,7 @@ export const copy: Record<Language, AppCopy> = {
         { title: 'Planeamiento a futuro', description: 'Organiza eventos, citas y objetivos empresariales' },
         { title: 'Notificaciones automáticas', description: 'Recibe alertas importantes en tiempo real' },
         { title: 'Reportes inteligentes', description: 'Analiza datos y toma mejores decisiones' },
+        { title: 'Arquitectura web escalable', description: 'Diseño de plataformas para alto volumen y pymes en crecimiento' },
         { title: 'Consulta de tipo de cambio', description: 'Información actualizada de divisas en tu app' },
       ],
       itemModals: [
@@ -272,6 +296,19 @@ export const copy: Record<Language, AppCopy> = {
           images: [],
         },
         {
+          title: 'Arquitectura web escalable',
+          description:
+            'Diseñamos la arquitectura técnica de tu sitio o plataforma para soportar crecimiento real: más usuarios, más transacciones y más procesos sin perder rendimiento. Desde una pyme hasta operaciones de alto volumen, planificamos estructura, módulos, seguridad y escalabilidad desde el inicio.',
+          highlights: [
+            'Arquitectura modular para crecer por fases.',
+            'Diseño orientado a rendimiento y alta concurrencia.',
+            'Buenas prácticas de seguridad, estabilidad y monitoreo.',
+            'Integraciones con APIs, pagos, ERP o sistemas existentes.',
+            'Base técnica sólida para evolución continua.',
+          ],
+          images: [],
+        },
+        {
           title: 'Consulta de tipo de cambio',
           description:
             'Si cobras o compras en diferentes monedas, integrar el tipo de cambio te da control y transparencia. Incorporamos consultas actualizadas y cálculos automáticos para tus precios, cobros o reportes.',
@@ -285,11 +322,11 @@ export const copy: Record<Language, AppCopy> = {
           images: [],
         },
       ],
-      mainTitle: 'Servicios Principales',
+      mainTitle: 'Servicios Principales y Arquitectura Web',
       mainItems: [
         { title: 'Desarrollo de apps Android', description: 'Aplicaciones nativas optimizadas para Android' },
         { title: 'Desarrollo de PWA', description: 'Apps web progresivas compatibles con iOS' },
-        { title: 'Sitios web económicos', description: 'Presencia digital profesional para emprendedores' },
+        { title: 'Arquitectura de sitios web', description: 'Plataformas para empresas de alto volumen y emprendimientos pymes' },
       ],
       mainModals: [
         {
@@ -319,15 +356,15 @@ export const copy: Record<Language, AppCopy> = {
           images: [],
         },
         {
-          title: 'Sitios web económicos',
+          title: 'Arquitectura de sitios web',
           description:
-            'Un sitio moderno y claro que convierta visitas en clientes. Diseñamos páginas veloces, atractivas y enfocadas en resultados: credibilidad, llamadas a la acción y una presentación profesional de tus servicios.',
+            'Diseñamos la arquitectura web ideal para tu etapa de negocio: desde emprendedores y pymes que necesitan lanzar rápido, hasta empresas que requieren estructura robusta para alto tráfico, catálogos grandes o flujos complejos.',
           highlights: [
-            'Diseño moderno con enfoque en conversión.',
-            'Optimización de velocidad y experiencia móvil.',
-            'Estructura clara para mostrar servicios y contacto.',
-            'SEO básico para que te encuentren.',
-            'Escalable para agregar secciones o funcionalidades.',
+            'Arquitectura web para pymes y operaciones de alto volumen.',
+            'Estructura escalable para módulos, integraciones y crecimiento.',
+            'Optimización de velocidad, disponibilidad y experiencia móvil.',
+            'Diseño orientado a conversión y objetivos comerciales.',
+            'Base preparada para evolucionar sin rehacer todo.',
           ],
           images: [],
         },
@@ -422,6 +459,31 @@ export const copy: Record<Language, AppCopy> = {
         { title: 'Entrega + soporte', description: 'Recibe tu app lista para usar con soporte continuo incluido.', number: '04', image: '/process/delivery.webp' },
       ],
     },
+    about: {
+      title: 'Acerca de',
+      paragraphs: [
+        'Castlexpert nace de una amplia experiencia liderando proyectos tecnológicos, desarrollando soluciones empresariales y diseñando sistemas de alto rendimiento.',
+        'Hoy llevamos ese conocimiento al siguiente nivel mediante plataformas modernas, automatización inteligente y herramientas digitales orientadas a resultados reales.',
+        'No solo desarrollamos software. Creamos ventajas competitivas.',
+      ],
+      close: 'Cerrar',
+    },
+    chat: {
+      launcherLabel: 'Abrir chat',
+      title: 'Chat CastleXpert',
+      subtitle: 'Pregúntame sobre nuestros servicios y proceso.',
+      placeholder: 'Escribe tu pregunta...',
+      send: 'Enviar',
+      sending: 'Enviando...',
+      askAdvisor: 'Hablar con un asesor por WhatsApp',
+      phoneLabel: 'Tu WhatsApp (opcional)',
+      phonePlaceholder: '+506 85070818',
+      advisorSent: 'Listo. Un asesor fue notificado por WhatsApp.',
+      advisorError: 'No se pudo contactar al asesor. Intenta de nuevo.',
+      assistantName: 'Asistente',
+      welcome:
+        'Hola, soy el asistente de CastleXpert. Puedo ayudarte con información sobre servicios, demos y el proceso. ¿Qué te gustaría saber?',
+    },
     benefits: {
       title: 'Beneficios',
       subtitle: 'Ventajas que transformarán tu forma de trabajar',
@@ -457,6 +519,7 @@ export const copy: Record<Language, AppCopy> = {
     footer: {
       description: 'Soluciones móviles inteligentes para tu día a día y tu negocio.',
       linksTitle: 'Enlaces rápidos',
+      aboutLink: 'Acerca de',
       servicesLink: 'Servicios',
       contactLink: 'Contacto',
       followUs: 'Síguenos',
@@ -476,7 +539,8 @@ export const copy: Record<Language, AppCopy> = {
       ],
       availability: 'Available for work',
       badge: 'Premium mobile solutions',
-      title: 'Grow your business with custom apps and systems',
+      architectureBadge: 'Application Architecture',
+      title: 'Grow your business with custom apps, systems, and digital architecture',
       description:
         'We design practical tools for operations control, automation, and growth. Everything is clear, fast, and tailored to your business.',
       primaryCta: 'Start project',
@@ -491,7 +555,7 @@ export const copy: Record<Language, AppCopy> = {
     },
     services: {
       title: 'Our Solutions',
-      subtitle: 'Powerful tools to help your business grow',
+      subtitle: 'Apps, systems, and web architecture to grow your business',
       items: [
         { title: 'Tracking microapps', description: 'Lightweight apps to track whatever you need in real time' },
         { title: 'Inventory control', description: 'Manage your stock efficiently from anywhere' },
@@ -502,6 +566,7 @@ export const copy: Record<Language, AppCopy> = {
         { title: 'Future planning', description: 'Organize events, appointments, and business goals' },
         { title: 'Automatic notifications', description: 'Receive important alerts in real time' },
         { title: 'Smart reports', description: 'Analyze data and make better decisions' },
+        { title: 'Scalable web architecture', description: 'Platform design for high-volume companies and growing SMBs' },
         { title: 'Exchange rate lookup', description: 'Up-to-date currency information inside your app' },
       ],
       itemModals: [
@@ -638,6 +703,19 @@ export const copy: Record<Language, AppCopy> = {
           images: [],
         },
         {
+          title: 'Scalable web architecture',
+          description:
+            'We design your website or platform architecture to support real growth: more users, more transactions, and more workflows without losing performance. From small businesses to high-volume operations, we define modules, security, integrations, and scalability from day one.',
+          highlights: [
+            'Modular architecture that scales by phases.',
+            'Performance-first design for high concurrency.',
+            'Security, stability, and monitoring best practices.',
+            'API/payment/ERP integrations as needed.',
+            'Strong technical foundation for long-term growth.',
+          ],
+          images: [],
+        },
+        {
           title: 'Exchange rate lookup',
           description:
             'If you buy or sell in multiple currencies, exchange‑rate integration brings control and transparency. We can add updated rates and automatic calculations for pricing, orders, and reporting.',
@@ -651,11 +729,11 @@ export const copy: Record<Language, AppCopy> = {
           images: [],
         },
       ],
-      mainTitle: 'Main Services',
+      mainTitle: 'Main Services and Web Architecture',
       mainItems: [
         { title: 'Android app development', description: 'Native applications optimized for Android' },
         { title: 'PWA development', description: 'Progressive web apps compatible with iOS' },
-        { title: 'Affordable websites', description: 'Professional digital presence for entrepreneurs' },
+        { title: 'Website architecture', description: 'Platforms for high-volume companies and SMB entrepreneurship' },
       ],
       mainModals: [
         {
@@ -685,15 +763,15 @@ export const copy: Record<Language, AppCopy> = {
           images: [],
         },
         {
-          title: 'Affordable websites',
+          title: 'Website architecture',
           description:
-            'A modern, clean site that turns visitors into customers. We design fast pages focused on trust and conversion: strong messaging, clear calls to action, and a professional presentation of your services.',
+            'We design the right web architecture for your business stage: from entrepreneurs and SMBs that need to launch quickly, to high-volume companies that require robust structures for traffic, catalogs, and complex workflows.',
           highlights: [
-            'Modern design focused on conversion.',
-            'Speed‑optimized and mobile‑first.',
-            'Clear structure for services and contact.',
-            'Basic SEO setup to get discovered.',
-            'Easy to expand with new sections/features.',
+            'Web architecture for SMBs and high-volume operations.',
+            'Scalable structure for modules, integrations, and growth.',
+            'Speed, availability, and mobile-first optimization.',
+            'Design aligned with conversion and business goals.',
+            'Foundation ready to evolve without full rebuilds.',
           ],
           images: [],
         },
@@ -788,6 +866,31 @@ export const copy: Record<Language, AppCopy> = {
         { title: 'Delivery + support', description: 'Receive your app ready to use with ongoing support included.', number: '04', image: '/process/delivery.webp' },
       ],
     },
+    about: {
+      title: 'About',
+      paragraphs: [
+        'CastleXpert is born from broad experience leading technology projects, building business solutions, and designing high-performance systems.',
+        'Today, we take that knowledge to the next level through modern platforms, intelligent automation, and digital tools focused on real outcomes.',
+        'We do not just build software. We create competitive advantages.',
+      ],
+      close: 'Close',
+    },
+    chat: {
+      launcherLabel: 'Open chat',
+      title: 'CastleXpert Chat',
+      subtitle: 'Ask about our services and process.',
+      placeholder: 'Type your question...',
+      send: 'Send',
+      sending: 'Sending...',
+      askAdvisor: 'Talk to an advisor via WhatsApp',
+      phoneLabel: 'Your WhatsApp (optional)',
+      phonePlaceholder: '+506 85070818',
+      advisorSent: 'Done. An advisor was notified via WhatsApp.',
+      advisorError: 'Could not reach the advisor. Please try again.',
+      assistantName: 'Assistant',
+      welcome:
+        "Hi, I'm CastleXpert's assistant. I can help with info about services, demos, and the process. What would you like to know?",
+    },
     benefits: {
       title: 'Benefits',
       subtitle: 'Advantages that will transform how you work',
@@ -823,6 +926,7 @@ export const copy: Record<Language, AppCopy> = {
     footer: {
       description: 'Smart mobile solutions for your daily operations and your business.',
       linksTitle: 'Quick links',
+      aboutLink: 'About',
       servicesLink: 'Services',
       contactLink: 'Contact',
       followUs: 'Follow us',
