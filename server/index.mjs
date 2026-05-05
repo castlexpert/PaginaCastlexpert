@@ -16,6 +16,12 @@ import {
   formatSiteFallbackAnswer,
   countSitePages,
 } from './siteIndex.mjs';
+import {
+  syncSitioSeedFiles,
+  listSiteImages,
+  getSitioFilesDir,
+  SITIO_MEDIA_MOUNT,
+} from './siteImages.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -245,6 +251,30 @@ app.post('/api/handoff', async (req, res) => {
   }
 });
 
+app.get('/api/site-images', async (_req, res) => {
+  try {
+    const db = await getDb();
+    const rows = await listSiteImages(db);
+    const images = rows.map((r) => ({
+      usageKey: r.usage_key,
+      url: `${SITIO_MEDIA_MOUNT}/${encodeURIComponent(r.file_name)}`,
+      altEs: r.alt_text_es,
+      altEn: r.alt_text_en,
+    }));
+    res.json({ images });
+  } catch (e) {
+    res.status(500).json({ error: e?.message || 'error' });
+  }
+});
+
+app.use(
+  SITIO_MEDIA_MOUNT,
+  express.static(getSitioFilesDir(), {
+    maxAge: process.env.NODE_ENV === 'production' ? '7d' : 0,
+    index: false,
+  }),
+);
+
 const distDir = path.resolve(__dirname, '..', 'dist');
 const indexHtml = path.join(distDir, 'index.html');
 if (fs.existsSync(indexHtml)) {
@@ -254,7 +284,23 @@ if (fs.existsSync(indexHtml)) {
   });
 }
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`[server] listening on :${port}`);
-});
+async function start() {
+  try {
+    await getDb();
+    // eslint-disable-next-line no-console
+    console.log('[db] migrations OK (kb, chat, contact, site_image_catalog, site index, …)');
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('[db] startup failed — migrations not applied:', e?.message || e);
+    process.exit(1);
+  }
+
+  syncSitioSeedFiles();
+
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`[server] listening on :${port}`);
+  });
+}
+
+start();

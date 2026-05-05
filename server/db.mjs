@@ -64,6 +64,39 @@ export async function ensureSchema(pool) {
     create index if not exists contact_messages_created_idx on contact_messages (created_at desc);
   `);
 
+  await pool.query(`
+    create table if not exists site_image_catalog (
+      id uuid primary key default gen_random_uuid(),
+      usage_key text not null unique,
+      file_name text not null,
+      alt_text_es text not null default '',
+      alt_text_en text not null default '',
+      is_active boolean not null default true,
+      sort_order int not null default 0,
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now()
+    );
+
+    create index if not exists site_image_catalog_usage_idx on site_image_catalog (usage_key);
+    create index if not exists site_image_catalog_active_idx on site_image_catalog (is_active);
+  `);
+
+  await pool.query(`
+    insert into site_image_catalog (usage_key, file_name, alt_text_es, alt_text_en, sort_order)
+    values (
+      'demo_personal_card_bg',
+      'wellness_personal_solutions.webp',
+      'Mujer en cafetería mostrando en el celular una app de bienestar y hábitos saludables.',
+      'Woman in a café showcasing a wellness and healthy habits app on her phone.',
+      0
+    )
+    on conflict (usage_key) do update
+      set file_name = excluded.file_name,
+          alt_text_es = excluded.alt_text_es,
+          alt_text_en = excluded.alt_text_en,
+          updated_at = now()
+  `);
+
   // Seed / upsert KB
   for (const doc of KB_DOCS) {
     await pool.query(
