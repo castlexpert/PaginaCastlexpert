@@ -7,6 +7,18 @@ function stripTrailingSlash(value: string) {
   return value.replace(/\/$/, '');
 }
 
+/**
+ * Base URL del servidor Express (`npm run start`) para rutas `/api/*` (chat, contacto, handoff).
+ * Si está vacío, se usan rutas relativas (mismo origen: Vite dev con proxy o sitio servido por el mismo Node).
+ * Si el frontend está en otro host (p. ej. Cloudflare Pages), define `VITE_PUBLIC_API_URL` en el build
+ * con la URL pública de Railway, p. ej. `https://tu-app.up.railway.app`.
+ */
+export function getExpressApiBaseUrl(): string {
+  const explicit = import.meta.env.VITE_PUBLIC_API_URL?.trim();
+  if (explicit) return stripTrailingSlash(explicit);
+  return '';
+}
+
 export function getPublicApi(): PublicApiConfig {
   const explicit = import.meta.env.VITE_PUBLIC_API_URL?.trim();
   if (explicit) return { baseUrl: stripTrailingSlash(explicit) };

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { MessageCircle, Send, X } from 'lucide-react';
 import type { AppCopy, Language } from '../i18n';
+import { getExpressApiBaseUrl } from '../lib/publicApi';
 
 type ChatWidgetProps = {
   content: AppCopy['chat'];
@@ -17,7 +18,40 @@ function uid() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function looksLikeHtmlPayload(text: string): boolean {
+  const t = text.slice(0, 400).trimStart();
+  return /^<!DOCTYPE/i.test(t) || /^<html[\s>]/i.test(t) || /<\!--\[if/i.test(t);
+}
+
+function handoffErrorSuffix(
+  language: Language,
+  res: Response,
+  raw: string,
+  data: { error?: string } | null,
+): string {
+  const errFromJson = data?.error?.trim();
+  if (errFromJson && !looksLikeHtmlPayload(errFromJson)) {
+    return errFromJson.slice(0, 180);
+  }
+  if (looksLikeHtmlPayload(raw)) {
+    return language === 'es'
+      ? `error de red o del servidor (HTTP ${res.status})`
+      : `network or server error (HTTP ${res.status})`;
+  }
+  if (!errFromJson && raw && !raw.trim().startsWith('{')) {
+    return language === 'es'
+      ? `respuesta inesperada (HTTP ${res.status})`
+      : `unexpected response (HTTP ${res.status})`;
+  }
+  return `HTTP ${res.status}`;
+}
+
 export default function ChatWidget({ content, language }: ChatWidgetProps) {
+  const apiBase = useMemo(() => getExpressApiBaseUrl(), []);
+  const apiUrl = useMemo(
+    () => (path: string) => (apiBase ? `${apiBase}${path}` : path),
+    [apiBase],
+  );
   const [open, setOpen] = useState(false);
   const [conversationId] = useState(() => uid());
   const [phone, setPhone] = useState('');
@@ -59,7 +93,7 @@ export default function ChatWidget({ content, language }: ChatWidgetProps) {
     setMessages((prev) => [...prev, userMsg]);
 
     try {
-      const res = await fetch('/api/chat', {
+      const res = await fetch(apiUrl('/api/chat'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ conversationId, language, message: question }),
@@ -91,12 +125,25 @@ export default function ChatWidget({ content, language }: ChatWidgetProps) {
     setHandoffLoading(true);
     try {
       const transcript = messages.map((m) => `${m.role === 'user' ? 'Cliente' : content.assistantName}: ${m.text}`).join('\n');
-      const res = await fetch('/api/handoff', {
+      const res = await fetch(apiUrl('/api/handoff'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ conversationId, language, phone: phone.trim(), transcript }),
+        cache: 'no-store',
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const raw = await res.text();
+      const trimmed = raw.replace(/^\uFEFF/, '').trim();
+      let data: { error?: string; ok?: boolean } | null = null;
+      try {
+        data = trimmed ? (JSON.parse(trimmed) as { error?: string; ok?: boolean }) : null;
+      } catch {
+        data = null;
+      }
+      if (!res.ok) {
+        const detail = handoffErrorSuffix(language, res, trimmed, data);
+        setHandoffNotice(`${content.advisorError} (${detail})`);
+        return;
+      }
       setHandoffNotice(content.advisorSent);
     } catch {
       setHandoffNotice(content.advisorError);

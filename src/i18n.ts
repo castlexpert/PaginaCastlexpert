@@ -105,6 +105,10 @@ export type AppCopy = {
       sending: string;
       success: string;
       error: string;
+      /** Aviso si el mensaje se guardó pero no hay proveedor de correo configurado */
+      emailNotifySkipped: string;
+      /** Aviso si el proveedor de correo falló tras guardar */
+      emailNotifyFailed: string;
     };
   };
   footer: {
@@ -114,6 +118,7 @@ export type AppCopy = {
     servicesLink: string;
     contactLink: string;
     followUs: string;
+    paymentsTitle: string;
     rights: string;
   };
   whatsapp: {
@@ -514,6 +519,10 @@ export const copy: Record<Language, AppCopy> = {
         sending: 'Enviando...',
         success: 'Mensaje enviado con éxito. Te contactaremos pronto.',
         error: 'Hubo un error al enviar el mensaje. Intenta nuevamente.',
+        emailNotifySkipped:
+          'Tu mensaje quedó guardado, pero el aviso por correo no está activo en el servidor. Si no te contactamos, escríbenos a info@castlexpert.com.',
+        emailNotifyFailed:
+          'Tu mensaje quedó guardado, pero falló el envío del correo de aviso. Escríbenos a info@castlexpert.com.',
       },
     },
     footer: {
@@ -523,6 +532,7 @@ export const copy: Record<Language, AppCopy> = {
       servicesLink: 'Servicios',
       contactLink: 'Contacto',
       followUs: 'Síguenos',
+      paymentsTitle: 'Métodos de pago',
       rights: 'Todos los derechos reservados.',
     },
     whatsapp: {
@@ -921,6 +931,10 @@ export const copy: Record<Language, AppCopy> = {
         sending: 'Sending...',
         success: 'Message sent successfully. We will contact you soon.',
         error: 'There was an error sending your message. Please try again.',
+        emailNotifySkipped:
+          'Your message was saved, but outbound email is not configured on the server. If you do not hear from us, email info@castlexpert.com.',
+        emailNotifyFailed:
+          'Your message was saved, but the notification email failed to send. Please email info@castlexpert.com.',
       },
     },
     footer: {
@@ -930,6 +944,7 @@ export const copy: Record<Language, AppCopy> = {
       servicesLink: 'Services',
       contactLink: 'Contact',
       followUs: 'Follow us',
+      paymentsTitle: 'Payment methods',
       rights: 'All rights reserved.',
     },
     whatsapp: {

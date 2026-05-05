@@ -7,6 +7,7 @@ import cors from 'cors';
 import { getPool, ensureSchema, ensureConversation, addMessage, getRecentMessages, searchKb } from './db.mjs';
 import { answerWithLlm, isOpenAiConfigured } from './llm.mjs';
 import { notifyAdvisor } from './whatsapp.mjs';
+import { notifyContactFormSubmission } from './mail.mjs';
 import {
   ensureSiteIndexSchema,
   embedQueryText,
@@ -24,6 +25,17 @@ app.disable('x-powered-by');
 
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
+app.use((err, _req, res, next) => {
+  if (err?.type === 'entity.parse.failed') {
+    res.status(400).json({ error: 'Invalid JSON body.' });
+    return;
+  }
+  if (err?.type === 'entity.too.large') {
+    res.status(413).json({ error: 'Request body too large.' });
+    return;
+  }
+  next(err);
+});
 
 const port = Number(process.env.PORT || 3000);
 
@@ -58,6 +70,41 @@ app.get('/api/health', async (_req, res) => {
     });
   } catch (e) {
     res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.post('/api/contact', async (req, res) => {
+  const { name, email, message } = req.body || {};
+  if (!name || !email || !message) {
+    res.status(400).json({ error: 'Missing name, email, or message.' });
+    return;
+  }
+
+  try {
+    const db = await getDb();
+    await db.query(
+      `insert into contact_messages (name, email, message) values ($1, $2, $3)`,
+      [String(name).trim().slice(0, 500), String(email).trim().slice(0, 500), String(message).trim().slice(0, 8000)]
+    );
+
+    let emailSent = false;
+    let mailError = null;
+    try {
+      const mailResult = await notifyContactFormSubmission({
+        name: String(name).trim(),
+        email: String(email).trim(),
+        message: String(message).trim(),
+      });
+      emailSent = mailResult.sent === true;
+    } catch (err) {
+      mailError = err?.message || 'mail_error';
+      // eslint-disable-next-line no-console
+      console.error('[contact] notify email failed:', mailError);
+    }
+
+    res.json({ success: true, emailSent, ...(mailError ? { mailError } : {}) });
+  } catch (e) {
+    res.status(500).json({ error: e?.message || 'error' });
   }
 });
 
@@ -182,6 +229,16 @@ app.post('/api/handoff', async (req, res) => {
     const code = e?.code;
     if (code === 'NO_TWILIO' || code === 'NO_WHATSAPP_NUMBERS') {
       res.status(501).json({ ok: false, error: msg });
+      return;
+    }
+    if (code === 'TWILIO_REST_ERROR') {
+      // 503 (no 502) para no confundir con HTML 502 de proxies/CDN cuando Twilio falla.
+      res.status(503).json({
+        ok: false,
+        error: msg,
+        twilioCode: e?.twilioCode,
+        twilioStatus: e?.twilioStatus,
+      });
       return;
     }
     res.status(500).json({ ok: false, error: msg });

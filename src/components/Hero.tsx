@@ -55,10 +55,20 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
             </button>
             <div className="h-4 w-px bg-black/10"></div>
             <div className="flex items-center gap-2">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="rounded-full border border-black/10 bg-white/25 p-1.5 text-zinc-700 hover:text-black transition-colors">
+              <a
+                href="https://www.instagram.com/castlexpert"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-black/10 bg-white/25 p-1.5 text-zinc-700 hover:text-black transition-colors"
+              >
                 <Instagram className="h-4 w-4" />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="rounded-full border border-black/10 bg-white/25 p-1.5 text-zinc-700 hover:text-black transition-colors">
+              <a
+                href="https://www.facebook.com/castlexpert"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-black/10 bg-white/25 p-1.5 text-zinc-700 hover:text-black transition-colors"
+              >
                 <Facebook className="h-4 w-4" />
               </a>
             </div>

@@ -2,7 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_ADMIN_URL?: string;
-  /** Base URL del API Node (SQLite), p. ej. http://localhost:8788 */
+  /** Base URL del API Express (chat, contacto, handoff). Mismo origen si vacío; p. ej. `https://xxx.up.railway.app` si el front está en otro host. */
   readonly VITE_PUBLIC_API_URL?: string;
   readonly VITE_FIREBASE_API_KEY?: string;
   readonly VITE_FIREBASE_AUTH_DOMAIN?: string;

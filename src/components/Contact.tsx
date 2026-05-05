@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Send, Mail, CheckCircle } from 'lucide-react';
 import type { AppCopy } from '../i18n';
-import { getPublicApi } from '../lib/publicApi';
-
-const publicApi = getPublicApi();
+import { getExpressApiBaseUrl } from '../lib/publicApi';
 
 type ContactProps = {
   content: AppCopy['contact'];
 };
 
 export default function Contact({ content }: ContactProps) {
+  const apiBase = useMemo(() => getExpressApiBaseUrl(), []);
+  const apiUrl = useMemo(
+    () => (path: string) => (apiBase ? `${apiBase}${path}` : path),
+    [apiBase],
+  );
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,30 +21,46 @@ export default function Contact({ content }: ContactProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [mailWarning, setMailWarning] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess(false);
+    setMailWarning('');
 
     try {
-      const response = await fetch(`${publicApi.baseUrl}/contact`, {
+      const response = await fetch(apiUrl('/api/contact'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(publicApi.headers ?? {}),
         },
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        setSuccess(true);
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setSuccess(false), 5000);
-      } else {
-        setError(content.form.error);
+      const raw = await response.text();
+      let data: { success?: boolean; emailSent?: boolean; mailError?: string; error?: string } = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = {};
       }
+
+      if (!response.ok) {
+        setError(data?.error || content.form.error);
+        return;
+      }
+
+      setSuccess(true);
+      setFormData({ name: '', email: '', message: '' });
+      if (data.mailError) setMailWarning(content.form.emailNotifyFailed);
+      else if (data.emailSent === false) setMailWarning(content.form.emailNotifySkipped);
+
+      setTimeout(() => {
+        setSuccess(false);
+        setMailWarning('');
+      }, 8000);
     } catch {
       setError(content.form.error);
     } finally {
@@ -141,6 +160,10 @@ export default function Contact({ content }: ContactProps) {
             </div>
 
             {error && <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/40 text-red-700">{error}</div>}
+
+            {mailWarning && (
+              <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/40 text-amber-900 text-sm">{mailWarning}</div>
+            )}
 
             {success && (
               <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/40 text-emerald-700 flex items-center gap-2">

@@ -51,6 +51,19 @@ export async function ensureSchema(pool) {
     create index if not exists chat_messages_conv_idx on chat_messages(conversation_id, created_at);
   `);
 
+  await pool.query(`
+    create table if not exists contact_messages (
+      id uuid primary key default gen_random_uuid(),
+      name text not null,
+      email text not null,
+      message text not null,
+      created_at timestamptz not null default now(),
+      read boolean not null default false
+    );
+
+    create index if not exists contact_messages_created_idx on contact_messages (created_at desc);
+  `);
+
   // Seed / upsert KB
   for (const doc of KB_DOCS) {
     await pool.query(
