@@ -15,7 +15,14 @@
     "index:site": "node scripts/rag/index-pages.mjs",
     "index:i18n": "tsx scripts/rag/index-from-i18n.ts",
     "index:full": "npm run index:i18n && npm run index:site",
-    "sync:railway": "node scripts/rag/sync-index-and-deploy.mjs"
+    "sync:railway": "node scripts/rag/sync-index-and-deploy.mjs",
+    "sitio:seed-image": "node scripts/build-sitio-seed.mjs",
+    "demo:personal-webp": "node scripts/compress-demo-modal.mjs",
+    "demo:familiares-webp": "node scripts/compress-demo-familiares.mjs",
+    "demo:empresa-webp": "node scripts/compress-demo-empresa.mjs",
+    "demo:pyme-webp": "node scripts/compress-demo-pyme.mjs",
+    "demo:card-thumbs": "node scripts/build-demo-card-thumbs.mjs",
+    "demo:fix-fam-emp-placeholders": "node scripts/refresh-familiares-empresa-placeholders.mjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0",

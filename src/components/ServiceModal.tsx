@@ -6,6 +6,7 @@ export type ServiceModalContent = {
   description: string;
   highlights: string[];
   images: string[];
+  galleryAlt?: string;
   links?: Array<{ label: string; url: string }>;
 };
 
@@ -94,7 +95,7 @@ export default function ServiceModal({ open, onClose, content, labels }: Service
                         >
                           <img
                             src={src}
-                            alt=""
+                            alt={idx === 0 && content.galleryAlt ? content.galleryAlt : ''}
                             loading="lazy"
                             decoding="async"
                             className="h-40 w-full object-cover"
@@ -104,14 +105,14 @@ export default function ServiceModal({ open, onClose, content, labels }: Service
                     </div>
                   ) : (
                     <div className="mt-4">
-                      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/10">
+                      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-zinc-900/40 to-zinc-950/60">
                         {content.images?.[0] ? (
                           <img
                             src={content.images[0]}
-                            alt=""
-                            loading="lazy"
+                            alt={content.galleryAlt ?? ''}
+                            loading="eager"
                             decoding="async"
-                            className="h-56 w-full object-cover sm:h-72"
+                            className="mx-auto max-h-[min(46vh,400px)] w-full object-contain object-center sm:max-h-[min(50vh,440px)]"
                           />
                         ) : (
                           <div className="flex h-56 w-full items-center justify-center text-sm font-semibold text-zinc-600 sm:h-72">

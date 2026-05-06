@@ -6,6 +6,8 @@ import { getExpressApiBaseUrl } from '../lib/publicApi';
 type ChatWidgetProps = {
   content: AppCopy['chat'];
   language: Language;
+  /** Desplaza el widget hacia arriba cuando el aviso de cookies está visible. */
+  layoutCookieBanner?: boolean;
 };
 
 type ChatMessage = {
@@ -46,7 +48,7 @@ function handoffErrorSuffix(
   return `HTTP ${res.status}`;
 }
 
-export default function ChatWidget({ content, language }: ChatWidgetProps) {
+export default function ChatWidget({ content, language, layoutCookieBanner }: ChatWidgetProps) {
   const apiBase = useMemo(() => getExpressApiBaseUrl(), []);
   const apiUrl = useMemo(
     () => (path: string) => (apiBase ? `${apiBase}${path}` : path),
@@ -152,8 +154,12 @@ export default function ChatWidget({ content, language }: ChatWidgetProps) {
     }
   }
 
+  const bottomLayout = layoutCookieBanner
+    ? 'bottom-40 right-6 z-[80] md:bottom-28 md:right-24'
+    : 'bottom-24 right-6 z-[80] md:bottom-6 md:right-24';
+
   return (
-    <div className="fixed bottom-24 right-6 z-[80] md:bottom-6 md:right-24">
+    <div className={['fixed', bottomLayout].join(' ')}>
       {!open ? (
         <button
           type="button"

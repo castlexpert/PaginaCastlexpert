@@ -17,6 +17,22 @@ import { useMemo, useState } from 'react';
 import type { AppCopy } from '../i18n';
 import ServiceModal, { type ServiceModalContent } from './ServiceModal';
 
+/** Miniaturas (derivadas de cada imagen del modal) para fondo de cards DEMOS — ver `npm run demo:card-thumbs`. */
+const DEMO_CARD_BACKGROUNDS = [
+  '/images/demos/soluciones-personales-card.webp',
+  '/images/demos/soluciones-familiares-card.webp',
+  '/images/demos/soluciones-empresa-card.webp',
+  '/images/demos/soluciones-pyme-card.webp',
+] as const;
+
+/** Encuadre fino por card (mockups distintos: retrato vs landing largo). */
+const DEMO_CARD_OBJECT: Record<number, string> = {
+  0: 'object-[50%_28%]',
+  1: 'object-[50%_35%]',
+  2: 'object-[50%_8%]',
+  3: 'object-[50%_30%]',
+};
+
 const serviceIcons = [
   Smartphone,
   Package,
@@ -85,18 +101,70 @@ export default function Services({ content }: ServicesProps) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.demos.items.map((item, index) => (
-              <button
-                key={item.title}
-                type="button"
-                onClick={() => setActive({ kind: 'demo', index })}
-                className="group p-6 cx-card cx-card-hover hover:-translate-y-1 text-left"
-                aria-label={`${item.title}. Ver detalle`}
-              >
-                <h4 className="text-xl font-extrabold text-black mb-2">{item.title}</h4>
-                <p className="text-zinc-600">{item.description}</p>
-              </button>
-            ))}
+            {content.demos.items.map((item, index) => {
+              const thumbSrc = DEMO_CARD_BACKGROUNDS[index];
+              const modalMeta = content.demos.modals[index];
+              const galleryAlt = modalMeta?.galleryAlt?.trim() ?? '';
+              const cardVisual =
+                thumbSrc && modalMeta
+                  ? { url: thumbSrc, alt: galleryAlt }
+                  : null;
+              const objClass = DEMO_CARD_OBJECT[index] ?? 'object-center';
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  onClick={() => setActive({ kind: 'demo', index })}
+                  className={[
+                    'group relative overflow-hidden text-left transition-transform hover:-translate-y-1',
+                    cardVisual
+                      ? [
+                          'flex flex-col aspect-[4/5] w-full max-h-[min(420px,70vw)] rounded-2xl border border-white/20 bg-zinc-900 p-0',
+                          'shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] ring-1 ring-black/10 sm:max-h-[460px]',
+                        ].join(' ')
+                      : 'cx-card cx-card-hover min-h-[200px] p-6',
+                  ].join(' ')}
+                  aria-label={
+                    cardVisual?.alt ? `${item.title}. ${cardVisual.alt} Ver detalle` : `${item.title}. Ver detalle`
+                  }
+                >
+                  {cardVisual ? (
+                    <>
+                      <span className="absolute inset-0 block overflow-hidden rounded-[inherit]">
+                        <img
+                          src={cardVisual.url}
+                          alt={cardVisual.alt}
+                          className={[
+                            'h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04]',
+                            objClass,
+                          ].join(' ')}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </span>
+                      {/* Oscurece solo la parte baja para el texto; la mitad superior muestra la foto con claridad */}
+                      <div
+                        className="pointer-events-none absolute inset-x-0 bottom-0 top-[38%] bg-gradient-to-t from-black/92 via-black/45 to-transparent"
+                        aria-hidden
+                      />
+                      <div className="relative z-10 mt-auto w-full p-5 pt-12 sm:p-6">
+                        <h4 className="text-lg font-extrabold leading-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] sm:text-xl">
+                          {item.title}
+                        </h4>
+                        <p className="mt-2 text-sm leading-snug text-white/95 [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
+                          {item.description}
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h4 className="text-xl font-extrabold text-black mb-2">{item.title}</h4>
+                      <p className="text-zinc-600">{item.description}</p>
+                    </>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 

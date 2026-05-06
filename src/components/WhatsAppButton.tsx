@@ -2,15 +2,17 @@ import type { AppCopy } from '../i18n';
 
 type WhatsAppButtonProps = {
   content: AppCopy['whatsapp'];
+  layoutCookieBanner?: boolean;
 };
 
-export default function WhatsAppButton({ content }: WhatsAppButtonProps) {
+export default function WhatsAppButton({ content, layoutCookieBanner }: WhatsAppButtonProps) {
+  const pos = layoutCookieBanner ? 'bottom-32 right-6 z-50' : 'bottom-6 right-6 z-50';
   return (
     <a
       href="https://wa.me/50685070818"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 group"
+      className={['fixed group', pos].join(' ')}
     >
       <div className="relative">
         <div className="absolute -inset-2 bg-[#25D366]/30 rounded-full blur-lg opacity-50 group-hover:opacity-70 animate-pulse transition-opacity"></div>

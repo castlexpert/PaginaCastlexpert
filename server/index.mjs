@@ -216,14 +216,16 @@ app.post('/api/handoff', async (req, res) => {
             phone ? `WhatsApp del cliente: ${phone}` : `WhatsApp del cliente: (no indicado)`,
             '',
             'Transcripción:',
-            String(transcript || '').slice(0, 3500),
+            // El envío por WhatsApp se corta/segmenta en `notifyAdvisor` (límite Twilio 1600 chars por mensaje).
+            String(transcript || '').slice(0, 8000),
           ].join('\n')
         : [
             `New lead from the chatbot (CastleXpert).`,
             phone ? `Customer WhatsApp: ${phone}` : `Customer WhatsApp: (not provided)`,
             '',
             'Transcript:',
-            String(transcript || '').slice(0, 3500),
+            // WhatsApp delivery is chunked in `notifyAdvisor` (Twilio 1600 chars per message).
+            String(transcript || '').slice(0, 8000),
           ].join('\n');
 
     await notifyAdvisor({ body });
@@ -279,7 +281,12 @@ const distDir = path.resolve(__dirname, '..', 'dist');
 const indexHtml = path.join(distDir, 'index.html');
 if (fs.existsSync(indexHtml)) {
   app.use(express.static(distDir));
-  app.get('*', (_req, res) => {
+  app.get('*', (req, res) => {
+    // Evitar devolver index.html para rutas que parecen archivos estáticos (404 real si falta el asset).
+    if (/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2?|css|js|map|txt|xml)$/i.test(req.path)) {
+      res.status(404).type('text/plain').send('Not found');
+      return;
+    }
     res.sendFile(indexHtml);
   });
 }

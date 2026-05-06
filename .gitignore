@@ -22,5 +22,8 @@ dist-ssr
 *.sw?
 .env
 
+# Archivos de sitio en desarrollo local (el volumen Railway usa /app/archivos_sitio)
+local-archivos-sitio/
+
 # Binarios locales (no versionar)
 supabase/local/postgrest/

@@ -52,6 +52,8 @@ export type AppCopy = {
         description: string;
         highlights: string[];
         images: string[];
+        /** Texto alternativo de la primera imagen de galería (accesibilidad). */
+        galleryAlt?: string;
         links: Array<{ label: string; url: string }>;
       }>;
     };
@@ -64,6 +66,15 @@ export type AppCopy = {
   about: {
     title: string;
     paragraphs: [string, string, string];
+    close: string;
+  };
+  cookies: {
+    bannerAriaLabel: string;
+    bannerText: string;
+    accept: string;
+    policyLink: string;
+    policyTitle: string;
+    policyParagraphs: string[];
     close: string;
   };
   chat: {
@@ -115,6 +126,7 @@ export type AppCopy = {
     description: string;
     linksTitle: string;
     aboutLink: string;
+    cookiePolicyLink: string;
     servicesLink: string;
     contactLink: string;
     followUs: string;
@@ -400,7 +412,9 @@ export const copy: Record<Language, AppCopy> = {
               'Interfaz rápida y enfocada en productividad.',
               'Listo para evolucionar a una app completa.',
             ],
-            images: [],
+            images: ['/images/demos/soluciones-personales-modal.webp'],
+            galleryAlt:
+              'Mockup de app móvil con panel de productividad, metas y accesos rápidos en un escritorio moderno.',
             links: [
               { label: 'Demo Web', url: '' },
               { label: 'APK (Android)', url: '' },
@@ -415,7 +429,9 @@ export const copy: Record<Language, AppCopy> = {
               'Recordatorios y organización por categorías.',
               'Pensado para uso en móvil.',
             ],
-            images: [],
+            images: ['/images/demos/soluciones-familiares-modal.webp'],
+            galleryAlt:
+              'Mockup de la app RemindMe con recordatorios, categorías familiares y lista de tareas en dos teléfonos.',
             links: [
               { label: 'Demo Web', url: '' },
               { label: 'APK (Android)', url: '' },
@@ -430,7 +446,9 @@ export const copy: Record<Language, AppCopy> = {
               'Reportes claros para decisiones rápidas.',
               'Base sólida para crecer por módulos.',
             ],
-            images: [],
+            images: ['/images/demos/soluciones-empresa-modal.webp'],
+            galleryAlt:
+              'Mockup de landing Opera Control: visibilidad operativa, paneles analíticos y arquitectura de plataforma empresarial.',
             links: [
               { label: 'Demo Web', url: '' },
               { label: 'APK (Android)', url: '' },
@@ -445,7 +463,9 @@ export const copy: Record<Language, AppCopy> = {
               'Enfoque en ahorro de tiempo y control.',
               'Escalable: agrega funcionalidades cuando lo necesites.',
             ],
-            images: [],
+            images: ['/images/demos/soluciones-pyme-modal.webp'],
+            galleryAlt:
+              'Mockup del panel GrowthSync para PYME: módulos MVP (pedidos, inventario, pipeline), gráficos y alertas.',
             links: [
               { label: 'Demo Web', url: '' },
               { label: 'APK (Android)', url: '' },
@@ -470,6 +490,22 @@ export const copy: Record<Language, AppCopy> = {
         'Castlexpert nace de una amplia experiencia liderando proyectos tecnológicos, desarrollando soluciones empresariales y diseñando sistemas de alto rendimiento.',
         'Hoy llevamos ese conocimiento al siguiente nivel mediante plataformas modernas, automatización inteligente y herramientas digitales orientadas a resultados reales.',
         'No solo desarrollamos software. Creamos ventajas competitivas.',
+      ],
+      close: 'Cerrar',
+    },
+    cookies: {
+      bannerAriaLabel: 'Información sobre cookies',
+      bannerText:
+        'Este sitio utiliza cookies y tecnologías similares para su funcionamiento, preferencias (por ejemplo idioma) y, cuando aplique, métricas agregadas de uso. Al continuar, aceptas su uso conforme a esta información; puedes ampliar detalles en la política.',
+      accept: 'Aceptar',
+      policyLink: 'Ver política de cookies',
+      policyTitle: 'Política de cookies',
+      policyParagraphs: [
+        'CastleXpert (castlexpert.com) puede emplear cookies y almacenamiento local del navegador necesarios para la prestación del sitio, mantener la sesión o preferencias (como el idioma seleccionado) y garantizar un uso seguro.',
+        'Si está habilitada la analítica (por ejemplo Firebase Analytics), se pueden registrar datos agregados de uso de forma anonimizada o pseudonimizada, con fines estadísticos y de mejora del servicio.',
+        'Las cookies o tecnologías “estrictamente necesarias” para la navegación básica no requieren consentimiento previo según la normativa aplicable; el resto se basa en su consentimiento, que puede retirar en cualquier momento borrando las cookies del navegador o contactándonos.',
+        'No utilizamos las cookies para tomar decisiones automatizadas que le afecten de forma significativa sin intervención humana. Los datos se conservan el tiempo preciso para cada finalidad.',
+        'Para ejercer derechos de acceso, rectificación o supresión cuando corresponda, o para consultas sobre este tratamiento, puede escribirnos a info@castlexpert.com.',
       ],
       close: 'Cerrar',
     },
@@ -529,6 +565,7 @@ export const copy: Record<Language, AppCopy> = {
       description: 'Soluciones móviles inteligentes para tu día a día y tu negocio.',
       linksTitle: 'Enlaces rápidos',
       aboutLink: 'Acerca de',
+      cookiePolicyLink: 'Política de cookies',
       servicesLink: 'Servicios',
       contactLink: 'Contacto',
       followUs: 'Síguenos',
@@ -812,7 +849,9 @@ export const copy: Record<Language, AppCopy> = {
               'Clean UI focused on productivity.',
               'Ready to evolve into a full app.',
             ],
-            images: [],
+            images: ['/images/demos/soluciones-personales-modal.webp'],
+            galleryAlt:
+              'Mobile app mockup with productivity hub, goals, and quick actions on a modern desk setup.',
             links: [
               { label: 'Web demo', url: '' },
               { label: 'APK (Android)', url: '' },
@@ -827,7 +866,9 @@ export const copy: Record<Language, AppCopy> = {
               'Reminders and categorized organization.',
               'Designed mobile-first.',
             ],
-            images: [],
+            images: ['/images/demos/soluciones-familiares-modal.webp'],
+            galleryAlt:
+              'RemindMe app mockup with reminders, family-friendly categories, and task lists on two phones.',
             links: [
               { label: 'Web demo', url: '' },
               { label: 'APK (Android)', url: '' },
@@ -842,7 +883,9 @@ export const copy: Record<Language, AppCopy> = {
               'Actionable reporting for quick decisions.',
               'Solid base to scale by modules.',
             ],
-            images: [],
+            images: ['/images/demos/soluciones-empresa-modal.webp'],
+            galleryAlt:
+              'Opera Control landing mockup: operational visibility, analytics dashboards, and enterprise platform architecture.',
             links: [
               { label: 'Web demo', url: '' },
               { label: 'APK (Android)', url: '' },
@@ -857,7 +900,9 @@ export const copy: Record<Language, AppCopy> = {
               'Focus on saving time and gaining control.',
               'Scalable: add features as needed.',
             ],
-            images: [],
+            images: ['/images/demos/soluciones-pyme-modal.webp'],
+            galleryAlt:
+              'GrowthSync SMB dashboard mockup: MVP modules (orders, inventory, pipeline), charts, and alerts.',
             links: [
               { label: 'Web demo', url: '' },
               { label: 'APK (Android)', url: '' },
@@ -882,6 +927,22 @@ export const copy: Record<Language, AppCopy> = {
         'CastleXpert is born from broad experience leading technology projects, building business solutions, and designing high-performance systems.',
         'Today, we take that knowledge to the next level through modern platforms, intelligent automation, and digital tools focused on real outcomes.',
         'We do not just build software. We create competitive advantages.',
+      ],
+      close: 'Close',
+    },
+    cookies: {
+      bannerAriaLabel: 'Cookie notice',
+      bannerText:
+        'This site uses cookies and similar technologies for core functionality, preferences (such as language), and, where applicable, aggregated usage metrics. By continuing, you agree to their use as described here; see the policy for details.',
+      accept: 'Accept',
+      policyLink: 'Cookie policy',
+      policyTitle: 'Cookie policy',
+      policyParagraphs: [
+        'CastleXpert (castlexpert.com) may use cookies and browser local storage required to deliver the site, remember preferences (such as your selected language), and support secure operation.',
+        'If analytics is enabled (for example Firebase Analytics), aggregated or pseudonymous usage data may be processed for statistics and service improvement.',
+        'Strictly necessary cookies or technologies for basic browsing may not require prior consent under applicable law; others rely on your consent, which you may withdraw anytime by clearing browser cookies or contacting us.',
+        'We do not use cookies for automated decisions that significantly affect you without human review. Data are kept only as long as needed for each purpose.',
+        'To exercise rights of access, rectification, or erasure where applicable, or for questions about this processing, email info@castlexpert.com.',
       ],
       close: 'Close',
     },
@@ -941,6 +1002,7 @@ export const copy: Record<Language, AppCopy> = {
       description: 'Smart mobile solutions for your daily operations and your business.',
       linksTitle: 'Quick links',
       aboutLink: 'About',
+      cookiePolicyLink: 'Cookie policy',
       servicesLink: 'Services',
       contactLink: 'Contact',
       followUs: 'Follow us',

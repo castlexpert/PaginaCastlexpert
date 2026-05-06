@@ -4,9 +4,10 @@ import type { AppCopy } from '../i18n';
 type FooterProps = {
   content: AppCopy['footer'];
   onOpenAbout: () => void;
+  onOpenCookiePolicy: () => void;
 };
 
-export default function Footer({ content, onOpenAbout }: FooterProps) {
+export default function Footer({ content, onOpenAbout, onOpenCookiePolicy }: FooterProps) {
   return (
     <footer className="relative py-12 border-t border-black/15 bg-[#ebe6dd]">
       <div className="absolute inset-0 bg-gradient-to-b from-[#f1ece2] to-[#e6e0d4]"></div>
@@ -38,6 +39,15 @@ export default function Footer({ content, onOpenAbout }: FooterProps) {
                   className="text-zinc-600 hover:text-black transition-colors"
                 >
                   {content.aboutLink}
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={onOpenCookiePolicy}
+                  className="text-zinc-600 hover:text-black transition-colors"
+                >
+                  {content.cookiePolicyLink}
                 </button>
               </li>
               <li>
