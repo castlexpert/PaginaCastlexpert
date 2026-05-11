@@ -1,13 +1,14 @@
 ﻿import { Facebook, Instagram, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import AdminEntryLink from './AdminEntryLink';
 import type { AppCopy } from '../i18n';
 
 type FooterProps = {
   content: AppCopy['footer'];
-  onOpenAbout: () => void;
   onOpenCookiePolicy: () => void;
 };
 
-export default function Footer({ content, onOpenAbout, onOpenCookiePolicy }: FooterProps) {
+export default function Footer({ content, onOpenCookiePolicy }: FooterProps) {
   return (
     <footer className="relative py-12 border-t border-black/15 bg-[#ebe6dd]">
       <div className="absolute inset-0 bg-gradient-to-b from-[#f1ece2] to-[#e6e0d4]"></div>
@@ -33,13 +34,14 @@ export default function Footer({ content, onOpenAbout, onOpenCookiePolicy }: Foo
             <h3 className="text-black font-semibold mb-4">{content.linksTitle}</h3>
             <ul className="space-y-2">
               <li>
-                <button
-                  type="button"
-                  onClick={onOpenAbout}
-                  className="text-zinc-600 hover:text-black transition-colors"
-                >
+                <Link to="/acerca-de" className="text-zinc-600 hover:text-black transition-colors">
                   {content.aboutLink}
-                </button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/mapa-del-sitio" className="text-zinc-600 hover:text-black transition-colors">
+                  {content.siteMapLink}
+                </Link>
               </li>
               <li>
                 <button
@@ -110,8 +112,15 @@ export default function Footer({ content, onOpenAbout, onOpenCookiePolicy }: Foo
           </div>
         </div>
 
-        <div className="pt-8 border-t border-black/15 text-center text-zinc-600">
-          <p>&copy; {new Date().getFullYear()} CastleXpert. {content.rights}</p>
+        <div className="pt-8 border-t border-black/15">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="order-1 text-center text-zinc-600 sm:order-2 sm:flex-1 sm:text-end">
+              &copy; {new Date().getFullYear()} CastleXpert. {content.rights}
+            </p>
+            <div className="order-2 flex justify-center sm:order-1 sm:justify-start">
+              <AdminEntryLink />
+            </div>
+          </div>
         </div>
       </div>
     </footer>

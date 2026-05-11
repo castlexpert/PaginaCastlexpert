@@ -9,7 +9,7 @@ type BenefitsProps = {
 
 export default function Benefits({ content }: BenefitsProps) {
   return (
-    <section className="py-24 relative overflow-hidden bg-[#f1ede5]">
+    <section id="benefits" className="py-24 relative overflow-hidden bg-[#f1ede5]">
       <div className="absolute inset-0 bg-gradient-to-b from-[#f1ede5] via-[#f6f3ec] to-[#efebe3]"></div>
 
       <div className="absolute top-0 left-0 w-96 h-96 bg-black/5 rounded-full blur-3xl"></div>

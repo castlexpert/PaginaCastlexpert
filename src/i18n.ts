@@ -126,12 +126,31 @@ export type AppCopy = {
     description: string;
     linksTitle: string;
     aboutLink: string;
+    siteMapLink: string;
     cookiePolicyLink: string;
     servicesLink: string;
     contactLink: string;
     followUs: string;
     paymentsTitle: string;
     rights: string;
+  };
+  pages: {
+    siteMap: {
+      title: string;
+      intro: string;
+      home: string;
+      services: string;
+      process: string;
+      benefits: string;
+      contact: string;
+      about: string;
+      cookiePolicy: string;
+      note: string;
+    };
+    aboutPage: {
+      title: string;
+      backHome: string;
+    };
   };
   whatsapp: {
     tooltip: string;
@@ -245,7 +264,7 @@ export const copy: Record<Language, AppCopy> = {
             'Tiempo invertido y control de materiales (opcional).',
             'Historial por cliente, equipo o ubicación.',
           ],
-          images: [],
+          images: ['/services/workorders/workorders-1.webp'],
         },
         {
           title: 'Control de empleados',
@@ -258,7 +277,7 @@ export const copy: Record<Language, AppCopy> = {
             'Reportes por semana/mes para control interno.',
             'Acceso por roles para cuidar la información.',
           ],
-          images: [],
+          images: ['/services/employees/employees-1.webp'],
         },
         {
           title: 'Control de gastos e ingresos',
@@ -271,7 +290,7 @@ export const copy: Record<Language, AppCopy> = {
             'Exportable para contabilidad (opcional).',
             'Alertas y metas para mantenerte en control.',
           ],
-          images: [],
+          images: ['/services/expenses/expenses-1.webp'],
         },
         {
           title: 'Planeamiento a futuro',
@@ -565,12 +584,32 @@ export const copy: Record<Language, AppCopy> = {
       description: 'Soluciones móviles inteligentes para tu día a día y tu negocio.',
       linksTitle: 'Enlaces rápidos',
       aboutLink: 'Acerca de',
+      siteMapLink: 'Mapa del sitio',
       cookiePolicyLink: 'Política de cookies',
       servicesLink: 'Servicios',
       contactLink: 'Contacto',
       followUs: 'Síguenos',
       paymentsTitle: 'Métodos de pago',
       rights: 'Todos los derechos reservados.',
+    },
+    pages: {
+      siteMap: {
+        title: 'Mapa del sitio',
+        intro:
+          'Accesos rápidos a las secciones públicas del sitio. Las políticas pueden abrirse como ventana cuando lo indica el texto.',
+        home: 'Inicio',
+        services: 'Servicios',
+        process: 'Cómo funciona el proceso',
+        benefits: 'Beneficios',
+        contact: 'Contacto',
+        about: 'Acerca de CastleXpert',
+        cookiePolicy: 'Política de cookies',
+        note: 'También puedes usar el dock de navegación en escritorio para desplazarte por la página principal.',
+      },
+      aboutPage: {
+        title: 'Acerca de CastleXpert',
+        backHome: 'Volver al inicio',
+      },
     },
     whatsapp: {
       tooltip: 'Chatea con nosotros',
@@ -682,7 +721,7 @@ export const copy: Record<Language, AppCopy> = {
             'Time tracking and materials control (optional).',
             'History by customer, asset, or location.',
           ],
-          images: [],
+          images: ['/services/workorders/workorders-1.webp'],
         },
         {
           title: 'Employee control',
@@ -695,7 +734,7 @@ export const copy: Record<Language, AppCopy> = {
             'Weekly/monthly summaries for better control.',
             'Role‑based access to protect sensitive data.',
           ],
-          images: [],
+          images: ['/services/employees/employees-1.webp'],
         },
         {
           title: 'Income and expense tracking',
@@ -708,7 +747,7 @@ export const copy: Record<Language, AppCopy> = {
             'Export options for accounting (optional).',
             'Goals and alerts to stay on track.',
           ],
-          images: [],
+          images: ['/services/expenses/expenses-1.webp'],
         },
         {
           title: 'Future planning',
@@ -1002,12 +1041,32 @@ export const copy: Record<Language, AppCopy> = {
       description: 'Smart mobile solutions for your daily operations and your business.',
       linksTitle: 'Quick links',
       aboutLink: 'About',
+      siteMapLink: 'Site map',
       cookiePolicyLink: 'Cookie policy',
       servicesLink: 'Services',
       contactLink: 'Contact',
       followUs: 'Follow us',
       paymentsTitle: 'Payment methods',
       rights: 'All rights reserved.',
+    },
+    pages: {
+      siteMap: {
+        title: 'Site map',
+        intro:
+          'Quick links to the public sections of this site. Policies may open in an overlay when referenced from the footer.',
+        home: 'Home',
+        services: 'Services',
+        process: 'How it works',
+        benefits: 'Benefits',
+        contact: 'Contact',
+        about: 'About CastleXpert',
+        cookiePolicy: 'Cookie policy',
+        note: 'On desktop you can also use the bottom navigation dock to jump across the homepage sections.',
+      },
+      aboutPage: {
+        title: 'About CastleXpert',
+        backHome: 'Back to homepage',
+      },
     },
     whatsapp: {
       tooltip: 'Chat with us',

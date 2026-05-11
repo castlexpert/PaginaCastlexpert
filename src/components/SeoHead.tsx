@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { Language } from '../i18n';
-import { getSiteUrl, seoByLang } from '../seo/config';
+import { canonicalPath, getSiteUrl, seoForPath } from '../seo/config';
 
 function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
   const selector = attr === 'name' ? `meta[name="${key}"]` : `meta[property="${key}"]`;
@@ -60,12 +60,15 @@ function buildJsonLd(siteUrl: string, lang: Language): object {
 
 type SeoHeadProps = {
   language: Language;
+  pathname: string;
 };
 
-export default function SeoHead({ language }: SeoHeadProps) {
+export default function SeoHead({ language, pathname }: SeoHeadProps) {
   useEffect(() => {
     const siteUrl = getSiteUrl();
-    const seo = seoByLang[language];
+    const seo = seoForPath(pathname, language);
+    const canonicalSuffix = canonicalPath(pathname);
+    const pageUrl = `${siteUrl}${canonicalSuffix || ''}`;
     const ogLocale = language === 'es' ? 'es_CR' : 'en_US';
 
     document.title = seo.title;
@@ -76,7 +79,7 @@ export default function SeoHead({ language }: SeoHeadProps) {
 
     upsertMeta('property', 'og:title', seo.title);
     upsertMeta('property', 'og:description', seo.description);
-    upsertMeta('property', 'og:url', siteUrl);
+    upsertMeta('property', 'og:url', pageUrl);
     upsertMeta('property', 'og:type', 'website');
     upsertMeta('property', 'og:locale', ogLocale);
     upsertMeta('property', 'og:site_name', 'CastleXpert');
@@ -90,7 +93,7 @@ export default function SeoHead({ language }: SeoHeadProps) {
     upsertMeta('name', 'twitter:description', seo.description);
     upsertMeta('name', 'twitter:image', `${siteUrl}/og-image.png`);
 
-    upsertCanonical(siteUrl);
+    upsertCanonical(pageUrl);
 
     const jsonLd = JSON.stringify(buildJsonLd(siteUrl, language));
     let script = document.getElementById('seo-jsonld') as HTMLScriptElement | null;
@@ -101,7 +104,7 @@ export default function SeoHead({ language }: SeoHeadProps) {
       document.head.appendChild(script);
     }
     script.textContent = jsonLd;
-  }, [language]);
+  }, [language, pathname]);
 
   return null;
 }
