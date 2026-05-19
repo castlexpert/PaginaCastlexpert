@@ -58,9 +58,26 @@ export const seoAboutByLang: Record<Language, PageSeo> = {
   },
 };
 
+export const seoContactCardByLang: Record<Language, PageSeo> = {
+  es: {
+    title: 'Deiby Castillo | Tarjeta de contacto — CastleXpert',
+    description:
+      'Tarjeta digital de Deiby Castillo, Founder & CEO de CastleXpert. Guarda correo, WhatsApp y sitio web en un toque.',
+    keywords: 'Deiby Castillo, CastleXpert, tarjeta de contacto, vCard, Costa Rica',
+  },
+  en: {
+    title: 'Deiby Castillo | Contact card — CastleXpert',
+    description:
+      'Digital card for Deiby Castillo, Founder & CEO at CastleXpert. Save email, WhatsApp, and website in one tap.',
+    keywords: 'Deiby Castillo, CastleXpert, contact card, vCard, Costa Rica',
+  },
+};
+
 export function seoForPath(pathname: string, language: Language): PageSeo {
-  if (pathname === '/mapa-del-sitio') return seoSiteMapByLang[language];
-  if (pathname === '/acerca-de') return seoAboutByLang[language];
+  const p = pathname.toLowerCase();
+  if (p === '/mapa-del-sitio') return seoSiteMapByLang[language];
+  if (p === '/acerca-de') return seoAboutByLang[language];
+  if (p === '/castlexpertcard' || p === '/castlexpert-card') return seoContactCardByLang[language];
   return seoByLang[language];
 }
 

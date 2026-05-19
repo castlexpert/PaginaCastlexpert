@@ -10,9 +10,16 @@ import { copy, Language } from './i18n';
 import HomePage from './pages/HomePage';
 import SiteMapPage from './pages/SiteMapPage';
 import AboutPage from './pages/AboutPage';
+import ContactCardPage from './pages/ContactCardPage';
+
+function isContactCardPath(pathname: string) {
+  const p = pathname.toLowerCase();
+  return p === '/castlexpertcard' || p === '/castlexpert-card';
+}
 
 function App() {
   const location = useLocation();
+  const contactCardOnly = isContactCardPath(location.pathname);
   const [language, setLanguage] = useState<Language>('es');
   const [cookiePolicyOpen, setCookiePolicyOpen] = useState(false);
   const [hasCookieConsent, setHasCookieConsent] = useState(() => hasStoredCookieConsent());
@@ -30,7 +37,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-transparent text-zinc-900">
-      <SiteBackground />
+      {!contactCardOnly && <SiteBackground />}
       <SeoHead language={language} pathname={location.pathname} />
       <Routes>
         <Route
@@ -63,16 +70,22 @@ function App() {
             />
           }
         />
+        <Route path="/castlexpertCard" element={<ContactCardPage />} />
+        <Route path="/castlexpert-card" element={<ContactCardPage />} />
       </Routes>
-      <CookiePolicyModal open={cookiePolicyOpen} onClose={() => setCookiePolicyOpen(false)} content={content.cookies} />
-      <CookieBanner
-        content={content.cookies}
-        visible={showCookieBanner}
-        onAccept={handleAcceptCookies}
-        onOpenPolicy={() => setCookiePolicyOpen(true)}
-      />
-      <ChatWidget content={content.chat} language={language} layoutCookieBanner={showCookieBanner} />
-      <WhatsAppButton content={content.whatsapp} layoutCookieBanner={showCookieBanner} />
+      {!contactCardOnly && (
+        <>
+          <CookiePolicyModal open={cookiePolicyOpen} onClose={() => setCookiePolicyOpen(false)} content={content.cookies} />
+          <CookieBanner
+            content={content.cookies}
+            visible={showCookieBanner}
+            onAccept={handleAcceptCookies}
+            onOpenPolicy={() => setCookiePolicyOpen(true)}
+          />
+          <ChatWidget content={content.chat} language={language} layoutCookieBanner={showCookieBanner} />
+          <WhatsAppButton content={content.whatsapp} layoutCookieBanner={showCookieBanner} />
+        </>
+      )}
     </div>
   );
 }

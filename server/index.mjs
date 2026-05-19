@@ -279,11 +279,23 @@ app.use(
 
 const distDir = path.resolve(__dirname, '..', 'dist');
 const indexHtml = path.join(distDir, 'index.html');
+const contactVcfPath = path.join(distDir, 'contacto.vcf');
+
+app.get('/contacto.vcf', (_req, res) => {
+  if (!fs.existsSync(contactVcfPath)) {
+    res.status(404).type('text/plain').send('contacto.vcf not found');
+    return;
+  }
+  res.type('text/vcard; charset=utf-8');
+  res.set('Content-Disposition', 'inline; filename="Deiby-Castillo-CastleXpert.vcf"');
+  res.sendFile(contactVcfPath);
+});
+
 if (fs.existsSync(indexHtml)) {
   app.use(express.static(distDir));
   app.get('*', (req, res) => {
     // Evitar devolver index.html para rutas que parecen archivos estáticos (404 real si falta el asset).
-    if (/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2?|css|js|map|txt|xml)$/i.test(req.path)) {
+    if (/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2?|css|js|map|txt|xml|vcf)$/i.test(req.path)) {
       res.status(404).type('text/plain').send('Not found');
       return;
     }

@@ -30,7 +30,7 @@ export default function HowItWorks({ content }: HowItWorksProps) {
   };
 
   return (
-    <section id="process" className="py-24 relative overflow-hidden bg-[#f8f6f1]">
+    <section id="process" className="relative overflow-x-hidden bg-[#f8f6f1] py-24">
       <div className="absolute inset-0 bg-gradient-to-b from-[#f8f6f1] via-[#f3f0e8] to-[#f8f6f1]"></div>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-black/5 rounded-full blur-3xl"></div>
@@ -65,17 +65,24 @@ export default function HowItWorks({ content }: HowItWorksProps) {
 
           <div
             ref={scrollerRef}
-            className="no-scrollbar flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2"
+            className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2 pt-1"
           >
             {steps.map(({ step, index }) => (
               <div
                 key={index}
-                className="relative snap-start shrink-0 w-[82%] sm:w-[420px] lg:w-[360px]"
+                className="relative shrink-0 snap-start w-[82%] pt-5 sm:w-[420px] lg:w-[360px]"
                 data-step-card="true"
               >
-                <div className="relative overflow-hidden cx-card cx-card-hover h-full">
+                <div
+                  className="absolute right-3 top-0 z-20 flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-black text-base font-bold tabular-nums text-white shadow-lg shadow-black/30"
+                  aria-hidden
+                >
+                  {step.number}
+                </div>
+
+                <div className="cx-card cx-card-hover relative h-full overflow-visible">
                   {step.image && (
-                    <div className="relative h-44 w-full sm:h-48">
+                    <div className="relative h-44 w-full overflow-hidden rounded-t-2xl sm:h-48">
                       <img
                         src={step.image}
                         alt=""
@@ -83,13 +90,9 @@ export default function HowItWorks({ content }: HowItWorksProps) {
                         loading="lazy"
                         decoding="async"
                       />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/25"></div>
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/25" />
                     </div>
                   )}
-
-                  <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-black/30 border border-white/10">
-                    {step.number}
-                  </div>
 
                   <div className="relative p-8">
                     <h3 className="text-2xl font-bold text-black mb-3">{step.title}</h3>
