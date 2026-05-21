@@ -1,4 +1,5 @@
 import Hero from '../components/Hero';
+import TrustBar from '../components/TrustBar';
 import Services from '../components/Services';
 import HowItWorks from '../components/HowItWorks';
 import Benefits from '../components/Benefits';
@@ -16,6 +17,7 @@ export default function HomePage({ content, onToggleLanguage, onOpenCookiePolicy
   return (
     <main id="contenido-principal">
       <Hero content={content.hero} onToggleLanguage={onToggleLanguage} />
+      <TrustBar content={content.hero} />
       <HowItWorks content={content.process} />
       <Services content={content.services} />
       <Benefits content={content.benefits} />

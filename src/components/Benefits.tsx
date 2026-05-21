@@ -45,8 +45,9 @@ export default function Benefits({ content }: BenefitsProps) {
           <h3 className="text-3xl font-bold text-black mb-4">{content.ctaTitle}</h3>
           <p className="text-xl text-zinc-600 mb-8 max-w-2xl mx-auto">{content.ctaDescription}</p>
           <button
+            type="button"
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-8 py-4 bg-black rounded-lg font-semibold text-white hover:bg-zinc-800 transition-all duration-300"
+            className="rounded-xl bg-[#0d4d38] px-8 py-4 font-semibold text-white shadow-lg shadow-[#0d4d38]/25 transition hover:bg-[#0b3f2f]"
           >
             {content.ctaButton}
           </button>

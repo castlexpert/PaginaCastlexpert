@@ -115,8 +115,15 @@ export default function ServiceModal({ open, onClose, content, labels }: Service
                             className="mx-auto max-h-[min(46vh,400px)] w-full object-contain object-center sm:max-h-[min(50vh,440px)]"
                           />
                         ) : (
-                          <div className="flex h-56 w-full items-center justify-center text-sm font-semibold text-zinc-600 sm:h-72">
-                            Imagen
+                          <div className="flex h-56 w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#f7f4ed] to-[#e8e2d7] px-6 sm:h-72">
+                            <img
+                              src="/castlexpert-logo.png"
+                              alt=""
+                              className="h-14 w-14 object-contain opacity-80"
+                            />
+                            <p className="text-center text-sm font-medium text-zinc-600">
+                              Vista previa próximamente
+                            </p>
                           </div>
                         )}
                       </div>

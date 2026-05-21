@@ -303,7 +303,7 @@ export const copy: Record<Language, AppCopy> = {
             'Vistas por semana/mes para planificación real.',
             'Historial para medir consistencia y resultados.',
           ],
-          images: [],
+          images: ['/services/planning/planning-1.webp'],
         },
         {
           title: 'Notificaciones automáticas',
@@ -316,7 +316,7 @@ export const copy: Record<Language, AppCopy> = {
             'Plantillas de mensajes para consistencia.',
             'Menos errores: el sistema te avisa a tiempo.',
           ],
-          images: [],
+          images: ['/services/notifications/notifications-1.webp'],
         },
         {
           title: 'Reportes inteligentes',
@@ -329,7 +329,7 @@ export const copy: Record<Language, AppCopy> = {
             'Exportación y envío (opcional) de reportes.',
             'Reportes pensados para acción, no solo números.',
           ],
-          images: [],
+          images: ['/services/reports/reports-1.webp'],
         },
         {
           title: 'Arquitectura web escalable',
@@ -342,7 +342,7 @@ export const copy: Record<Language, AppCopy> = {
             'Integraciones con APIs, pagos, ERP o sistemas existentes.',
             'Base técnica sólida para evolución continua.',
           ],
-          images: [],
+          images: ['/services/architecture/architecture-1.webp'],
         },
         {
           title: 'Consulta de tipo de cambio',
@@ -355,7 +355,7 @@ export const copy: Record<Language, AppCopy> = {
             'Configuración simple según tu necesidad.',
             'Mejor experiencia para clientes y para tu equipo.',
           ],
-          images: [],
+          images: ['/services/fx/fx-1.webp'],
         },
       ],
       mainTitle: 'Servicios Principales y Arquitectura Web',
@@ -376,7 +376,7 @@ export const copy: Record<Language, AppCopy> = {
             'Publicación y acompañamiento en el ciclo de vida.',
             'Evolución por fases: MVP → versión completa.',
           ],
-          images: [],
+          images: ['/services/android/android-1.webp'],
         },
         {
           title: 'Desarrollo de PWA',
@@ -389,7 +389,7 @@ export const copy: Record<Language, AppCopy> = {
             'Actualizaciones inmediatas sin esperar revisiones.',
             'Excelente opción para MVP y expansión.',
           ],
-          images: [],
+          images: ['/services/pwa/pwa-1.webp'],
         },
         {
           title: 'Arquitectura de sitios web',
@@ -402,7 +402,7 @@ export const copy: Record<Language, AppCopy> = {
             'Diseño orientado a conversión y objetivos comerciales.',
             'Base preparada para evolucionar sin rehacer todo.',
           ],
-          images: [],
+          images: ['/services/web-architecture/web-architecture-1.webp'],
         },
       ],
       modalLabels: {
@@ -760,7 +760,7 @@ export const copy: Record<Language, AppCopy> = {
             'Weekly/monthly views for real planning.',
             'History to measure consistency and results.',
           ],
-          images: [],
+          images: ['/services/planning/planning-1.webp'],
         },
         {
           title: 'Automatic notifications',
@@ -773,7 +773,7 @@ export const copy: Record<Language, AppCopy> = {
             'Message templates for consistent communication.',
             'Fewer errors: get notified on time.',
           ],
-          images: [],
+          images: ['/services/notifications/notifications-1.webp'],
         },
         {
           title: 'Smart reports',
@@ -786,7 +786,7 @@ export const copy: Record<Language, AppCopy> = {
             'Export and scheduled sending (optional).',
             'Reports designed for action—not just numbers.',
           ],
-          images: [],
+          images: ['/services/reports/reports-1.webp'],
         },
         {
           title: 'Scalable web architecture',
@@ -799,7 +799,7 @@ export const copy: Record<Language, AppCopy> = {
             'API/payment/ERP integrations as needed.',
             'Strong technical foundation for long-term growth.',
           ],
-          images: [],
+          images: ['/services/architecture/architecture-1.webp'],
         },
         {
           title: 'Exchange rate lookup',
@@ -812,7 +812,7 @@ export const copy: Record<Language, AppCopy> = {
             'Simple configuration to match your needs.',
             'Better experience for both customers and staff.',
           ],
-          images: [],
+          images: ['/services/fx/fx-1.webp'],
         },
       ],
       mainTitle: 'Main Services and Web Architecture',
@@ -833,7 +833,7 @@ export const copy: Record<Language, AppCopy> = {
             'Support through launch and ongoing improvements.',
             'Phase approach: MVP → full product.',
           ],
-          images: [],
+          images: ['/services/android/android-1.webp'],
         },
         {
           title: 'PWA development',
@@ -846,7 +846,7 @@ export const copy: Record<Language, AppCopy> = {
             'Instant updates without store approvals.',
             'Great for MVPs and scaling later.',
           ],
-          images: [],
+          images: ['/services/pwa/pwa-1.webp'],
         },
         {
           title: 'Website architecture',
@@ -859,7 +859,7 @@ export const copy: Record<Language, AppCopy> = {
             'Design aligned with conversion and business goals.',
             'Foundation ready to evolve without full rebuilds.',
           ],
-          images: [],
+          images: ['/services/web-architecture/web-architecture-1.webp'],
         },
       ],
       modalLabels: {
