@@ -4,7 +4,7 @@
   Facebook,
   Instagram,
   Menu,
-  Star,
+  CheckCircle,
   X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -118,16 +118,10 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
               </div>
 
               <div className="mt-10 border-t border-black/10 pt-5">
-                <div className="flex flex-wrap items-center gap-3 text-zinc-700">
-                  <div className="flex items-center gap-1 text-[#0d4d38]">
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                    <Star className="h-4 w-4 fill-current" />
-                  </div>
-                  <span className="text-sm">{content.recommendation}</span>
-                </div>
+                <p className="flex items-start gap-2 text-sm text-zinc-700">
+                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#0d4d38]" strokeWidth={2} />
+                  <span>{content.recommendation}</span>
+                </p>
               </div>
             </div>
 

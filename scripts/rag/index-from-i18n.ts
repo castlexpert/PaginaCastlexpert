@@ -48,7 +48,7 @@ function buildDocuments(c: AppCopy, lang: 'es' | 'en', base: string): IndexDoc[]
       c.hero.description,
       c.hero.availability,
       c.hero.recommendation,
-      `${c.hero.revenueLabel}: ${c.hero.growthStat}`,
+      c.hero.growthStat,
       c.hero.activeClients,
     ]
       .filter(Boolean)

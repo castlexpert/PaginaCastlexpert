@@ -1,4 +1,4 @@
-import { Star, TrendingUp, Users } from 'lucide-react';
+import { Layers, ListChecks, MessageCircle } from 'lucide-react';
 import type { AppCopy } from '../i18n';
 
 type TrustBarProps = {
@@ -7,9 +7,9 @@ type TrustBarProps = {
 
 export default function TrustBar({ content }: TrustBarProps) {
   const items = [
-    { icon: Star, label: content.recommendation },
-    { icon: TrendingUp, label: content.growthStat },
-    { icon: Users, label: content.activeClients },
+    { icon: Layers, label: content.recommendation },
+    { icon: ListChecks, label: content.growthStat },
+    { icon: MessageCircle, label: content.activeClients },
   ];
 
   return (
