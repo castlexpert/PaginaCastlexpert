@@ -521,7 +521,7 @@ export const copy: Record<Language, AppCopy> = {
       policyTitle: 'Política de cookies',
       policyParagraphs: [
         'CastleXpert (castlexpert.com) puede emplear cookies y almacenamiento local del navegador necesarios para la prestación del sitio, mantener la sesión o preferencias (como el idioma seleccionado) y garantizar un uso seguro.',
-        'Si está habilitada la analítica (por ejemplo Firebase Analytics), se pueden registrar datos agregados de uso de forma anonimizada o pseudonimizada, con fines estadísticos y de mejora del servicio.',
+        'Si aceptas cookies de analítica, se registran métricas agregadas de uso (páginas vistas, clics en botones, tipo de dispositivo, zona geográfica aproximada por IP, referrer) de forma anonimizada o pseudonimizada en nuestros sistemas (WAdministrativo / Postgres), con fines estadísticos y de mejora del servicio.',
         'Las cookies o tecnologías “estrictamente necesarias” para la navegación básica no requieren consentimiento previo según la normativa aplicable; el resto se basa en su consentimiento, que puede retirar en cualquier momento borrando las cookies del navegador o contactándonos.',
         'No utilizamos las cookies para tomar decisiones automatizadas que le afecten de forma significativa sin intervención humana. Los datos se conservan el tiempo preciso para cada finalidad.',
         'Para ejercer derechos de acceso, rectificación o supresión cuando corresponda, o para consultas sobre este tratamiento, puede escribirnos a info@castlexpert.com.',
@@ -978,7 +978,7 @@ export const copy: Record<Language, AppCopy> = {
       policyTitle: 'Cookie policy',
       policyParagraphs: [
         'CastleXpert (castlexpert.com) may use cookies and browser local storage required to deliver the site, remember preferences (such as your selected language), and support secure operation.',
-        'If analytics is enabled (for example Firebase Analytics), aggregated or pseudonymous usage data may be processed for statistics and service improvement.',
+        'If you accept analytics cookies, aggregated or pseudonymous usage metrics (page views, button clicks, device type, approximate geographic zone by IP, referrer) may be stored in our systems (WAdministrativo / Postgres) for statistics and service improvement.',
         'Strictly necessary cookies or technologies for basic browsing may not require prior consent under applicable law; others rely on your consent, which you may withdraw anytime by clearing browser cookies or contacting us.',
         'We do not use cookies for automated decisions that significantly affect you without human review. Data are kept only as long as needed for each purpose.',
         'To exercise rights of access, rectification, or erasure where applicable, or for questions about this processing, email info@castlexpert.com.',

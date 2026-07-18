@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import SiteMapPage from './pages/SiteMapPage';
 import AboutPage from './pages/AboutPage';
 import ContactCardPage from './pages/ContactCardPage';
+import { enableSiteAnalytics, trackPageView } from './lib/siteAnalytics';
 
 function isContactCardPath(pathname: string) {
   const p = pathname.toLowerCase();
@@ -30,9 +31,17 @@ function App() {
     document.documentElement.lang = language;
   }, [language]);
 
+  useEffect(() => {
+    if (!hasCookieConsent || contactCardOnly) return;
+    enableSiteAnalytics();
+    trackPageView(location.pathname);
+  }, [location.pathname, hasCookieConsent, contactCardOnly]);
+
   function handleAcceptCookies() {
     storeCookieConsent();
     setHasCookieConsent(true);
+    enableSiteAnalytics();
+    trackPageView(location.pathname);
   }
 
   return (

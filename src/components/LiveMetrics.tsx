@@ -1,51 +1,36 @@
 ﻿import { useState, useEffect } from 'react';
 import { Eye } from 'lucide-react';
-import { getPublicApi } from '../lib/publicApi';
-
-const publicApi = getPublicApi();
+import { getAdminAnalyticsBaseUrl } from '../lib/publicApi';
 
 export default function LiveMetrics() {
   const [visitCount, setVisitCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const trackVisit = async () => {
-      try {
-        const response = await fetch(`${publicApi.baseUrl}/visits`, {
-          method: 'POST',
-          headers: {
-            ...(publicApi.headers ?? {}),
-          },
-        });
+    const base = getAdminAnalyticsBaseUrl();
+    if (!base) {
+      setLoading(false);
+      return;
+    }
 
+    const load = async () => {
+      try {
+        const response = await fetch(`${base}/api/public/analytics/summary`);
         if (response.ok) {
           const data = await response.json();
-          setVisitCount(data.count);
+          setVisitCount(Number(data.pageviews ?? data.count) || 0);
         }
       } catch (error) {
-        console.error('Error tracking visit:', error);
+        console.error('Error fetching visit count:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    trackVisit();
-
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch(`${publicApi.baseUrl}/visits`, {
-          headers: {
-            ...(publicApi.headers ?? {}),
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setVisitCount(data.count);
-        }
-      } catch (error) {
-        console.error('Error fetching visit count:', error);
-      }
-    }, 10000);
+    void load();
+    const interval = setInterval(() => {
+      void load();
+    }, 15000);
 
     return () => clearInterval(interval);
   }, []);
@@ -66,8 +51,3 @@ export default function LiveMetrics() {
     </div>
   );
 }
-
-
-
-
-

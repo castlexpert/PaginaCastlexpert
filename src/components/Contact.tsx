@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Send, Mail, CheckCircle } from 'lucide-react';
 import type { AppCopy } from '../i18n';
 import { getExpressApiBaseUrl } from '../lib/publicApi';
+import { trackEvent } from '../lib/siteAnalytics';
 
 type ContactProps = {
   content: AppCopy['contact'];
@@ -54,6 +55,7 @@ export default function Contact({ content }: ContactProps) {
 
       setSuccess(true);
       setFormData({ name: '', email: '', message: '' });
+      trackEvent('contact_submit', { emailSent: data.emailSent === true });
       if (data.mailError) setMailWarning(content.form.emailNotifyFailed);
       else if (data.emailSent === false) setMailWarning(content.form.emailNotifySkipped);
 

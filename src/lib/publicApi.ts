@@ -19,9 +19,21 @@ export function getExpressApiBaseUrl(): string {
   return '';
 }
 
+/**
+ * Base URL del WAdministrativo (analytics, métricas públicas).
+ * Preferir `VITE_ADMIN_URL` (p. ej. https://admin.castlexpert.com).
+ * No reutilizar `VITE_PUBLIC_API_URL` (ese es el API de chat/contacto de la landing).
+ */
+export function getAdminAnalyticsBaseUrl(): string {
+  const admin = import.meta.env.VITE_ADMIN_URL?.trim();
+  if (admin) return stripTrailingSlash(admin);
+  if (import.meta.env.DEV) return 'http://localhost:8790';
+  return '';
+}
+
 export function getPublicApi(): PublicApiConfig {
-  const explicit = import.meta.env.VITE_PUBLIC_API_URL?.trim();
-  if (explicit) return { baseUrl: stripTrailingSlash(explicit) };
+  const admin = getAdminAnalyticsBaseUrl();
+  if (admin) return { baseUrl: admin };
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim();
   const supabaseAnon = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim();
@@ -34,9 +46,6 @@ export function getPublicApi(): PublicApiConfig {
       },
     };
   }
-
-  const admin = import.meta.env.VITE_ADMIN_URL?.trim();
-  if (admin) return { baseUrl: stripTrailingSlash(admin) };
 
   return { baseUrl: '' };
 }
