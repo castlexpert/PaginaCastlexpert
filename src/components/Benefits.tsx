@@ -1,4 +1,5 @@
 import { Smartphone, FolderKanban, Cloud, Zap, CircleDollarSign } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import type { AppCopy } from '../i18n';
 
 const benefitIcons = [Smartphone, FolderKanban, Cloud, Zap, CircleDollarSign];
@@ -8,6 +9,8 @@ type BenefitsProps = {
 };
 
 export default function Benefits({ content }: BenefitsProps) {
+  const navigate = useNavigate();
+
   return (
     <section id="benefits" className="py-24 relative overflow-hidden bg-[#f1ede5]">
       <div className="absolute inset-0 bg-gradient-to-b from-[#f1ede5] via-[#f6f3ec] to-[#efebe3]"></div>
@@ -25,10 +28,7 @@ export default function Benefits({ content }: BenefitsProps) {
           {content.items.map((benefit, index) => {
             const Icon = benefitIcons[index];
             return (
-              <div
-                key={index}
-                className="relative p-8 cx-card cx-card-hover h-full"
-              >
+              <div key={index} className="relative p-8 cx-card cx-card-hover h-full">
                 <div className="w-14 h-14 rounded-xl cx-card-surface flex items-center justify-center mb-6 shadow-md shadow-black/5">
                   <Icon className="w-7 h-7 text-black" />
                 </div>
@@ -46,7 +46,7 @@ export default function Benefits({ content }: BenefitsProps) {
           <p className="text-xl text-zinc-600 mb-8 max-w-2xl mx-auto">{content.ctaDescription}</p>
           <button
             type="button"
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => navigate('/contacto')}
             className="rounded-xl bg-[#0d4d38] px-8 py-4 font-semibold text-white shadow-lg shadow-[#0d4d38]/25 transition hover:bg-[#0b3f2f]"
           >
             {content.ctaButton}

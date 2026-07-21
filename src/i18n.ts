@@ -42,6 +42,8 @@ export type AppCopy = {
       highlights: string;
       links: string;
       open: string;
+      playVideo: string;
+      closeVideo: string;
     };
     demos: {
       title: string;
@@ -54,7 +56,7 @@ export type AppCopy = {
         images: string[];
         /** Texto alternativo de la primera imagen de galería (accesibilidad). */
         galleryAlt?: string;
-        links: Array<{ label: string; url: string }>;
+        links: Array<{ label: string; url: string; kind?: 'link' | 'video'; poster?: string }>;
       }>;
     };
   };
@@ -151,6 +153,15 @@ export type AppCopy = {
       title: string;
       backHome: string;
     };
+    contactPage: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      backHome: string;
+      whatsappTitle: string;
+      whatsappDescription: string;
+      whatsappButton: string;
+    };
   };
   whatsapp: {
     tooltip: string;
@@ -164,7 +175,7 @@ export const copy: Record<Language, AppCopy> = {
         { label: 'Inicio', target: 'top' },
         { label: 'Servicios', target: 'services' },
         { label: 'Proceso', target: 'process' },
-        { label: 'Contacto', target: 'contact' },
+        { label: 'Contacto', target: '/contacto' },
       ],
       availability: 'Disponible para trabajar',
       badge: 'Soluciones móviles premium',
@@ -411,6 +422,8 @@ export const copy: Record<Language, AppCopy> = {
         highlights: 'Lo que incluye',
         links: 'Demos',
         open: 'Abrir',
+        playVideo: 'Reproducir',
+        closeVideo: 'Cerrar video',
       },
       demos: {
         title: 'DEMOS',
@@ -469,6 +482,7 @@ export const copy: Record<Language, AppCopy> = {
             galleryAlt:
               'Mockup de landing Opera Control: visibilidad operativa, paneles analíticos y arquitectura de plataforma empresarial.',
             links: [
+              { label: 'Video MANTE Preventivo', url: '/images/demos/MANTE_Preventivo.mp4', kind: 'video', poster: '/images/demos/soluciones-empresa-modal.webp' },
               { label: 'Demo Web', url: '' },
               { label: 'APK (Android)', url: '' },
             ],
@@ -610,6 +624,16 @@ export const copy: Record<Language, AppCopy> = {
         title: 'Acerca de CastleXpert',
         backHome: 'Volver al inicio',
       },
+      contactPage: {
+        eyebrow: 'Contacto',
+        title: 'Hablemos de tu proyecto',
+        intro:
+          'Escríbenos por el formulario o por WhatsApp. Esta página concentra el contacto para campañas, seguimiento y atención directa.',
+        backHome: 'Volver al inicio',
+        whatsappTitle: 'WhatsApp directo',
+        whatsappDescription: 'Respuesta rápida para cotizaciones, dudas y seguimiento de tu idea.',
+        whatsappButton: 'Abrir WhatsApp',
+      },
     },
     whatsapp: {
       tooltip: 'Chatea con nosotros',
@@ -621,7 +645,7 @@ export const copy: Record<Language, AppCopy> = {
         { label: 'Home', target: 'top' },
         { label: 'Services', target: 'services' },
         { label: 'Process', target: 'process' },
-        { label: 'Contact', target: 'contact' },
+        { label: 'Contact', target: '/contacto' },
       ],
       availability: 'Available for work',
       badge: 'Premium mobile solutions',
@@ -868,6 +892,8 @@ export const copy: Record<Language, AppCopy> = {
         highlights: 'Highlights',
         links: 'Demos',
         open: 'Open',
+        playVideo: 'Play',
+        closeVideo: 'Close video',
       },
       demos: {
         title: 'DEMOS',
@@ -926,6 +952,7 @@ export const copy: Record<Language, AppCopy> = {
             galleryAlt:
               'Opera Control landing mockup: operational visibility, analytics dashboards, and enterprise platform architecture.',
             links: [
+              { label: 'MANTE Preventive video', url: '/images/demos/MANTE_Preventivo.mp4', kind: 'video', poster: '/images/demos/soluciones-empresa-modal.webp' },
               { label: 'Web demo', url: '' },
               { label: 'APK (Android)', url: '' },
             ],
@@ -1066,6 +1093,16 @@ export const copy: Record<Language, AppCopy> = {
       aboutPage: {
         title: 'About CastleXpert',
         backHome: 'Back to homepage',
+      },
+      contactPage: {
+        eyebrow: 'Contact',
+        title: "Let's talk about your project",
+        intro:
+          'Reach us through the form or WhatsApp. This page centralizes contact for campaigns, tracking, and direct support.',
+        backHome: 'Back to homepage',
+        whatsappTitle: 'Direct WhatsApp',
+        whatsappDescription: 'Fast replies for quotes, questions, and next steps on your idea.',
+        whatsappButton: 'Open WhatsApp',
       },
     },
     whatsapp: {

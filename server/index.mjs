@@ -292,10 +292,20 @@ app.get('/contacto.vcf', (_req, res) => {
 });
 
 if (fs.existsSync(indexHtml)) {
-  app.use(express.static(distDir));
+  app.use(
+    express.static(distDir, {
+      maxAge: process.env.NODE_ENV === 'production' ? '7d' : 0,
+      setHeaders(res, filePath) {
+        if (/\.(mp4|webm)$/i.test(filePath)) {
+          res.setHeader('Cache-Control', 'public, max-age=2592000, immutable');
+          res.setHeader('Accept-Ranges', 'bytes');
+        }
+      },
+    }),
+  );
   app.get('*', (req, res) => {
     // Evitar devolver index.html para rutas que parecen archivos estáticos (404 real si falta el asset).
-    if (/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2?|css|js|map|txt|xml|vcf)$/i.test(req.path)) {
+    if (/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2?|css|js|map|txt|xml|vcf|mp4|webm)$/i.test(req.path)) {
       res.status(404).type('text/plain').send('Not found');
       return;
     }

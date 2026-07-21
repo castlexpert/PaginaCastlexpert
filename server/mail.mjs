@@ -10,8 +10,9 @@
 
 function notifyRecipients() {
   const raw = process.env.CONTACT_NOTIFY_TO?.trim() || 'info@castlexpert.com,castlexpertcr@gmail.com';
+  // Acepta coma, punto y coma o espacios como separadores.
   return raw
-    .split(',')
+    .split(/[,;\s]+/)
     .map((s) => s.trim())
     .filter(Boolean);
 }

@@ -55,7 +55,7 @@ export default function Contact({ content }: ContactProps) {
 
       setSuccess(true);
       setFormData({ name: '', email: '', message: '' });
-      trackEvent('contact_submit', { emailSent: data.emailSent === true });
+      trackEvent('contact_submit', { emailSent: data.emailSent === true, source: 'contact_page' });
       if (data.mailError) setMailWarning(content.form.emailNotifyFailed);
       else if (data.emailSent === false) setMailWarning(content.form.emailNotifySkipped);
 
@@ -106,7 +106,14 @@ export default function Contact({ content }: ContactProps) {
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-black mb-2">{content.whatsappLabel}</h3>
-                <a href="https://wa.me/50685070818" target="_blank" rel="noopener noreferrer" className="text-zinc-700 hover:text-black transition-colors">
+                <a
+                  href="https://wa.me/50685070818"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-track="whatsapp_contact_card"
+                  onClick={() => trackEvent('whatsapp_click', { source: 'contact_form_card' })}
+                  className="text-zinc-700 hover:text-black transition-colors"
+                >
                   +506 85070818
                 </a>
               </div>

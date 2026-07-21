@@ -58,9 +58,9 @@ export default function Footer({ content, onOpenCookiePolicy }: FooterProps) {
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-zinc-600 hover:text-black transition-colors">
+                <Link to="/contacto" className="text-zinc-600 hover:text-black transition-colors">
                   {content.contactLink}
-                </a>
+                </Link>
               </li>
               <li className="pt-3">
                 <div className="text-xs font-extrabold uppercase tracking-[0.18em] text-zinc-600">

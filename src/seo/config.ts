@@ -73,10 +73,26 @@ export const seoContactCardByLang: Record<Language, PageSeo> = {
   },
 };
 
+export const seoContactByLang: Record<Language, PageSeo> = {
+  es: {
+    title: 'Contacto | CastleXpert — WhatsApp y formulario',
+    description:
+      'Contacta a CastleXpert por WhatsApp o formulario. Cotizaciones, apps a medida y arquitectura digital en Costa Rica.',
+    keywords: 'CastleXpert contacto, WhatsApp CastleXpert, cotizar app Costa Rica, formulario contacto',
+  },
+  en: {
+    title: 'Contact | CastleXpert — WhatsApp and form',
+    description:
+      'Reach CastleXpert via WhatsApp or contact form. Quotes, custom apps, and digital architecture from Costa Rica.',
+    keywords: 'CastleXpert contact, WhatsApp CastleXpert, app quote Costa Rica, contact form',
+  },
+};
+
 export function seoForPath(pathname: string, language: Language): PageSeo {
   const p = pathname.toLowerCase();
   if (p === '/mapa-del-sitio') return seoSiteMapByLang[language];
   if (p === '/acerca-de') return seoAboutByLang[language];
+  if (p === '/contacto' || p === '/contact') return seoContactByLang[language];
   if (p === '/castlexpertcard' || p === '/castlexpert-card') return seoContactCardByLang[language];
   return seoByLang[language];
 }

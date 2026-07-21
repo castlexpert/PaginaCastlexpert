@@ -50,7 +50,7 @@ export default function SiteMapPage({
               </Link>
             </li>
             <li>
-              <Link className={linkCls} to="/#contact">
+              <Link className={linkCls} to="/contacto">
                 {p.contact}
               </Link>
             </li>

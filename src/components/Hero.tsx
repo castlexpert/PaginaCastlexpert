@@ -4,10 +4,10 @@
   Facebook,
   Instagram,
   Menu,
-  CheckCircle,
   X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { AppCopy } from '../i18n';
 
 type HeroProps = {
@@ -17,13 +17,18 @@ type HeroProps = {
 
 export default function Hero({ content, onToggleLanguage }: HeroProps) {
   const [mobileDockOpen, setMobileDockOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const scrollToSection = (id: string) => {
-    if (id === 'top') {
+  const goTo = (target: string) => {
+    if (target.startsWith('/')) {
+      navigate(target);
+      return;
+    }
+    if (target === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -97,20 +102,23 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <button
-                  onClick={() => scrollToSection('contact')}
+                  type="button"
+                  onClick={() => goTo('/contacto')}
                   className="group inline-flex items-center gap-2 rounded-xl bg-[#0d4d38] px-6 py-3.5 font-semibold text-white shadow-lg shadow-[#0d4d38]/30 transition hover:bg-[#0b3f2f]"
                 >
                   {content.primaryCta}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </button>
                 <button
-                  onClick={() => scrollToSection('services')}
+                  type="button"
+                  onClick={() => goTo('services')}
                   className="rounded-xl border border-black/10 bg-[#e6ead7] px-6 py-3.5 font-semibold text-zinc-900 transition hover:bg-[#dbe1c8]"
                 >
                   {content.secondaryCta}
                 </button>
                 <button
-                  onClick={() => scrollToSection('process')}
+                  type="button"
+                  onClick={() => goTo('process')}
                   className="rounded-xl border border-black/10 bg-[#e6ead7] px-6 py-3.5 font-semibold text-zinc-900 transition hover:bg-[#dbe1c8]"
                 >
                   {content.processCta}
@@ -149,14 +157,16 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
         {content.dockItems.map((item) => (
           <button
             key={item.target}
-            onClick={() => scrollToSection(item.target)}
+            type="button"
+            onClick={() => goTo(item.target)}
             className="rounded-xl px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-white/40 hover:text-zinc-900"
           >
             {item.label}
           </button>
         ))}
         <button
-          onClick={() => scrollToSection('contact')}
+          type="button"
+          onClick={() => goTo('/contacto')}
           className="ml-2 rounded-xl bg-[#0d4d38] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#0b3f2f]"
         >
           {content.navCta}
@@ -178,9 +188,10 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
             {content.dockItems.map((item) => (
               <button
                 key={item.target}
+                type="button"
                 onClick={() => {
                   setMobileDockOpen(false);
-                  scrollToSection(item.target);
+                  goTo(item.target);
                 }}
                 className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-zinc-800 transition hover:bg-white/25"
               >
@@ -189,9 +200,10 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
               </button>
             ))}
             <button
+              type="button"
               onClick={() => {
                 setMobileDockOpen(false);
-                scrollToSection('contact');
+                goTo('/contacto');
               }}
               className="mt-2 w-full rounded-xl bg-[#0d4d38] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#0b3f2f]"
             >

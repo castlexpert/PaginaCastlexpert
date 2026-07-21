@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import SiteMapPage from './pages/SiteMapPage';
 import AboutPage from './pages/AboutPage';
 import ContactCardPage from './pages/ContactCardPage';
+import ContactPage from './pages/ContactPage';
 import { enableSiteAnalytics, trackPageView } from './lib/siteAnalytics';
 
 function isContactCardPath(pathname: string) {
@@ -73,6 +74,26 @@ function App() {
           path="/acerca-de"
           element={
             <AboutPage
+              content={content}
+              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
+        <Route
+          path="/contacto"
+          element={
+            <ContactPage
+              content={content}
+              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <ContactPage
               content={content}
               onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
