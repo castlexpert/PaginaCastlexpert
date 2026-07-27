@@ -69,7 +69,7 @@ export default function Hero({ content, onToggleLanguage }: HeroProps) {
                 <Instagram className="h-4 w-4" />
               </a>
               <a
-                href="https://www.facebook.com/castlexpert"
+                href="https://www.facebook.com/castlexpertcr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full border border-black/10 bg-white/25 p-1.5 text-zinc-700 hover:text-black transition-colors"

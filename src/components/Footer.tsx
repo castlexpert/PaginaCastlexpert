@@ -87,7 +87,7 @@ export default function Footer({ content, onOpenCookiePolicy }: FooterProps) {
             <h3 className="text-black font-semibold mb-4">{content.followUs}</h3>
             <div className="flex gap-4">
               <a
-                href="https://www.facebook.com/castlexpert"
+                href="https://www.facebook.com/castlexpertcr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur-2xl border border-black/15 flex items-center justify-center hover:bg-white/30 hover:border-black/25 transition-all group"

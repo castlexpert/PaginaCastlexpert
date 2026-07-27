@@ -34,7 +34,7 @@ function buildJsonLd(siteUrl: string, lang: Language): object {
     image: `${siteUrl}/og-image.png`,
     email: 'info@castlexpert.com',
     sameAs: [
-      'https://www.facebook.com/castlexpert',
+      'https://www.facebook.com/castlexpertcr',
       'https://www.instagram.com/castlexpert',
     ],
     address: {
