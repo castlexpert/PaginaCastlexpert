@@ -96,7 +96,7 @@ export default function ContactCardPage() {
             <p className="mt-3 text-center text-xs leading-relaxed text-zinc-500">
               Compatible con iPhone, Android y escaneo NFC. También puedes abrir{' '}
               <a href={vcfHref} className="font-semibold text-[#0d4d38] underline-offset-2 hover:underline">
-                contacto.vcf
+                castlexpertCard.vcf
               </a>{' '}
               directamente.
             </p>

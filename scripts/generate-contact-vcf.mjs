@@ -8,7 +8,8 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const logoPath = path.join(root, 'public', 'castlexpert-logo.png');
-const outPath = path.join(root, 'public', 'contacto.vcf');
+const outPublic = path.join(root, 'public', 'contacto.vcf');
+const outDist = path.join(root, 'dist', 'contacto.vcf');
 
 const siteUrl = (process.env.VITE_SITE_URL || 'https://castlexpert.com').replace(/\/$/, '');
 
@@ -49,7 +50,7 @@ const lines = [
   `ORG:${org}`,
   `EMAIL;TYPE=WORK,INTERNET:${email}`,
   `TEL;TYPE=CELL,VOICE:${tel}`,
-  `URL:${siteUrl}`,
+  `URL:${siteUrl}/castlexpertCard`,
   `item1.URL:${whatsapp}`,
   'item1.X-ABLabel:WhatsApp',
   `NOTE:CastleXpert — ${title}. Sitio: ${siteUrl}`,
@@ -58,6 +59,13 @@ const lines = [
   '',
 ];
 
-fs.writeFileSync(outPath, lines.join('\r\n'), 'utf8');
+const body = lines.join('\r\n');
+fs.writeFileSync(outPublic, body, 'utf8');
 // eslint-disable-next-line no-console
-console.log(`[vcf] wrote ${outPath} (${fs.statSync(outPath).size} bytes)`);
+console.log(`[vcf] wrote ${outPublic} (${fs.statSync(outPublic).size} bytes)`);
+
+if (fs.existsSync(path.dirname(outDist))) {
+  fs.writeFileSync(outDist, body, 'utf8');
+  // eslint-disable-next-line no-console
+  console.log(`[vcf] wrote ${outDist} (${fs.statSync(outDist).size} bytes)`);
+}

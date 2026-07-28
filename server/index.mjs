@@ -281,7 +281,7 @@ const distDir = path.resolve(__dirname, '..', 'dist');
 const indexHtml = path.join(distDir, 'index.html');
 const contactVcfPath = path.join(distDir, 'contacto.vcf');
 
-app.get('/contacto.vcf', (_req, res) => {
+function sendContactVcf(_req, res) {
   if (!fs.existsSync(contactVcfPath)) {
     res.status(404).type('text/plain').send('contacto.vcf not found');
     return;
@@ -289,7 +289,11 @@ app.get('/contacto.vcf', (_req, res) => {
   res.type('text/vcard; charset=utf-8');
   res.set('Content-Disposition', 'inline; filename="Deiby-Castillo-CastleXpert.vcf"');
   res.sendFile(contactVcfPath);
-});
+}
+
+// Debe registrarse ANTES del catch-all de la SPA (app.get('*', ...))
+app.get('/contacto.vcf', sendContactVcf);
+app.get('/castlexpertCard.vcf', sendContactVcf);
 
 if (fs.existsSync(indexHtml)) {
   app.use(

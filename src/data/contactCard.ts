@@ -12,7 +12,7 @@ export const contactCard = {
   websiteUrl: 'https://castlexpert.com',
   websiteLabel: 'castlexpert.com',
   logoPath: '/castlexpert-logo.png',
-  vcfPath: '/contacto.vcf',
+  vcfPath: '/castlexpertCard.vcf',
   vcfDownloadName: 'Deiby-Castillo-CastleXpert.vcf',
   pagePath: '/castlexpertCard',
 } as const;
