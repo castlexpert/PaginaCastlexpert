@@ -9,6 +9,8 @@
     "dev:full": "concurrently -n server,web -c green,cyan \"npm run dev:server\" \"npm run dev\"",
     "build": "node scripts/generate-missing-service-images.mjs && vite build && node scripts/generate-contact-vcf.mjs",
     "vcf:generate": "node scripts/generate-contact-vcf.mjs",
+    "demos:sync": "node scripts/sync-demo-guides.mjs",
+    "demos:inject-nav": "node scripts/sync-demo-guides.mjs --inject-only",
     "services:generate-images": "node scripts/generate-missing-service-images.mjs",
     "lint": "eslint .",
     "preview": "vite preview",

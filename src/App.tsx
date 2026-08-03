@@ -12,6 +12,7 @@ import SiteMapPage from './pages/SiteMapPage';
 import AboutPage from './pages/AboutPage';
 import ContactCardPage from './pages/ContactCardPage';
 import ContactPage from './pages/ContactPage';
+import DemoProductPage from './pages/DemoProductPage';
 import { enableSiteAnalytics, trackPageView } from './lib/siteAnalytics';
 
 function isContactCardPath(pathname: string) {
@@ -102,6 +103,39 @@ function App() {
         />
         <Route path="/castlexpertCard" element={<ContactCardPage />} />
         <Route path="/castlexpert-card" element={<ContactCardPage />} />
+        <Route
+          path="/demos/tracklogic"
+          element={
+            <DemoProductPage
+              demoId="tracklogic"
+              content={content}
+              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
+        <Route
+          path="/demos/foodly"
+          element={
+            <DemoProductPage
+              demoId="foodly"
+              content={content}
+              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
+        <Route
+          path="/demos/cmms"
+          element={
+            <DemoProductPage
+              demoId="cmms"
+              content={content}
+              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
       </Routes>
       {!contactCardOnly && (
         <>

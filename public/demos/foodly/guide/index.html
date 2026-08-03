@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Foodly · Guía de uso demo</title>
+  <meta name="description" content="Guía promocional de Foodly: Foodly Cliente, Foodly Manager, foodly-rest (cocina y delivery)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.7rem 1rem;
+    background: rgba(13, 77, 56, 0.96);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.92rem;
+    border-radius: 10px; padding: 0.45rem 0.85rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/foodly">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+<nav class="site-nav" aria-label="Navegación de la guía">
+    <a class="site-nav__brand" href="#inicio">Food<span>ly</span></a>
+    <ul class="site-nav__links">
+      <li><a href="#ecosistema">Ecosistema</a></li>
+      <li><a href="#pwa">Cliente</a></li>
+      <li><a href="#cloud">Manager</a></li>
+      <li><a href="#app">foodly-rest</a></li>
+      <li><a href="#demo">Flujo demo</a></li>
+      <li><a href="#tips">Tips</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero" id="inicio">
+    <div class="hero__media" aria-hidden="true">
+      <img src="img/foodly-hero.png" alt="" />
+    </div>
+    <div class="hero__veil" aria-hidden="true"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">Guía de uso · Demo completa</p>
+      <h1>Food<em>ly</em></h1>
+      <p class="hero__tagline">Tu restaurante, donde quieras. Recorre en minutos cómo el cliente pide, la cocina cocina y el admin controla todo.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href="https://wa.me/50685070818?text=Hola%2C%20quiero%20solicitar%20una%20demo%20de%20Foodly" target="_blank" rel="noopener">Solicitar demo</a>
+        <a class="btn btn--ghost" href="#demo">Ver flujo demo</a>
+        <a class="btn btn--ghost" href="https://foodly.castlexpert.com" target="_blank" rel="noopener">Abrir Foodly Cliente</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="ecosistema">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Tres productos · una plataforma</p>
+          <h2>El ecosistema Foodly</h2>
+          <p>Una sola plataforma multi-tenant: cada restaurante (compañía) tiene su menú, personal y clientes aislados. Ideal para demos con la compañía <code>foodly_demo</code>.</p>
+        </div>
+
+        <div class="eco-grid">
+          <article class="eco-card">
+            <div class="eco-card__icon" aria-hidden="true">C</div>
+            <h3>Foodly Cliente</h3>
+            <p>App web de pedidos para el cliente final. Instalable como PWA en el celular.</p>
+            <div class="eco-card__meta">
+              <span class="chip">Celular</span>
+              <span class="chip">foodly.castlexpert.com</span>
+            </div>
+          </article>
+          <article class="eco-card">
+            <div class="eco-card__icon" aria-hidden="true">M</div>
+            <h3>Foodly Manager</h3>
+            <p>Panel web de administración. El dueño configura menú, personal, marca y ve analytics.</p>
+            <div class="eco-card__meta">
+              <span class="chip">Computadora</span>
+              <span class="chip">foodly-manager.castlexpert.com</span>
+            </div>
+          </article>
+          <article class="eco-card">
+            <div class="eco-card__icon" aria-hidden="true">R</div>
+            <h3>foodly-rest</h3>
+            <p>App Android del personal: modo cocina/caja (tablet) y modo delivery (celular). APK: <code>foodly-rest.apk</code>.</p>
+            <div class="eco-card__meta">
+              <span class="chip">Tablet · cocina</span>
+              <span class="chip">Celular · delivery</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="gallery" style="margin-top: 2.5rem" aria-label="Miniaturas de las aplicaciones">
+          <figure>
+            <a href="#pwa">
+              <img src="img/ff-pwa-mobile.png" alt="Miniatura Foodly Cliente en celular" />
+              <figcaption>Foodly Cliente <small>foodly.castlexpert.com</small></figcaption>
+            </a>
+          </figure>
+          <figure>
+            <a href="#cloud">
+              <img src="img/ff-cloud-desktop.png" alt="Miniatura Foodly Manager Analytics en escritorio" />
+              <figcaption>Foodly Manager <small>foodly-manager.castlexpert.com</small></figcaption>
+            </a>
+          </figure>
+          <figure>
+            <a href="#app-cocina">
+              <img src="img/ff-app-kitchen-tablet.png" alt="Miniatura foodly-rest modo cocina en tablet" />
+              <figcaption>foodly-rest · cocina <small>Vista tablet</small></figcaption>
+            </a>
+          </figure>
+          <figure>
+            <a href="#app-delivery">
+              <img src="img/ff-app-delivery-mobile.png" alt="Miniatura foodly-rest modo delivery en celular" />
+              <figcaption>foodly-rest · delivery <small>Vista celular</small></figcaption>
+            </a>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="pwa">
+      <div class="wrap">
+        <div class="showcase">
+          <div class="showcase__copy">
+            <p class="kicker">Foodly Cliente</p>
+            <h3>Pedidos desde el celular</h3>
+            <p>El cliente elige compañía y sucursal, arma el carrito (retiro o domicilio) y confirma. El login es ligero (Google o correo sin contraseña). El pago es siempre en persona: efectivo, tarjeta o SINPE.</p>
+            <ul>
+              <li><strong>Elegir restaurante</strong> — lista de compañías activas (nunca texto libre).</li>
+              <li><strong>Menú &amp; carrito</strong> — categorías, adicionales, ofertas y GPS/dirección.</li>
+              <li><strong>Mis pedidos</strong> — timeline en vivo: recibido → preparación → listo → en camino → entregado.</li>
+              <li><strong>Temas</strong> — cada compañía elige entre 5 plantillas de color.</li>
+            </ul>
+            <div class="links-strip">
+              <strong>Acceso:</strong>
+              <a href="https://foodly.castlexpert.com" target="_blank" rel="noopener">foodly.castlexpert.com</a>
+            </div>
+          </div>
+          <div class="showcase__visual">
+            <p class="device-label">Miniatura · tamaño celular</p>
+            <div class="phone-frame">
+              <div class="phone-frame__screen">
+                <img src="img/ff-pwa-mobile.png" alt="Pantalla de menú Foodly Cliente en teléfono" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cloud">
+      <div class="wrap">
+        <div class="showcase showcase--flip">
+          <div class="showcase__copy">
+            <p class="kicker">Foodly Manager</p>
+            <h3>Panel del dueño en la computadora</h3>
+            <p>Desde el navegador el restaurante configura su marca, menú y personal, y mide el canal digital con <strong>Analytics PWA</strong>: visitas, conversión a carrito, abandonos, dispositivos y rendimiento por local.</p>
+            <ul>
+              <li><strong>Analytics PWA</strong> — KPIs de visitas, carrito, abandono y % de conversión.</li>
+              <li><strong>Visitas por día &amp; funnel</strong> — barras apiladas y donut de conversión al carrito.</li>
+              <li><strong>Por dispositivo / restaurante</strong> — iPhone, Android, Windows y tabla por sucursal.</li>
+              <li><strong>Menú, personal y marca</strong> — catálogo, roles (cocina, caja, repartidor) y tema de color.</li>
+            </ul>
+            <div class="links-strip">
+              <strong>Acceso:</strong>
+              <a href="https://foodly-manager.castlexpert.com" target="_blank" rel="noopener">foodly-manager.castlexpert.com</a>
+            </div>
+          </div>
+          <div class="showcase__visual">
+            <p class="device-label">Miniatura · Analytics en computadora</p>
+            <div class="desktop-frame">
+              <div class="desktop-frame__bezel">
+                <div class="desktop-frame__bar" aria-hidden="true"><span></span><span></span><span></span></div>
+                <div class="desktop-frame__screen">
+                  <img src="img/ff-cloud-desktop.png" alt="Analytics PWA de Foodly Manager en escritorio" />
+                </div>
+              </div>
+              <div class="desktop-frame__stand" aria-hidden="true"></div>
+              <div class="desktop-frame__base" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="app">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">App del personal · APK</p>
+          <h2>foodly-rest</h2>
+          <p>Una sola app Android (<code>foodly-rest.apk</code>) para cocina/caja y delivery. El rol define la experiencia: tablet en cocina o celular en delivery. Flujo: compañía → restaurante → personal (rol) → órdenes en tiempo real.</p>
+        </div>
+
+        <div class="links-strip" style="margin-bottom: 2rem">
+          <strong>Instalación:</strong>
+          <code>foodly-rest.apk</code>
+          <span style="color: var(--ink-soft); font-size: 0.9rem">· modos cocina y delivery</span>
+        </div>
+
+        <div class="showcase" id="app-cocina" style="margin-bottom: 3.5rem">
+          <div class="showcase__copy">
+            <p class="kicker">foodly-rest · modo cocina / caja</p>
+            <h3>Tablero de órdenes en tablet</h3>
+            <p>Pensado para pantalla ancha (≥720px en dos columnas). La cocina avanza pedidos con un toque y escucha un beep al llegar uno nuevo.</p>
+            <ul>
+              <li><strong>Pendientes</strong> (naranja) — SOLICITADO / PROCESO.</li>
+              <li><strong>Listos</strong> (verde) — ORDENADA, listos para retiro o envío.</li>
+              <li>Contadores del día, reloj y pantalla siempre activa.</li>
+            </ul>
+          </div>
+          <div class="showcase__visual">
+            <p class="device-label">Miniatura · tamaño tablet</p>
+            <div class="tablet-frame">
+              <div class="tablet-frame__screen">
+                <img src="img/ff-app-kitchen-tablet.png" alt="Tablero foodly-rest modo cocina en tablet" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase showcase--flip" id="app-delivery">
+          <div class="showcase__copy">
+            <p class="kicker">foodly-rest · modo delivery</p>
+            <h3>Repartidor en el celular</h3>
+            <p>Lista vertical de pedidos listos y en camino. El repartidor navega, contacta al cliente y confirma el pago al entregar.</p>
+            <ul>
+              <li><strong>Espera envío</strong> — pedidos ORDENADA a domicilio.</li>
+              <li><strong>En camino</strong> — asignados al repartidor.</li>
+              <li>Atajos a <strong>WhatsApp</strong>, <strong>Google Maps</strong> y <strong>Waze</strong>; GPS del repartidor.</li>
+            </ul>
+          </div>
+          <div class="showcase__visual">
+            <p class="device-label">Miniatura · tamaño celular</p>
+            <div class="phone-frame">
+              <div class="phone-frame__screen">
+                <img src="img/ff-app-delivery-mobile.png" alt="App foodly-rest modo delivery en teléfono" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo">
+      <div class="wrap">
+        <div class="flow-band">
+          <div class="section-head">
+            <p class="kicker">Guión recomendado</p>
+            <h2>Flujo demo de punta a punta</h2>
+            <p>Usa este orden al presentar Foodly: primero configuras, luego el cliente pide, y el personal cierra el ciclo en vivo.</p>
+          </div>
+          <div class="flow-steps">
+            <article class="flow-step">
+              <h3>Manager configura</h3>
+              <ol>
+                <li>Entra a <a href="https://foodly-manager.castlexpert.com" target="_blank" rel="noopener" style="color:#fde68a">foodly-manager.castlexpert.com</a>.</li>
+                <li>Revisa <strong>Mi compañía</strong>: logo y tema.</li>
+                <li>Asegura <strong>Restaurantes</strong>, <strong>Menú</strong> y <strong>Ofertas</strong>.</li>
+                <li>Verifica <strong>Personal</strong> y muestra <strong>Analytics PWA</strong>.</li>
+              </ol>
+            </article>
+            <article class="flow-step">
+              <h3>Cliente pide</h3>
+              <ol>
+                <li>Abre <a href="https://foodly.castlexpert.com" target="_blank" rel="noopener" style="color:#fde68a">foodly.castlexpert.com</a>.</li>
+                <li>Selecciona sucursal → arma el carrito.</li>
+                <li>Elige retiro o domicilio; confirma con Google/correo.</li>
+                <li>Muestra <strong>Mis pedidos</strong> y el timeline en vivo.</li>
+              </ol>
+            </article>
+            <article class="flow-step">
+              <h3>Personal atiende</h3>
+              <ol>
+                <li>Instala <code>foodly-rest.apk</code> → compañía → local → rol Cocina (tablet).</li>
+                <li>Avanza: solicitado → proceso → listo (beep).</li>
+                <li>Cambia a rol Delivery (celular) si es domicilio.</li>
+                <li>Maps/WhatsApp → entregar → confirmar pago.</li>
+              </ol>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tips">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">Para una demo impecable</p>
+          <h2>Tips y checklist</h2>
+          <p>Detalles prácticos para que la demo fluya sin sorpresas.</p>
+        </div>
+        <div class="tips-grid tips-grid--3">
+          <div class="tip-panel">
+            <h3>Antes de presentar</h3>
+            <ul>
+              <li>Ten abiertos: Foodly Manager (PC), Foodly Cliente (celular) y <code>foodly-rest</code> (tablet + celular).</li>
+              <li>Usa la compañía <code>foodly_demo</code> si estás como superadmin.</li>
+              <li>Confirma que el menú tenga fotos y al menos un producto con adicionales.</li>
+              <li>Asigna personal con roles Cocina y Delivery en la misma sucursal.</li>
+            </ul>
+          </div>
+          <div class="tip-panel">
+            <h3>Qué resaltar</h3>
+            <ul>
+              <li><strong>Multi-tenant</strong>: cada restaurante con su marca y tema.</li>
+              <li><strong>Tiempo real</strong>: el pedido aparece en cocina al instante.</li>
+              <li><strong>Pago presencial</strong>: sin fricción de pasarela en la demo.</li>
+              <li><strong>Foodly Cliente</strong> + <strong>foodly-rest.apk</strong> de operación.</li>
+              <li><strong>Analytics PWA</strong>: visitas vs. conversión a carrito.</li>
+            </ul>
+          </div>
+          <div class="tip-panel">
+            <h3>Accesos y dispositivos</h3>
+            <ul>
+              <li><strong>Foodly Cliente</strong> → <a href="https://foodly.castlexpert.com" target="_blank" rel="noopener">foodly.castlexpert.com</a> (celular).</li>
+              <li><strong>Foodly Manager</strong> → <a href="https://foodly-manager.castlexpert.com" target="_blank" rel="noopener">foodly-manager.castlexpert.com</a> (PC).</li>
+              <li><strong>foodly-rest</strong> cocina → tablet + <code>foodly-rest.apk</code>.</li>
+              <li><strong>foodly-rest</strong> delivery → celular + mismo APK.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto">
+      <div class="wrap">
+        <div class="contact-band">
+          <div class="section-head">
+            <p class="kicker">Castlexpert</p>
+            <h2>Solicita tu demo de Foodly</h2>
+            <p>¿Listo para probarlo en tu restaurante? Escríbenos o agenda por WhatsApp. Foodly es un producto de <a href="https://www.castlexpert.com" target="_blank" rel="noopener">castlexpert.com</a>.</p>
+          </div>
+          <div class="contact-grid">
+            <a class="contact-card" href="https://www.castlexpert.com" target="_blank" rel="noopener">
+              <span class="contact-card__label">Página web</span>
+              <strong>www.castlexpert.com</strong>
+            </a>
+            <a class="contact-card" href="mailto:info@castlexpert.com">
+              <span class="contact-card__label">Correo</span>
+              <strong>info@castlexpert.com</strong>
+            </a>
+            <a class="contact-card contact-card--wa" href="https://wa.me/50685070818?text=Hola%2C%20quiero%20solicitar%20una%20demo%20de%20Foodly" target="_blank" rel="noopener">
+              <span class="contact-card__label">WhatsApp · solicitar demo</span>
+              <strong>+506 8507 0818</strong>
+            </a>
+          </div>
+          <p class="contact-by">
+            <a href="https://www.castlexpert.com" target="_blank" rel="noopener">By castlexpert.com</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <strong>Food<span>ly</span></strong>
+    <p>Guía de uso demo · Cliente · Manager · foodly-rest</p>
+    <p>Tu restaurante, donde quieras.</p>
+    <div class="site-footer__contacts">
+      <a href="https://www.castlexpert.com" target="_blank" rel="noopener">www.castlexpert.com</a>
+      <a href="mailto:info@castlexpert.com">info@castlexpert.com</a>
+      <a href="https://wa.me/50685070818" target="_blank" rel="noopener">WhatsApp +506 8507 0818</a>
+    </div>
+    <p class="site-footer__by">
+      <a href="https://www.castlexpert.com" target="_blank" rel="noopener">By castlexpert.com</a>
+    </p>
+  </footer>
+</body>
+</html>

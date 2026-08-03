@@ -35,13 +35,38 @@ export default function SiteMapPage({
               </Link>
             </li>
             <li>
-              <Link className={linkCls} to="/#services">
+              <Link className={linkCls} to="/#process">
+                {p.process}
+              </Link>
+            </li>
+            <li>
+              <Link className={linkCls} to="/#demos">
+                Demos funcionales
+              </Link>
+            </li>
+            <li>
+              <Link className={linkCls} to="/demos/tracklogic">
+                Demo TrackLogic
+              </Link>
+            </li>
+            <li>
+              <Link className={linkCls} to="/demos/foodly">
+                Demo Foodly
+              </Link>
+            </li>
+            <li>
+              <Link className={linkCls} to="/demos/cmms">
+                Demo CMMS
+              </Link>
+            </li>
+            <li>
+              <Link className={linkCls} to="/#solutions">
                 {p.services}
               </Link>
             </li>
             <li>
-              <Link className={linkCls} to="/#process">
-                {p.process}
+              <Link className={linkCls} to="/#services">
+                Servicios
               </Link>
             </li>
             <li>

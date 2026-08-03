@@ -2,6 +2,7 @@ import Hero from '../components/Hero';
 import TrustBar from '../components/TrustBar';
 import Services from '../components/Services';
 import HowItWorks from '../components/HowItWorks';
+import FunctionalDemosSection from '../components/FunctionalDemosSection';
 import Benefits from '../components/Benefits';
 import Footer from '../components/Footer';
 import type { AppCopy } from '../i18n';
@@ -16,9 +17,11 @@ export default function HomePage({ content, onToggleLanguage, onOpenCookiePolicy
   return (
     <main id="contenido-principal">
       <Hero content={content.hero} onToggleLanguage={onToggleLanguage} />
-      <TrustBar content={content.hero} />
       <HowItWorks content={content.process} />
-      <Services content={content.services} />
+      <TrustBar content={content.hero} />
+      <FunctionalDemosSection content={content.functionalDemos} />
+      <Services content={content.services} variant="solutions" />
+      <Services content={content.services} variant="main" />
       <Benefits content={content.benefits} />
       <Footer content={content.footer} onOpenCookiePolicy={onOpenCookiePolicy} />
     </main>

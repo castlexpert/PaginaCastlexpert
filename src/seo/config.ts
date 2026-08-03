@@ -88,12 +88,59 @@ export const seoContactByLang: Record<Language, PageSeo> = {
   },
 };
 
+const seoDemoById: Record<string, Record<Language, PageSeo>> = {
+  tracklogic: {
+    es: {
+      title: 'Demo TrackLogic | CastleXpert',
+      description:
+        'Demo funcional TrackLogic: Tracklogistic Manager, Tracklogistic y Tracklogistic Logic para paquetería EE.UU. → Costa Rica.',
+      keywords: 'TrackLogic, Tracklogistic, Tracklogistic Manager, Tracklogistic Logic, demo paquetería, CastleXpert, Costa Rica',
+    },
+    en: {
+      title: 'TrackLogic Demo | CastleXpert',
+      description:
+        'Functional TrackLogic demo: Tracklogistic Manager, Tracklogistic, and Tracklogistic Logic for US → Costa Rica parcel tracking.',
+      keywords: 'TrackLogic, Tracklogistic, Tracklogistic Manager, Tracklogistic Logic, parcel tracking demo, CastleXpert, Costa Rica',
+    },
+  },
+  foodly: {
+    es: {
+      title: 'Demo Foodly | CastleXpert',
+      description:
+        'Demo Foodly: ecosistema de restaurante con Foodly, Foodly Manager y APK Foodly-rest para cocina y delivery.',
+      keywords: 'Foodly, Foodly Manager, Foodly-rest, demo restaurante, CastleXpert, Costa Rica',
+    },
+    en: {
+      title: 'Foodly Demo | CastleXpert',
+      description:
+        'Foodly demo: restaurant ecosystem with Foodly, Foodly Manager, and Foodly-rest APK for kitchen and delivery.',
+      keywords: 'Foodly, Foodly Manager, Foodly-rest, restaurant demo, CastleXpert, Costa Rica',
+    },
+  },
+  cmms: {
+    es: {
+      title: 'Demo CMMS MANTE Preventivo | CastleXpert',
+      description:
+        'Demo CMMS CastleXpert: mantenimiento preventivo con Web Manager, técnicos, QR y WhatsApp.',
+      keywords: 'CMMS, MANTE Preventivo, mantenimiento preventivo, CastleXpert, Costa Rica',
+    },
+    en: {
+      title: 'CMMS MANTE Preventive Demo | CastleXpert',
+      description:
+        'CastleXpert CMMS demo: preventive maintenance with Web Manager, techs, QR, and WhatsApp.',
+      keywords: 'CMMS, MANTE Preventive, maintenance demo, CastleXpert, Costa Rica',
+    },
+  },
+};
+
 export function seoForPath(pathname: string, language: Language): PageSeo {
   const p = pathname.toLowerCase();
   if (p === '/mapa-del-sitio') return seoSiteMapByLang[language];
   if (p === '/acerca-de') return seoAboutByLang[language];
   if (p === '/contacto' || p === '/contact') return seoContactByLang[language];
   if (p === '/castlexpertcard' || p === '/castlexpert-card') return seoContactCardByLang[language];
+  const demoMatch = p.match(/^\/demos\/(tracklogic|foodly|cmms)\/?$/);
+  if (demoMatch) return seoDemoById[demoMatch[1]][language];
   return seoByLang[language];
 }
 

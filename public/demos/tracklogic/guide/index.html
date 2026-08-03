@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Track Logistic — Guía de uso</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/tracklogic">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="wrap">
+    <header class="site-header">
+      <div class="brand-mark">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Track Logistic</span>
+      </div>
+      <h1>Guía de uso general</h1>
+      <p class="lede">
+        Track Logistic ayuda a mover paquetería desde Estados Unidos hasta Costa Rica.
+        Son tres aplicaciones que trabajan juntas: una para la oficina, una para el cliente
+        y otra para el equipo de ruta y bodega. Aquí te contamos, con calma, qué hace cada una
+        y cómo se usa día a día.
+      </p>
+      <p class="byline">Plataforma <strong>by castlexpert.com</strong> · Varias compañías en una misma plataforma</p>
+    </header>
+
+    <nav aria-label="Contenido">
+      <ul class="toc">
+        <li><a href="#resumen">Resumen</a></li>
+        <li><a href="#registro">Cómo empezar</a></li>
+        <li><a href="#manager">Tracklogistic Manager</a></li>
+        <li><a href="#clientes">Tracklogistic</a></li>
+        <li><a href="#repartidores">Tracklogistic Logic</a></li>
+        <li><a href="#flujo">Flujo completo</a></li>
+      </ul>
+    </nav>
+
+    <section id="resumen">
+      <div class="section-head">
+        <p class="eyebrow">Visión general</p>
+        <h2>Tres aplicaciones, un mismo negocio</h2>
+        <p>
+          Cada compañía maneja sus propios clientes, paquetes, precios y equipo.
+          Al entrar, siempre se elige primero la <strong>compañía</strong> con la que se va a trabajar.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="tag">Escritorio</span>
+          <h3>Tracklogistic Manager</h3>
+          <p>
+            La herramienta de la oficina: resumen del día, mapa de clientes, bodega, paquetes,
+            precios y usuarios.
+            Acceso:
+            <a href="https://tracklogistic-manager.castlexpert.com" target="_blank" rel="noopener">tracklogistic-manager.castlexpert.com</a>
+          </p>
+        </div>
+        <div class="card">
+          <span class="tag mustard">Celular</span>
+          <h3>Tracklogistic</h3>
+          <p>
+            La app del cliente: se registra, obtiene su código, avisa paquetes en camino,
+            consulta el estado y recibe avisos.
+            Acceso:
+            <a href="https://tracklogistic.castlexpert.com" target="_blank" rel="noopener">tracklogistic.castlexpert.com</a>
+          </p>
+        </div>
+        <div class="card">
+          <span class="tag mustard">Celular</span>
+          <h3>Tracklogistic Logic</h3>
+          <p>
+            Para bodega y repartidores: reciben paquetes, pesan, calculan cobro y marcan
+            entregas en ruta.
+            Acceso:
+            <a href="https://tracklogistic-logic.castlexpert.com" target="_blank" rel="noopener">tracklogistic-logic.castlexpert.com</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="registro">
+      <div class="section-head">
+        <p class="eyebrow">Primeros pasos</p>
+        <h2>Cómo empezar: usuarios y acceso</h2>
+        <p>
+          En las tres aplicaciones primero se elige la <strong>compañía</strong>,
+          luego el correo y la contraseña. Los clientes también pueden crear su cuenta solos
+          desde Tracklogistic.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Quién crea a quién</h3>
+        <table class="roles">
+          <thead>
+            <tr>
+              <th>Quién</th>
+              <th>Cómo se crea</th>
+              <th>Dónde entra</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Administrador de CastleXpert</strong></td>
+              <td>El equipo de castlexpert.com crea las compañías en la plataforma</td>
+              <td>
+                Tracklogistic Manager<br>
+                <a href="https://tracklogistic-manager.castlexpert.com" target="_blank" rel="noopener">tracklogistic-manager.castlexpert.com</a>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Administrador de la compañía</strong></td>
+              <td>Al crear la compañía, o desde Usuarios dentro del Manager</td>
+              <td>
+                Tracklogistic Manager<br>
+                <a href="https://tracklogistic-manager.castlexpert.com" target="_blank" rel="noopener">tracklogistic-manager.castlexpert.com</a>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Asesor, bodega o repartidor</strong></td>
+              <td>El administrador de la compañía los crea en Usuarios</td>
+              <td>
+                Tracklogistic Manager y/o Tracklogistic Logic<br>
+                <a href="https://tracklogistic-logic.castlexpert.com" target="_blank" rel="noopener">tracklogistic-logic.castlexpert.com</a>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Cliente</strong></td>
+              <td>Se registra solo en Tracklogistic, o lo carga el equipo desde Clientes</td>
+              <td>
+                Tracklogistic<br>
+                <a href="https://tracklogistic.castlexpert.com" target="_blank" rel="noopener">tracklogistic.castlexpert.com</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Registro de un cliente</h3>
+          <ul class="steps">
+            <li>Abrir <strong>Tracklogistic</strong> en
+              <a href="https://tracklogistic.castlexpert.com" target="_blank" rel="noopener">tracklogistic.castlexpert.com</a>
+              y tocar <em>Registrarme</em>.</li>
+            <li>Elegir la <strong>compañía</strong> correcta.</li>
+            <li>Completar nombre, correo, WhatsApp, contraseña y ubicación.</li>
+            <li>Si quiere, puede elegir un asesor de esa compañía.</li>
+            <li>Al guardar, recibe un <strong>código de cliente</strong> (por ejemplo <code>TL0001</code>)
+              para marcar sus paquetes.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Crear personal del equipo</h3>
+          <ul class="steps">
+            <li>Entrar a <strong>Tracklogistic Manager</strong> en
+              <a href="https://tracklogistic-manager.castlexpert.com" target="_blank" rel="noopener">tracklogistic-manager.castlexpert.com</a>.</li>
+            <li>Ir a <strong>Usuarios</strong> y crear a la persona.</li>
+            <li>Asignar el rol: Asesor, Bodega, Repartidor, etc.</li>
+            <li>Confirmar que pertenece a la compañía correcta.</li>
+            <li>Compartir correo y contraseña; al entrar eligen la misma compañía.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="manager">
+      <div class="section-head">
+        <p class="eyebrow">Aplicación 1 · Escritorio</p>
+        <h2>Tracklogistic Manager</h2>
+        <p>
+          Es el centro de control para administradores y asesores.
+          Se usa en computadora desde
+          <a href="https://tracklogistic-manager.castlexpert.com" target="_blank" rel="noopener">tracklogistic-manager.castlexpert.com</a>.
+          Desde ahí se ve el día a día, el mapa de clientes, la bodega, los paquetes y los precios.
+        </p>
+      </div>
+
+      <div class="mocks">
+        <div>
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="browser-dots"><i></i><i></i><i></i></div>
+              <div class="browser-url">tracklogistic-manager.castlexpert.com</div>
+            </div>
+            <div class="browser-body">
+              <div class="form-mock" style="width:100%">
+                <div class="app-title">Track Logistic</div>
+                <div class="app-sub">Panel de gestión</div>
+                <div class="field"><span class="lbl">Compañía</span>Track Demo ▾</div>
+                <div class="field"><span class="lbl">Correo</span>admin@ejemplo.com</div>
+                <div class="field"><span class="lbl">Contraseña</span>••••••••</div>
+                <div class="btn-primary">Ingresar</div>
+                <div class="castlexpert">by castlexpert.com</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Ingreso</strong> Primero se elige la compañía, luego el correo y la clave.</p>
+        </div>
+
+        <div>
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="browser-dots"><i></i><i></i><i></i></div>
+              <div class="browser-url">tracklogistic-manager.castlexpert.com</div>
+            </div>
+            <div class="browser-body" style="display:flex;gap:0;padding:0;min-height:210px">
+              <div class="side-nav">
+                <div class="brand-sm">Track · Demo</div>
+                <div class="nav-item active">Resumen</div>
+                <div class="nav-item">Mapa</div>
+                <div class="nav-item">Bodega</div>
+                <div class="nav-item">Paquetes</div>
+                <div class="nav-item">Clientes</div>
+                <div class="nav-item">Precios</div>
+                <div class="nav-item">Usuarios</div>
+              </div>
+              <div class="dash">
+                <h4>Resumen del día</h4>
+                <p class="muted">Compañía: demo</p>
+                <div class="kpi-row">
+                  <div class="kpi"><b>12</b><span>En bodega</span></div>
+                  <div class="kpi"><b>5</b><span>En camino</span></div>
+                  <div class="kpi"><b>28</b><span>Entregados</span></div>
+                </div>
+                <table class="mini">
+                  <tr><th>Tracking</th><th>Estado</th><th>$</th></tr>
+                  <tr><td>1Z999…</td><td>Bodega</td><td>21.00</td></tr>
+                  <tr><td>9400…</td><td>Camino</td><td>14.00</td></tr>
+                  <tr><td>420…</td><td>Entregado</td><td>35.00</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Resumen</strong> Una vista rápida de lo recibido, en ruta y entregado.</p>
+        </div>
+
+        <div>
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="browser-dots"><i></i><i></i><i></i></div>
+              <div class="browser-url">tracklogistic-manager.castlexpert.com</div>
+            </div>
+            <div class="browser-body" style="display:flex;gap:0;padding:0;min-height:190px">
+              <div class="side-nav">
+                <div class="brand-sm">Track · Demo</div>
+                <div class="nav-item">Resumen</div>
+                <div class="nav-item active">Mapa</div>
+                <div class="nav-item">Bodega</div>
+                <div class="nav-item">Paquetes</div>
+              </div>
+              <div class="dash">
+                <h4>Clientes en mapa</h4>
+                <div class="map-fake"></div>
+                <p style="font-size:0.6rem;color:var(--muted);margin:8px 0 0">Cada punto es la ubicación que el cliente compartió al registrarse.</p>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Mapa</strong> Útil para planear entregas cerca de cada cliente.</p>
+        </div>
+
+        <div>
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="browser-dots"><i></i><i></i><i></i></div>
+              <div class="browser-url">tracklogistic-manager.castlexpert.com</div>
+            </div>
+            <div class="browser-body" style="display:flex;gap:0;padding:0;min-height:200px">
+              <div class="side-nav">
+                <div class="brand-sm">Track · Demo</div>
+                <div class="nav-item">Resumen</div>
+                <div class="nav-item">Mapa</div>
+                <div class="nav-item">Bodega</div>
+                <div class="nav-item active">Paquetes</div>
+                <div class="nav-item">Precios</div>
+              </div>
+              <div class="dash">
+                <h4>Paquetes</h4>
+                <div class="search">Buscar tracking / TL…</div>
+                <table class="mini">
+                  <tr><th>Tracking</th><th>Cliente</th><th>Acción</th></tr>
+                  <tr><td>1Z888…</td><td>TL0001</td><td>—</td></tr>
+                  <tr><td>9401…</td><td><em>Sin asignar</em></td><td>Asignar</td></tr>
+                  <tr><td>4209…</td><td>TL0003</td><td>—</td></tr>
+                </table>
+                <p style="font-size:0.58rem;color:var(--muted);margin:8px 0 0">
+                  En Precios se define cuánto cobra la compañía por libra. Ese valor se usa al recibir en bodega.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Paquetes</strong> Buscar, revisar y asignar cliente si hace falta.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Qué puedes hacer en Tracklogistic Manager</h3>
+        <ul class="steps">
+          <li><strong>Resumen</strong> — ver de un vistazo lo recibido, en camino y entregado.</li>
+          <li><strong>Mapa de clientes</strong> — ubicar a quienes se registraron en Tracklogistic.</li>
+          <li><strong>Bodega</strong> — listar paquetes recibidos o por despachar.</li>
+          <li><strong>Paquetes</strong> — buscar por tracking o código de cliente; asignar si quedó pendiente.</li>
+          <li><strong>Clientes</strong> — ver ficha, código (por ejemplo TL0001) y datos de contacto.</li>
+          <li><strong>Precios</strong> — definir el precio por libra de la compañía.</li>
+          <li><strong>Usuarios</strong> — dar de alta al personal (administrador, asesor, bodega, repartidor).</li>
+          <li><strong>Compañías</strong> — el administrador de castlexpert.com crea y administra las compañías.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="clientes">
+      <div class="section-head">
+        <p class="eyebrow">Aplicación 2 · Celular</p>
+        <h2>Tracklogistic</h2>
+        <p>
+          Es la aplicación del cliente final, pensada para el teléfono.
+          Se abre en
+          <a href="https://tracklogistic.castlexpert.com" target="_blank" rel="noopener">tracklogistic.castlexpert.com</a>.
+          Ahí el cliente se registra, guarda su código, avisa paquetes y sigue el estado.
+        </p>
+      </div>
+
+      <div class="mocks">
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="form-mock" style="flex:1;min-height:0">
+                <div class="app-title">Mis paquetes</div>
+                <div class="app-sub">Track Logistic · Clientes</div>
+                <div class="field"><span class="lbl">Compañía</span>Track Demo ▾</div>
+                <div class="field"><span class="lbl">Correo</span>cliente@ejemplo.com</div>
+                <div class="field"><span class="lbl">Contraseña</span>••••••••</div>
+                <div class="btn-primary">Entrar</div>
+                <div class="linkish">¿No tienes cuenta? Registrarme</div>
+                <div class="castlexpert">by castlexpert.com</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Ingreso</strong> Compañía + correo y contraseña.</p>
+        </div>
+
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="phone-appbar"><span>Crear cuenta</span></div>
+              <div class="phone-content">
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Compañía</span>Track Demo ▾</div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Nombre</span>María Pérez</div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">WhatsApp</span>+506 8888-0000</div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Ubicación</span>Ubicación activa ✓</div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Asesor</span>Asesor Demo ▾</div>
+                <div class="btn-primary">Registrarme</div>
+                <div class="castlexpert">by castlexpert.com</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Registro</strong> Datos básicos, ubicación y asesor opcional.</p>
+        </div>
+
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="phone-appbar">
+                <span>Paquetes</span>
+                <span class="sub">TL0001</span>
+              </div>
+              <div class="phone-content">
+                <div class="search">Buscar tracking…</div>
+                <div class="pkg-card">
+                  <div class="trk">1Z999AA10123456784</div>
+                  <div class="meta">En bodega · 3.2 lb · $28.00</div>
+                </div>
+                <div class="pkg-card">
+                  <div class="trk">9400111899223344556677</div>
+                  <div class="meta">En camino · $14.00</div>
+                </div>
+                <div class="pkg-card">
+                  <div class="trk">42033101940000123456</div>
+                  <div class="meta">Entregado</div>
+                </div>
+              </div>
+              <div class="phone-bottom">
+                <div class="tab active"><span class="ico">⌂</span>Paquetes</div>
+                <div class="tab"><span class="ico">＋</span>Prealertar</div>
+                <div class="tab"><span class="ico">☺</span>Perfil</div>
+                <div class="tab"><span class="ico">🔔</span>Avisos</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Inicio</strong> Lista y búsqueda de paquetes.</p>
+        </div>
+
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="phone-appbar"><span>Prealertar</span></div>
+              <div class="phone-content">
+                <p style="font-size:0.65rem;color:var(--muted);margin:0 0 8px">
+                  Avisa el número de seguimiento antes de que el paquete llegue a bodega.
+                </p>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Nº de tracking</span>1Z…</div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Descripción (opcional)</span>Zapatos Nike</div>
+                <div class="btn-primary">Enviar prealerta</div>
+              </div>
+              <div class="phone-bottom">
+                <div class="tab"><span class="ico">⌂</span>Paquetes</div>
+                <div class="tab active"><span class="ico">＋</span>Prealertar</div>
+                <div class="tab"><span class="ico">☺</span>Perfil</div>
+                <div class="tab"><span class="ico">🔔</span>Avisos</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Prealerta</strong> El cliente avisa el tracking esperado.</p>
+        </div>
+
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="phone-appbar"><span>Mi perfil</span></div>
+              <div class="phone-content">
+                <div class="code-box">
+                  <div class="lbl">Tu código de cliente</div>
+                  <div class="code">TL0001</div>
+                </div>
+                <p style="font-size:0.7rem;margin:10px 0 4px;font-weight:600">María Pérez</p>
+                <p style="font-size:0.62rem;color:var(--muted);margin:0">
+                  cliente@ejemplo.com<br>WhatsApp · Asesor Demo
+                </p>
+                <p style="font-size:0.58rem;color:var(--muted);margin:12px 0 0">
+                  Usa este código en la dirección o nota del paquete para que bodega te lo asigne bien.
+                </p>
+              </div>
+              <div class="phone-bottom">
+                <div class="tab"><span class="ico">⌂</span>Paquetes</div>
+                <div class="tab"><span class="ico">＋</span>Prealertar</div>
+                <div class="tab active"><span class="ico">☺</span>Perfil</div>
+                <div class="tab"><span class="ico">🔔</span>Avisos</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Perfil</strong> Código de cliente y datos de contacto.</p>
+        </div>
+
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="phone-appbar"><span>Avisos</span></div>
+              <div class="phone-content">
+                <div class="pkg-card">
+                  <div class="trk">Paquete en bodega</div>
+                  <div class="meta">1Z999… ya fue recibido · hace 2 h</div>
+                </div>
+                <div class="pkg-card">
+                  <div class="trk">En camino</div>
+                  <div class="meta">Tu envío salió a ruta · hace 1 d</div>
+                </div>
+              </div>
+              <div class="phone-bottom">
+                <div class="tab"><span class="ico">⌂</span>Paquetes</div>
+                <div class="tab"><span class="ico">＋</span>Prealertar</div>
+                <div class="tab"><span class="ico">☺</span>Perfil</div>
+                <div class="tab active"><span class="ico">🔔</span>Avisos</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Avisos</strong> Notificaciones cuando cambia el estado del paquete.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Uso diario en Tracklogistic</h3>
+        <ul class="steps">
+          <li>Registrarse eligiendo la compañía correcta y guardar el código de cliente.</li>
+          <li>Al comprar en EE.&nbsp;UU., poner ese código en la dirección o nota del paquete.</li>
+          <li><strong>Prealertar</strong> el número de seguimiento apenas lo tenga.</li>
+          <li>En <strong>Paquetes</strong> ver el avance: prealerta → bodega → en camino → entregado.</li>
+          <li>En <strong>Avisos</strong> revisar los cambios importantes.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="repartidores">
+      <div class="section-head">
+        <p class="eyebrow">Aplicación 3 · Celular</p>
+        <h2>Tracklogistic Logic</h2>
+        <p>
+          Es la aplicación del equipo de ruta y bodega.
+          Se abre en
+          <a href="https://tracklogistic-logic.castlexpert.com" target="_blank" rel="noopener">tracklogistic-logic.castlexpert.com</a>.
+          Sirve para recibir paquetes, pesarlos, calcular el cobro y marcar entregas.
+        </p>
+      </div>
+
+      <div class="mocks">
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="form-mock" style="flex:1;min-height:0">
+                <div class="app-title">Ruta &amp; Bodega</div>
+                <div class="app-sub">Track Logistic · Operaciones</div>
+                <div class="field"><span class="lbl">Compañía</span>Track Demo ▾</div>
+                <div class="field"><span class="lbl">Correo</span>repartidor@…</div>
+                <div class="field"><span class="lbl">Contraseña</span>••••••••</div>
+                <div class="btn-primary">Entrar</div>
+                <div class="castlexpert">by castlexpert.com</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Ingreso</strong> También empieza eligiendo la compañía.</p>
+        </div>
+
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="phone-appbar">
+                <span>Entregas</span>
+                <span class="sub">Hoy</span>
+              </div>
+              <div class="phone-content">
+                <div class="pkg-card">
+                  <div class="trk">TL0001 · María P.</div>
+                  <div class="meta">1Z999… · $28.00 · <span class="badge warn">Pendiente</span></div>
+                  <div style="display:flex;gap:6px;margin-top:6px">
+                    <div class="btn-primary" style="flex:1;padding:6px;font-size:0.58rem">En camino</div>
+                    <div class="btn-primary" style="flex:1;padding:6px;font-size:0.58rem;background:linear-gradient(135deg,#3d7a45,#2d5a34)">Entregado</div>
+                  </div>
+                </div>
+                <div class="pkg-card">
+                  <div class="trk">TL0003 · Carlos R.</div>
+                  <div class="meta">9400… · $14.00 · <span class="badge info">En ruta</span></div>
+                </div>
+              </div>
+              <div class="phone-bottom">
+                <div class="tab active"><span class="ico">🚚</span>Entregas</div>
+                <div class="tab"><span class="ico">▣</span>Bodega</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Entregas</strong> Pasar a “En camino” o “Entregado” y registrar el cobro si aplica.</p>
+        </div>
+
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+              <div class="phone-appbar"><span>Recepción en bodega</span></div>
+              <div class="phone-content">
+                <div class="scan-view">
+                  <div class="scan-hint">Lee el código del paquete</div>
+                </div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Tracking</span>1Z999AA10123456784</div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Peso (lb)</span>3.2</div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Precio USD</span>28.00 <em style="font-size:0.55rem;color:var(--muted)">(según precio de la compañía)</em></div>
+                <div class="field" style="margin-bottom:6px"><span class="lbl">Código cliente</span>TL0001</div>
+                <div class="btn-primary">Confirmar recepción</div>
+              </div>
+              <div class="phone-bottom">
+                <div class="tab"><span class="ico">🚚</span>Entregas</div>
+                <div class="tab active"><span class="ico">▣</span>Bodega</div>
+              </div>
+            </div>
+          </div>
+          <p class="mock-caption"><strong>Bodega</strong> Se lee el paquete, se indica el peso y se confirma el cobro.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Uso diario en Tracklogistic Logic</h3>
+        <ul class="steps">
+          <li><strong>Bodega:</strong> leer el código del paquete, revisar el tracking e ingresar el peso.</li>
+          <li>El sistema sugiere el precio según el precio por libra de la compañía (se puede ajustar si hace falta).</li>
+          <li>Si el paquete trae código de cliente, se asocia solo; si no, queda <em>Sin asignar</em> y el Manager lo corrige.</li>
+          <li>Al confirmar, queda registrado; el historial del día permite corregir si hubo un error.</li>
+          <li><strong>Entregas:</strong> marcar paquetes como En camino y luego Entregado (con cobro si corresponde).</li>
+        </ul>
+        <p class="note" style="margin-bottom:0">
+          El menú de bodega aparece según el rol. Quienes hacen ruta suelen trabajar sobre todo en Entregas.
+        </p>
+      </div>
+    </section>
+
+    <section id="flujo">
+      <div class="section-head">
+        <p class="eyebrow">De punta a punta</p>
+        <h2>Flujo completo típico</h2>
+        <p>Así se conectan las tres aplicaciones en un envío real.</p>
+      </div>
+
+      <div class="flow">
+        <span class="step-pill">1. Cliente se registra en Tracklogistic</span>
+        <span class="arrow">→</span>
+        <span class="step-pill">2. Prealerta el tracking</span>
+        <span class="arrow">→</span>
+        <span class="step-pill">3. Bodega recibe en Tracklogistic Logic</span>
+        <span class="arrow">→</span>
+        <span class="step-pill">4. Manager revisa o asigna</span>
+        <span class="arrow">→</span>
+        <span class="step-pill">5. Repartidor entrega</span>
+        <span class="arrow">→</span>
+        <span class="step-pill">6. Cliente ve “Entregado”</span>
+      </div>
+
+      <div class="card">
+        <h3>Checklist rápido para capacitar al equipo</h3>
+        <ul class="steps">
+          <li>El administrador crea usuarios de bodega y repartidores en <strong>Tracklogistic Manager → Usuarios</strong>.</li>
+          <li>Define el precio por libra en <strong>Precios</strong>.</li>
+          <li>Los clientes se registran en Tracklogistic (o el asesor los carga).</li>
+          <li>Bodega practica una recepción de prueba y revisa el cobro sugerido.</li>
+          <li>El repartidor practica “En camino” → “Entregado” con un paquete de prueba.</li>
+          <li>El administrador de castlexpert.com crea las compañías cuando haga falta.</li>
+        </ul>
+      </div>
+
+      <div class="note">
+        Accesos de las aplicaciones:<br>
+        · Tracklogistic Manager:
+        <a href="https://tracklogistic-manager.castlexpert.com" target="_blank" rel="noopener">tracklogistic-manager.castlexpert.com</a><br>
+        · Tracklogistic (clientes):
+        <a href="https://tracklogistic.castlexpert.com" target="_blank" rel="noopener">tracklogistic.castlexpert.com</a><br>
+        · Tracklogistic Logic (ruta y bodega):
+        <a href="https://tracklogistic-logic.castlexpert.com" target="_blank" rel="noopener">tracklogistic-logic.castlexpert.com</a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>
+        <strong>Track Logistic</strong> — Guía de uso ·
+        by <strong>castlexpert.com</strong>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

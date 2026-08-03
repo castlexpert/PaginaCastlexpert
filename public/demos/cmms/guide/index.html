@@ -1,0 +1,764 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guía CMMS · CastleXpert</title>
+  <meta name="description" content="Guía del CMMS CastleXpert: Web Manager, cmms-tech, demos, WhatsApp, QR y multi-compañía." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #001a3f;
+      --navy-soft: #0a2744;
+      --primary: #0066ff;
+      --cyan: #00b8d4;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #172b45;
+      --muted: #5a6a7e;
+      --line: #d8e0ea;
+      --ok: #12a866;
+      --warn: #b45309;
+      --wa: #128c7e;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0, 26, 63, 0.08);
+      --max: 980px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 400px at 10% -10%, rgba(0, 102, 255, 0.10), transparent 60%),
+        radial-gradient(700px 360px at 100% 0%, rgba(0, 184, 212, 0.12), transparent 55%),
+        var(--bg);
+      line-height: 1.55;
+    }
+    a { color: var(--primary); }
+    img { max-width: 100%; height: auto; display: block; border-radius: 12px; }
+    .wrap { width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(244, 247, 251, 0.88);
+      border-bottom: 1px solid rgba(0, 26, 63, 0.08);
+    }
+    .site-header .inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; padding: 0.85rem 0; flex-wrap: wrap;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--navy);
+      font-family: "DM Sans", sans-serif; font-weight: 700;
+    }
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(145deg, #001a3f, #003366);
+      color: #00e5ff; display: grid; place-items: center; font-size: 0.7rem; letter-spacing: -0.5px;
+    }
+    .brand small { display: block; font-weight: 500; color: var(--muted); font-size: 0.72rem; }
+    nav { display: flex; flex-wrap: wrap; gap: 0.35rem 0.9rem; font-size: 0.88rem; }
+    nav a { text-decoration: none; color: var(--navy-soft); font-weight: 500; }
+    nav a:hover { color: var(--primary); }
+
+    .hero { padding: 2.6rem 0 1.5rem; }
+    .hero-card {
+      background: linear-gradient(135deg, #001a3f 0%, #0a2f5c 55%, #003d7a 100%);
+      color: #e8eef8; border-radius: 20px; padding: 2rem 1.6rem;
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .hero-card::after {
+      content: ""; position: absolute; right: -40px; top: -40px; width: 220px; height: 220px;
+      border-radius: 50%; background: rgba(0, 229, 255, 0.12);
+    }
+    .hero-card h1 {
+      font-family: "DM Sans", sans-serif; font-size: clamp(1.55rem, 3.5vw, 2.2rem);
+      margin: 0 0 0.6rem; position: relative; z-index: 1;
+    }
+    .hero-card p { margin: 0; max-width: 54ch; color: #b8c7db; position: relative; z-index: 1; }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.3rem; position: relative; z-index: 1;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      padding: 0.7rem 1.05rem; border-radius: 10px; text-decoration: none; font-weight: 600;
+      font-size: 0.92rem; border: 1px solid transparent;
+    }
+    .btn-primary { background: #00e5ff; color: #001a3f; }
+    .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.28); }
+
+    section { padding: 2.1rem 0; }
+    section h2 {
+      font-family: "DM Sans", sans-serif; font-size: 1.4rem; color: var(--navy);
+      margin: 0 0 0.5rem;
+    }
+    h3 { font-family: "DM Sans", sans-serif; color: var(--navy); }
+    .lead { color: var(--muted); margin: 0 0 1.2rem; max-width: 72ch; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 1.2rem; margin-bottom: 1.1rem;
+    }
+    .card.highlight-wa {
+      border-color: rgba(18, 140, 126, 0.35);
+      background: linear-gradient(180deg, #f3fbf9 0%, #ffffff 40%);
+    }
+    .figure {
+      margin: 0 0 0.85rem; border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+      background: #fff;
+    }
+    .figure img { border-radius: 0; width: 100%; }
+    .caption {
+      font-size: 0.82rem; color: var(--muted); padding: 0.65rem 0.9rem; border-top: 1px solid var(--line);
+      background: #fafbfd;
+    }
+    .grid-2 {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem;
+    }
+    @media (max-width: 760px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      nav { width: 100%; }
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td {
+      text-align: left; padding: 0.7rem 0.65rem; border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th { color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: .03em; }
+    .pill {
+      display: inline-block; padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+    }
+    .pill-pc { background: rgba(0,26,63,.08); color: var(--navy); }
+    .pill-mobile { background: rgba(0,102,255,.12); color: var(--primary); }
+    .pill-wa { background: rgba(18,140,126,.12); color: var(--wa); }
+    .steps { counter-reset: step; display: grid; gap: 0.8rem; }
+    .step {
+      display: grid; grid-template-columns: 36px 1fr; gap: 0.8rem; align-items: start;
+      background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem;
+    }
+    .step::before {
+      counter-increment: step; content: counter(step);
+      width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: #fff;
+      display: grid; place-items: center; font-weight: 700;
+    }
+    .steps.wa .step::before { background: var(--wa); }
+    .step h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+    .step p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+    .step ul { margin: 0.4rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.9rem; }
+    .callout {
+      border-left: 4px solid var(--primary); background: rgba(0,102,255,.06);
+      padding: 0.9rem 1rem; border-radius: 0 10px 10px 0; margin: 1rem 0;
+    }
+    .callout.warn { border-left-color: var(--warn); background: rgba(180,83,9,.08); }
+    .callout.ok { border-left-color: var(--ok); background: rgba(18,140,126,.08); }
+    .callout strong { color: var(--navy); }
+    .links a {
+      display: inline-flex; align-items: center; gap: 0.35rem; margin: 0.25rem 0.55rem 0.25rem 0;
+      padding: 0.45rem 0.75rem; border-radius: 8px; background: #fff; border: 1px solid var(--line);
+      text-decoration: none; font-weight: 600; font-size: 0.88rem;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: #eef2f8; padding: 0.1rem 0.35rem; border-radius: 5px; font-size: 0.86em;
+    }
+    .checklist-simple { list-style: none; padding: 0; margin: 0; }
+    .checklist-simple li {
+      padding: 0.55rem 0.7rem; border: 1px solid var(--line); border-radius: 10px;
+      margin-bottom: 0.45rem; background: #fff; font-size: 0.92rem;
+    }
+    .checklist-simple li::before { content: "☐ "; color: var(--wa); font-weight: 700; }
+    .footer {
+      border-top: 1px solid var(--line); padding: 1.6rem 0 2.4rem; color: var(--muted); font-size: 0.9rem;
+    }
+    .toc ol { margin: 0.4rem 0 0; padding-left: 1.2rem; color: var(--muted); }
+    .toc a { text-decoration: none; }
+  </style>
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.7rem 1rem;
+    background: rgba(13, 77, 56, 0.96);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.92rem;
+    border-radius: 10px; padding: 0.45rem 0.85rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/cmms">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+<header class="site-header">
+    <div class="wrap inner">
+      <a class="brand" href="https://www.castlexpert.com" target="_blank" rel="noopener noreferrer">
+        <span class="brand-mark">CM</span>
+        <span>CMMS CastleXpert<small>Guía del sistema</small></span>
+      </a>
+      <nav>
+        <a href="#apps">Apps</a>
+        <a href="#web-manager">Web Manager</a>
+        <a href="#cmms-tech">cmms-tech</a>
+        <a href="#whatsapp">WhatsApp</a>
+        <a href="#qr">QR</a>
+        <a href="#demos">Demos</a>
+        <a href="https://www.castlexpert.com" target="_blank" rel="noopener noreferrer">castlexpert.com</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div class="hero-card">
+        <h1>Guía del CMMS CastleXpert</h1>
+        <p>
+          Sistema multi-compañía de mantenimiento: la oficina trabaja en el
+          <strong>Web Manager</strong> (PC) y el técnico en
+          <strong>cmms-tech</strong> (celular). Incluye demos, WhatsApp por empresa, QR de activos y tendencias.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://www.castlexpert.com" target="_blank" rel="noopener noreferrer">www.castlexpert.com</a>
+          <a class="btn btn-ghost" href="#whatsapp">Vincular WhatsApp (paso a paso)</a>
+          <a class="btn btn-ghost" href="#demos">Cómo usar la demo</a>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <div class="wrap">
+        <div class="card toc">
+          <strong>Contenido</strong>
+          <ol>
+            <li><a href="#apps">Dos aplicaciones, un sistema</a></li>
+            <li><a href="#companias">Multi-compañía y quién ve qué</a></li>
+            <li><a href="#web-manager">Web Manager (computadora)</a></li>
+            <li><a href="#cmms-tech">cmms-tech (celular) y cómo detecta la compañía</a></li>
+            <li><a href="#whatsapp">Matricular WhatsApp en la demo (muy fácil)</a></li>
+            <li><a href="#qr">Levantamiento con QR preimpresos</a></li>
+            <li><a href="#tendencias">Historial y tendencias</a></li>
+            <li><a href="#demos">Demos: links y usuarios que recibe</a></li>
+            <li><a href="#links">Enlaces útiles</a></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="apps">
+      <div class="wrap">
+        <h2>1. Dos aplicaciones, un sistema</h2>
+        <p class="lead">
+          El Web Manager se usa en una <strong>computadora personal</strong>.
+          <strong>cmms-tech</strong> se usa desde el <strong>celular en el campo</strong> (levante de activos y checklist de órdenes).
+        </p>
+
+        <figure class="figure">
+          <img src="images/01-overview-wm-vs-pwa.png" alt="Comparativa Web Manager en PC y cmms-tech en celular" width="1280" height="720" />
+          <figcaption class="caption">Izquierda: Web Manager en PC. Derecha: cmms-tech en celular.</figcaption>
+        </figure>
+
+        <div class="card">
+          <table>
+            <thead>
+              <tr><th>Aplicación</th><th>Quién</th><th>Dispositivo</th><th>Para qué</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Web Manager</strong> <span class="pill pill-pc">PC</span></td>
+                <td>Admin / Supervisor</td>
+                <td>Computadora</td>
+                <td>Clientes, activos, QR, planificación, OT, reportes, usuarios, branding, WhatsApp</td>
+              </tr>
+              <tr>
+                <td><strong>cmms-tech</strong> <span class="pill pill-mobile">Celular</span></td>
+                <td>Técnico</td>
+                <td>Teléfono en campo</td>
+                <td>Escanear QR, levantar activos, checklist, fotos, GPS y cierre de OT</td>
+              </tr>
+              <tr>
+                <td><strong>Portal Cliente</strong> <span class="pill pill-pc">Opcional</span></td>
+                <td>Cliente final</td>
+                <td>PC o móvil</td>
+                <td>Consulta de activos e historial (solo lectura), si está activado</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="companias">
+      <div class="wrap">
+        <h2>2. Multi-compañía y quién ve qué</h2>
+        <p class="lead">
+          Cada empresa (compañía) tiene sus propios usuarios, activos, órdenes, tema visual, logo y WhatsApp.
+          Los datos de una compañía <strong>no se mezclan</strong> con los de otra.
+        </p>
+
+        <div class="card">
+          <table>
+            <thead><tr><th>Rol</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Admin de la compañía</strong></td>
+                <td>Administra su empresa: usuarios, activos, OT, configuración, branding y vincular WhatsApp.</td>
+              </tr>
+              <tr>
+                <td><strong>Técnico</strong></td>
+                <td>Usa solo cmms-tech. Automáticamente ve la compañía a la que pertenece su usuario.</td>
+              </tr>
+              <tr>
+                <td><strong>Super Admin</strong> (CastleXpert)</td>
+                <td>Panel SaaS: crea demos, entra a compañías, ve Analytics global. No es el usuario diario de la demo.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <strong>Tema y logo:</strong> si el admin cambia el tema o el logo en Configuración del Web Manager,
+          la app <strong>cmms-tech</strong> de esa misma compañía los hereda al iniciar sesión (colores y logo de la empresa).
+        </div>
+      </div>
+    </section>
+
+    <section id="web-manager">
+      <div class="wrap">
+        <h2>3. Web Manager — uso en computadora</h2>
+        <p class="lead">
+          Panel administrativo. Inicie sesión en
+          <a href="https://cmms.castlexpert.com" target="_blank" rel="noopener noreferrer">cmms.castlexpert.com</a>.
+        </p>
+
+        <div class="grid-2">
+          <figure class="figure">
+            <img src="images/02-wm-login.png" alt="Login CMMS Web Manager" width="1280" height="800" />
+            <figcaption class="caption">Login Web Manager. Pie de página: castlexpert.com.</figcaption>
+          </figure>
+          <figure class="figure">
+            <img src="images/03-wm-dashboard.png" alt="Dashboard Web Manager" width="1400" height="860" />
+            <figcaption class="caption">Dashboard y menú: Clientes, Activos, Órdenes, Reportes, Configuración.</figcaption>
+          </figure>
+        </div>
+
+        <div class="card">
+          <table>
+            <thead><tr><th>Módulo</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td>Dashboard</td><td>Resumen de órdenes y operación</td></tr>
+              <tr><td>Analytics</td><td>Solo Super Admin (accesos globales)</td></tr>
+              <tr><td>Clientes / Áreas</td><td>Estructura del servicio</td></tr>
+              <tr><td>Activos</td><td>Ficha, QR preimpresos, tendencias</td></tr>
+              <tr><td>Planificación / Órdenes / Calendario</td><td>Preventivos y OT</td></tr>
+              <tr><td>Reportes</td><td>PDF (y envío por WhatsApp si está vinculado)</td></tr>
+              <tr><td>Usuarios</td><td>Alta de técnicos y supervisores</td></tr>
+              <tr><td>Configuración</td><td>Plantillas, tipos, branding (tema/logo) y <strong>WhatsApp</strong></td></tr>
+              <tr><td>SaaS / Compañías</td><td>Solo Super Admin</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="cmms-tech">
+      <div class="wrap">
+        <h2>4. cmms-tech — celular en el campo</h2>
+        <p class="lead">
+          App en el teléfono para trabajo en sitio.
+          Acceso:
+          <a href="https://cmms-tech.castlexpert.com" target="_blank" rel="noopener noreferrer">cmms-tech.castlexpert.com</a>.
+        </p>
+
+        <div class="callout ok">
+          <strong>¿Cómo sabe cmms-tech a qué compañía entrar?</strong>
+          Por el <strong>usuario</strong>. Cada técnico está creado dentro de una compañía.
+          Al iniciar sesión con su correo, el sistema ya sabe a qué empresa pertenece:
+          solo ve sus órdenes y activos, y aplica el tema/logo de esa empresa.
+          <em>No hay que elegir compañía a mano.</em>
+        </div>
+
+        <div class="grid-2">
+          <figure class="figure">
+            <img src="images/04-pwa-login.png" alt="Login cmms-tech" width="900" height="900" />
+            <figcaption class="caption">Login móvil · rol TECNICO.</figcaption>
+          </figure>
+          <figure class="figure">
+            <img src="images/05-pwa-checklist.png" alt="Checklist OT en cmms-tech" width="900" height="900" />
+            <figcaption class="caption">OT: Checklist / Fotos / GPS.</figcaption>
+          </figure>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div>
+              <h3>Entrar con el usuario técnico</h3>
+              <p>Use el correo técnico de la demo (ej. <code>tecnico@…demo.mante</code>).</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Ver órdenes o escanear QR</h3>
+              <p>Identifica el equipo y abre la orden o el levante.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Llenar checklist + fotos + GPS</h3>
+              <p>Marque OK/FALLA, capture lecturas (voltaje, etc.) y evidencias.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Finalizar</h3>
+              <p>Al tener señal, la app sincroniza con el Web Manager.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== WHATSAPP — sección clave para no expertos ========== -->
+    <section id="whatsapp">
+      <div class="wrap">
+        <h2>5. Matricular WhatsApp en la demo <span class="pill pill-wa">Paso a paso fácil</span></h2>
+        <p class="lead">
+          En la demo, el <strong>administrador</strong> (usuario admin) puede conectar el WhatsApp de la empresa
+          para que el sistema envíe avisos (por ejemplo al asignar o cerrar una orden).
+          <strong>No necesita ser experto en informática</strong>: es igual que vincular WhatsApp Web en una computadora.
+        </p>
+
+        <div class="card highlight-wa">
+          <h3 style="margin-top:0">¿Qué es “matricular” WhatsApp?</h3>
+          <p style="margin:0;color:var(--muted)">
+            Significa <strong>vincular el celular de la empresa</strong> al sistema, escaneando un código QR
+            desde la pantalla de la computadora. No hay que pegar tokens, ni números de API de Meta, ni instalar apps raras:
+            solo WhatsApp normal en el celular.
+          </p>
+        </div>
+
+        <div class="callout warn">
+          <strong>Antes de empezar, prepare esto:</strong>
+          <ul style="margin:.4rem 0 0;padding-left:1.2rem">
+            <li>Una <strong>computadora</strong> con el Web Manager abierto (Chrome o Edge).</li>
+            <li>El <strong>celular</strong> que usará la empresa para WhatsApp (con internet).</li>
+            <li>WhatsApp ya instalado e iniciado sesión en ese celular.</li>
+            <li>Usuario <strong>admin</strong> de la demo (no el técnico).</li>
+          </ul>
+        </div>
+
+        <figure class="figure">
+          <img src="images/08-whatsapp-vincular.png" alt="Vincular WhatsApp escaneando QR desde Configuración" width="1280" height="720" />
+          <figcaption class="caption">
+            Izquierda: código QR en Configuración del Web Manager.
+            Derecha: en el celular, WhatsApp → Dispositivos vinculados.
+          </figcaption>
+        </figure>
+
+        <h3 style="margin:1.2rem 0 .6rem">Pasos en la computadora</h3>
+        <div class="steps wa">
+          <div class="step">
+            <div>
+              <h3>Entre al Web Manager</h3>
+              <p>
+                Abra
+                <a href="https://cmms.castlexpert.com" target="_blank" rel="noopener noreferrer">cmms.castlexpert.com</a>
+                e inicie sesión con el usuario <strong>admin</strong> de su demo
+                (ejemplo: <code>admin@suempresa.demo.mante</code>).
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Vaya a Configuración</h3>
+              <p>En el menú de la izquierda, haga clic en <strong>Configuración</strong>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Busque la sección “WhatsApp (WhatsApp Web)”</h3>
+              <p>
+                Ahí verá el estado (Desconectado / Conectando / Escanee el código QR / Conectado)
+                y un botón <strong>Reiniciar sesión</strong>.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Espere el código QR en pantalla</h3>
+              <p>
+                En unos segundos aparece un cuadrado con el código.
+                Si no aparece o se queda mucho rato en “Generando…”, pulse
+                <strong>Reiniciar sesión</strong> y espere de nuevo (puede tardar unos segundos).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin:1.4rem 0 .6rem">Pasos en el celular (WhatsApp)</h3>
+        <div class="steps wa">
+          <div class="step">
+            <div>
+              <h3>Abra WhatsApp</h3>
+              <p>Use el teléfono de la empresa (el que recibirá o enviará los avisos).</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Entre a “Dispositivos vinculados”</h3>
+              <p>Según el teléfono:</p>
+              <ul>
+                <li><strong>Android:</strong> toque los tres puntos ⋮ → <strong>Dispositivos vinculados</strong>.</li>
+                <li><strong>iPhone:</strong> <strong>Ajustes</strong> → <strong>Dispositivos vinculados</strong>.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Toque “Vincular un dispositivo”</h3>
+              <p>Se abrirá la cámara del celular para leer un código.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Apunte al QR de la computadora</h3>
+              <p>
+                Encuadre el código que se ve en Configuración.
+                Cuando el vínculo sea correcto, en la PC el estado cambiará a
+                <strong>Conectado</strong> y mostrará el número vinculado.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0">Cómo saber que quedó bien</h3>
+          <ul class="checklist-simple">
+            <li>En Configuración aparece chip verde o estado <strong>Conectado</strong>.</li>
+            <li>Se muestra el <strong>número vinculado</strong>.</li>
+            <li>Mensaje de que está listo para notificaciones.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0">Si algo falla (soluciones simples)</h3>
+          <table>
+            <thead><tr><th>Qué ve</th><th>Qué hacer</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Se queda en “Generando código QR…”</td>
+                <td>Pulse <strong>Reiniciar sesión</strong>, espere 10–20 segundos. Recargue la página si hace falta.</td>
+              </tr>
+              <tr>
+                <td>El QR aparece pero el celular no lo lee</td>
+                <td>Acerque o aleje el celular, mejore la luz de la pantalla, o reinicie sesión para un QR nuevo.</td>
+              </tr>
+              <tr>
+                <td>Se desconecta solo</td>
+                <td>En el celular, en Dispositivos vinculados, quite el dispositivo viejo y vuelva a vincular desde cero.</td>
+              </tr>
+              <tr>
+                <td>Quiere usar otro número</td>
+                <td>Pulse <strong>Reiniciar sesión</strong> en Configuración y escanee de nuevo con el otro celular.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout ok">
+          <strong>Importante para la demo:</strong>
+          cada compañía tiene su propio WhatsApp. El admin de <em>su</em> demo vincula <em>su</em> teléfono.
+          No afecta a otras empresas. No se usa WhatsApp “Cloud API” de Meta: solo el vínculo tipo WhatsApp Web.
+        </div>
+      </div>
+    </section>
+
+    <section id="qr">
+      <div class="wrap">
+        <h2>6. Levantamiento con QR preimpresos</h2>
+        <p class="lead">
+          Se imprimen etiquetas QR <strong>antes</strong>, se pegan al equipo y se asignan al registrar el activo.
+          En próximos mantenimientos, con solo escanearlos ya se tiene el dato y el historial.
+        </p>
+
+        <figure class="figure">
+          <img src="images/06-qr-flujo.png" alt="Flujo QR preimpresos" width="1280" height="720" />
+          <figcaption class="caption">Generar PDF → escanear en cmms-tech → registrar activo → próximas visitas solo escanean.</figcaption>
+        </figure>
+
+        <div class="card">
+          <table>
+            <thead><tr><th>Paso</th><th>Dónde</th><th>Qué se hace</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>1. Generar e imprimir</td>
+                <td>Web Manager → Activos → QR preimpresos</td>
+                <td>Lote + PDF A4 de etiquetas</td>
+              </tr>
+              <tr>
+                <td>2. Pegar y escanear</td>
+                <td>cmms-tech</td>
+                <td>Etiqueta en el equipo + cámara</td>
+              </tr>
+              <tr>
+                <td>3. Asignar / levante</td>
+                <td>cmms-tech</td>
+                <td>Datos del activo; el QR queda ligado</td>
+              </tr>
+              <tr>
+                <td>4. Futuros mantenimientos</td>
+                <td>cmms-tech + Web Manager</td>
+                <td>Un escaneo abre ficha, historial y tendencias</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tendencias">
+      <div class="wrap">
+        <h2>7. Historial y gráficos de tendencia</h2>
+        <p class="lead">
+          Si un ítem de checklist (idealmente numérico) tiene
+          <strong>“Mantiene historial”</strong>, cada lectura se acumula.
+          Ejemplo: <strong>tendencia de voltaje</strong>.
+        </p>
+
+        <figure class="figure">
+          <img src="images/07-qr-tendencias.png" alt="Tendencias de voltaje" width="1280" height="760" />
+          <figcaption class="caption">Tras escanear: ficha del activo y gráfica de tendencia.</figcaption>
+        </figure>
+
+        <div class="steps">
+          <div class="step">
+            <div>
+              <h3>Configurar en oficina</h3>
+              <p>Configuración → plantilla → ítem NUMERO → “Mantiene historial”.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Capturar en cada OT</h3>
+              <p>El técnico registra el valor en cmms-tech (ej. 218.5 V).</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Ver la tendencia</h3>
+              <p>En la ficha del activo: gráficos con las últimas lecturas (hasta 12).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demos">
+      <div class="wrap">
+        <h2>8. Demos: links y usuarios que recibe</h2>
+        <p class="lead">
+          CastleXpert habilita una <strong>compañía demo</strong> con datos de ejemplo.
+          Contacto:
+          <a href="https://www.castlexpert.com" target="_blank" rel="noopener noreferrer">www.castlexpert.com</a>.
+        </p>
+
+        <div class="card">
+          <h3 style="margin-top:0">Qué le envían al solicitar la demo</h3>
+          <ol>
+            <li>
+              <strong>Link Web Manager (PC)</strong><br />
+              <a href="https://cmms.castlexpert.com" target="_blank" rel="noopener noreferrer">https://cmms.castlexpert.com</a>
+            </li>
+            <li>
+              <strong>Link cmms-tech (celular)</strong><br />
+              <a href="https://cmms-tech.castlexpert.com" target="_blank" rel="noopener noreferrer">https://cmms-tech.castlexpert.com</a>
+            </li>
+            <li>
+              <strong>Usuario administrador</strong> — para oficina, WhatsApp, configuración<br />
+              <code>admin@&lt;su-empresa&gt;.demo.mante</code>
+            </li>
+            <li>
+              <strong>Usuario técnico</strong> — solo para el celular en campo<br />
+              <code>tecnico@&lt;su-empresa&gt;.demo.mante</code>
+            </li>
+            <li>
+              <strong>Contraseña</strong> — la que indique CastleXpert (a menudo <code>Demo123!</code> en demos técnicas).
+            </li>
+            <li>
+              <strong>Vigencia</strong> — por defecto <strong>14 días</strong> (se puede extender o convertir a producción).
+            </li>
+          </ol>
+        </div>
+
+        <div class="callout">
+          <strong>Orden recomendado el primer día:</strong>
+          1) Entrar como admin en el PC → 2) Vincular WhatsApp (sección de arriba) →
+          3) Revisar activos / crear una OT de prueba → 4) Entrar como técnico en el celular y ejecutar la OT.
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0">Ciclo de vida de la demo</h3>
+          <table>
+            <thead><tr><th>Estado</th><th>Qué ocurre</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Activa</strong></td><td>Uso normal (ej. 14 días).</td></tr>
+              <tr><td><strong>Extendida</strong></td><td>Se agregan días de prueba.</td></tr>
+              <tr><td><strong>Convertida</strong></td><td>Pasa a compañía productiva.</td></tr>
+              <tr><td><strong>Expirada</strong></td><td>El login indica que venció; contacte castlexpert.com. Luego puede purgarse.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout warn">
+          <strong>Importante:</strong> las cuentas <code>*.demo.mante</code> son de evaluación.
+          Para operación real solicite conversión en
+          <a href="https://www.castlexpert.com" target="_blank" rel="noopener noreferrer">www.castlexpert.com</a>.
+        </div>
+      </div>
+    </section>
+
+    <section id="links">
+      <div class="wrap">
+        <h2>9. Enlaces útiles</h2>
+        <div class="links">
+          <a href="https://www.castlexpert.com" target="_blank" rel="noopener noreferrer">www.castlexpert.com</a>
+          <a href="https://cmms.castlexpert.com" target="_blank" rel="noopener noreferrer">Web Manager</a>
+          <a href="https://cmms-tech.castlexpert.com" target="_blank" rel="noopener noreferrer">cmms-tech</a>
+          <a href="#whatsapp">Guía WhatsApp</a>
+        </div>
+        <p class="lead" style="margin-top:1rem">
+          Producto de <a href="https://www.castlexpert.com" target="_blank" rel="noopener noreferrer">CastleXpert</a>.
+          Solicite demo o soporte en el sitio web.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p>
+        Guía CMMS · CastleXpert —
+        <a href="https://www.castlexpert.com" target="_blank" rel="noopener noreferrer">www.castlexpert.com</a>
+      </p>
+      <p style="margin:.35rem 0 0">
+        Actualizada con multi-compañía, branding en cmms-tech, Analytics (Super Admin) y matrícula de WhatsApp por QR (Baileys).
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

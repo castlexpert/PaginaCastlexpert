@@ -163,6 +163,32 @@ export type AppCopy = {
       whatsappButton: string;
     };
   };
+  functionalDemos: {
+    eyebrow: string;
+    sectionTitle: string;
+    sectionSubtitle: string;
+    openGuide: string;
+    downloadApk: string;
+    apkDownloading: string;
+    apkUnavailable: string;
+    requestDemo: string;
+    watchVideo: string;
+    aboutTitle: string;
+    tryTitle: string;
+    tryDescription: string;
+    backHome: string;
+    backDemos: string;
+    ctaLabel: string;
+    items: Array<{
+      id: 'tracklogic' | 'foodly' | 'cmms';
+      title: string;
+      cardDescription: string;
+      tagline: string;
+      description: string;
+      highlights: string[];
+      guideHint: string;
+    }>;
+  };
   whatsapp: {
     tooltip: string;
   };
@@ -448,7 +474,7 @@ export const copy: Record<Language, AppCopy> = {
             galleryAlt:
               'Mockup de app móvil con panel de productividad, metas y accesos rápidos en un escritorio moderno.',
             links: [
-              { label: 'Demo Web', url: '' },
+              { label: 'Demo TrackLogic', url: '/demos/tracklogic' },
               { label: 'APK (Android)', url: '' },
             ],
           },
@@ -483,7 +509,7 @@ export const copy: Record<Language, AppCopy> = {
               'Mockup de landing Opera Control: visibilidad operativa, paneles analíticos y arquitectura de plataforma empresarial.',
             links: [
               { label: 'Video MANTE Preventivo', url: '/images/demos/MANTE_Preventivo.mp4', kind: 'video', poster: '/images/demos/soluciones-empresa-modal.webp' },
-              { label: 'Demo Web', url: '' },
+              { label: 'Demo CMMS', url: '/demos/cmms' },
               { label: 'APK (Android)', url: '' },
             ],
           },
@@ -500,8 +526,8 @@ export const copy: Record<Language, AppCopy> = {
             galleryAlt:
               'Mockup del panel GrowthSync para PYME: módulos MVP (pedidos, inventario, pipeline), gráficos y alertas.',
             links: [
-              { label: 'Demo Web', url: '' },
-              { label: 'APK (Android)', url: '' },
+              { label: 'Demo Foodly', url: '/demos/foodly' },
+              { label: 'APK foodly-rest', url: '/demos/foodly' },
             ],
           },
         ],
@@ -545,7 +571,7 @@ export const copy: Record<Language, AppCopy> = {
     chat: {
       launcherLabel: 'Abrir chat',
       title: 'Chat CastleXpert',
-      subtitle: 'Pregúntame sobre nuestros servicios y proceso.',
+      subtitle: 'Pregúntame sobre servicios, demos funcionales y el proceso.',
       placeholder: 'Escribe tu pregunta...',
       send: 'Enviar',
       sending: 'Enviando...',
@@ -556,7 +582,7 @@ export const copy: Record<Language, AppCopy> = {
       advisorError: 'No se pudo contactar al asesor. Intenta de nuevo.',
       assistantName: 'Asistente',
       welcome:
-        'Hola, soy el asistente de CastleXpert. Puedo ayudarte con información sobre servicios, demos y el proceso. ¿Qué te gustaría saber?',
+        'Hola, soy el asistente de CastleXpert. Puedo explicarte TrackLogic, Foodly y CMMS (con link a su guía), además de servicios y el proceso. ¿Qué te gustaría saber?',
     },
     benefits: {
       title: 'Beneficios',
@@ -634,6 +660,73 @@ export const copy: Record<Language, AppCopy> = {
         whatsappDescription: 'Respuesta rápida para cotizaciones, dudas y seguimiento de tu idea.',
         whatsappButton: 'Abrir WhatsApp',
       },
+    },
+    functionalDemos: {
+      eyebrow: 'Demos funcionales',
+      sectionTitle: 'DEMOS FUNCIONALES',
+      sectionSubtitle:
+        'Explora productos reales listos para probar: guía completa, flujo demo y descarga de APK cuando aplica.',
+      openGuide: 'Abrir guía completa',
+      downloadApk: 'Descargar APK Android',
+      apkDownloading: 'Preparando descarga…',
+      apkUnavailable: 'La descarga no está disponible en este momento. Intenta más tarde o contáctanos.',
+      requestDemo: 'Solicitar demo',
+      watchVideo: 'Ver video',
+      aboutTitle: 'Qué incluye este demo',
+      tryTitle: 'Pruébalo ahora',
+      tryDescription:
+        'Abre la guía para recorrer el flujo paso a paso. Si hay APK, descárgalo desde nuestro sitio (castlexpert.com).',
+      backHome: 'Volver al inicio',
+      backDemos: 'Volver a demos',
+      ctaLabel: 'Ver demo',
+      items: [
+        {
+          id: 'foodly',
+          title: 'Foodly',
+          cardDescription: 'Ecosistema de restaurante: Foodly, Foodly Manager y Foodly-rest (APK).',
+          tagline: 'Tu restaurante, donde quieras: pedidos, cocina y control en un solo ecosistema.',
+          description:
+            'Foodly conecta Foodly (app del cliente), Foodly Manager (panel administrativo / web) y Foodly-rest (APK Android para cocina y delivery). Ideal para pymes gastronómicas que quieren ver el flujo completo antes de implementar.',
+          highlights: [
+            'Foodly: el cliente pide y sigue su orden.',
+            'Foodly Manager: controla menú, pedidos y operación.',
+            'Foodly-rest: app Android de cocina y delivery.',
+            'APK disponible para descarga desde castlexpert.com.',
+          ],
+          guideHint: 'Instrucciones: https://castlexpert.com/demos/foodly/guide/',
+        },
+        {
+          id: 'cmms',
+          title: 'CMMS · MANTE Preventivo',
+          cardDescription: 'Mantenimiento preventivo: Web Manager, técnicos, QR y WhatsApp.',
+          tagline: 'CMMS CastleXpert para mantenimiento preventivo multi-compañía.',
+          description:
+            'El CMMS (MANTE Preventivo) combina Web Manager, app de técnicos, flujos QR y WhatsApp. La guía cubre login, checklists, tendencias y vinculación WhatsApp para operaciones de mantenimiento.',
+          highlights: [
+            'Web Manager vs app de técnicos.',
+            'Checklists y flujos QR.',
+            'Tendencias y seguimiento de trabajo.',
+            'WhatsApp integrado al flujo operativo.',
+          ],
+          guideHint: 'Instrucciones: https://castlexpert.com/demos/cmms/guide/',
+        },
+        {
+          id: 'tracklogic',
+          title: 'TrackLogic',
+          cardDescription:
+            'Tracking de paquetería EE.UU. → Costa Rica con Tracklogistic Manager, Tracklogistic y Tracklogistic Logic.',
+          tagline: 'Tres aplicaciones que trabajan juntas para mover tu paquetería de punta a punta.',
+          description:
+            'TrackLogic (Track Logistic) conecta tres aplicaciones: Tracklogistic Manager (operación en escritorio), Tracklogistic (clientes) y Tracklogistic Logic (ruta y bodega). La guía explica registro, roles y el flujo diario completo.',
+          highlights: [
+            'Tracklogistic Manager (tracklogistic-manager.castlexpert.com) para la operación.',
+            'Tracklogistic (tracklogistic.castlexpert.com) para el seguimiento del cliente.',
+            'Tracklogistic Logic (tracklogistic-logic.castlexpert.com) para ruta y bodega.',
+            'Guía de uso lista para recorrer el producto.',
+          ],
+          guideHint: 'Instrucciones: https://castlexpert.com/demos/tracklogic/guide/',
+        },
+      ],
     },
     whatsapp: {
       tooltip: 'Chatea con nosotros',
@@ -918,7 +1011,7 @@ export const copy: Record<Language, AppCopy> = {
             galleryAlt:
               'Mobile app mockup with productivity hub, goals, and quick actions on a modern desk setup.',
             links: [
-              { label: 'Web demo', url: '' },
+              { label: 'TrackLogic demo', url: '/demos/tracklogic' },
               { label: 'APK (Android)', url: '' },
             ],
           },
@@ -953,7 +1046,7 @@ export const copy: Record<Language, AppCopy> = {
               'Opera Control landing mockup: operational visibility, analytics dashboards, and enterprise platform architecture.',
             links: [
               { label: 'MANTE Preventive video', url: '/images/demos/MANTE_Preventivo.mp4', kind: 'video', poster: '/images/demos/soluciones-empresa-modal.webp' },
-              { label: 'Web demo', url: '' },
+              { label: 'CMMS demo', url: '/demos/cmms' },
               { label: 'APK (Android)', url: '' },
             ],
           },
@@ -970,8 +1063,8 @@ export const copy: Record<Language, AppCopy> = {
             galleryAlt:
               'GrowthSync SMB dashboard mockup: MVP modules (orders, inventory, pipeline), charts, and alerts.',
             links: [
-              { label: 'Web demo', url: '' },
-              { label: 'APK (Android)', url: '' },
+              { label: 'Foodly demo', url: '/demos/foodly' },
+              { label: 'foodly-rest APK', url: '/demos/foodly' },
             ],
           },
         ],
@@ -1015,7 +1108,7 @@ export const copy: Record<Language, AppCopy> = {
     chat: {
       launcherLabel: 'Open chat',
       title: 'CastleXpert Chat',
-      subtitle: 'Ask about our services and process.',
+      subtitle: 'Ask about services, functional demos, and our process.',
       placeholder: 'Type your question...',
       send: 'Send',
       sending: 'Sending...',
@@ -1026,7 +1119,7 @@ export const copy: Record<Language, AppCopy> = {
       advisorError: 'Could not reach the advisor. Please try again.',
       assistantName: 'Assistant',
       welcome:
-        "Hi, I'm CastleXpert's assistant. I can help with info about services, demos, and the process. What would you like to know?",
+        "Hi, I'm CastleXpert's assistant. I can explain TrackLogic, Foodly, and CMMS (with links to each guide), plus services and our process. What would you like to know?",
     },
     benefits: {
       title: 'Benefits',
@@ -1104,6 +1197,73 @@ export const copy: Record<Language, AppCopy> = {
         whatsappDescription: 'Fast replies for quotes, questions, and next steps on your idea.',
         whatsappButton: 'Open WhatsApp',
       },
+    },
+    functionalDemos: {
+      eyebrow: 'Functional demos',
+      sectionTitle: 'FUNCTIONAL DEMOS',
+      sectionSubtitle:
+        'Explore real products ready to try: full guide, demo flow, and APK download when available.',
+      openGuide: 'Open full guide',
+      downloadApk: 'Download Android APK',
+      apkDownloading: 'Preparing download…',
+      apkUnavailable: 'Download is unavailable right now. Try again later or contact us.',
+      requestDemo: 'Request a demo',
+      watchVideo: 'Watch video',
+      aboutTitle: 'What this demo includes',
+      tryTitle: 'Try it now',
+      tryDescription:
+        'Open the guide to walk through the flow step by step. If an APK is available, download it from our website (castlexpert.com).',
+      backHome: 'Back to homepage',
+      backDemos: 'Back to demos',
+      ctaLabel: 'View demo',
+      items: [
+        {
+          id: 'foodly',
+          title: 'Foodly',
+          cardDescription: 'Restaurant ecosystem: Foodly, Foodly Manager, and Foodly-rest (APK).',
+          tagline: 'Your restaurant, wherever you are—orders, kitchen, and control in one stack.',
+          description:
+            'Foodly connects Foodly (customer app), Foodly Manager (admin / web panel), and Foodly-rest (Android APK for kitchen and delivery). Ideal for food SMBs that want the full flow before rollout.',
+          highlights: [
+            'Foodly: customers order and track.',
+            'Foodly Manager: menu, orders, and ops control.',
+            'Foodly-rest: Android kitchen and delivery app.',
+            'APK available to download from castlexpert.com.',
+          ],
+          guideHint: 'Instructions: https://castlexpert.com/demos/foodly/guide/',
+        },
+        {
+          id: 'cmms',
+          title: 'CMMS · MANTE Preventive',
+          cardDescription: 'Preventive maintenance: Web Manager, techs, QR, and WhatsApp.',
+          tagline: 'CastleXpert CMMS for multi-company preventive maintenance.',
+          description:
+            'The CMMS (MANTE Preventive) combines Web Manager, tech app, QR flows, and WhatsApp. The guide covers login, checklists, trends, and WhatsApp linking for maintenance ops.',
+          highlights: [
+            'Web Manager vs tech app.',
+            'Checklists and QR flows.',
+            'Trends and work follow-up.',
+            'WhatsApp in the operational flow.',
+          ],
+          guideHint: 'Instructions: https://castlexpert.com/demos/cmms/guide/',
+        },
+        {
+          id: 'tracklogic',
+          title: 'TrackLogic',
+          cardDescription:
+            'Parcel tracking US → Costa Rica with Tracklogistic Manager, Tracklogistic, and Tracklogistic Logic.',
+          tagline: 'Three apps that work together to move your parcels end to end.',
+          description:
+            'TrackLogic (Track Logistic) connects three apps: Tracklogistic Manager (desktop operations), Tracklogistic (customers), and Tracklogistic Logic (route and warehouse). The guide covers signup, roles, and the full daily workflow.',
+          highlights: [
+            'Tracklogistic Manager (tracklogistic-manager.castlexpert.com) for operations.',
+            'Tracklogistic (tracklogistic.castlexpert.com) for customer tracking.',
+            'Tracklogistic Logic (tracklogistic-logic.castlexpert.com) for route and warehouse.',
+            'Ready-to-read product usage guide.',
+          ],
+          guideHint: 'Instructions: https://castlexpert.com/demos/tracklogic/guide/',
+        },
+      ],
     },
     whatsapp: {
       tooltip: 'Chat with us',

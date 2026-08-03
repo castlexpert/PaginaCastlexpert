@@ -17,22 +17,6 @@ import { useMemo, useState } from 'react';
 import type { AppCopy } from '../i18n';
 import ServiceModal, { type ServiceModalContent } from './ServiceModal';
 
-/** Miniaturas (derivadas de cada imagen del modal) para fondo de cards DEMOS — ver `npm run demo:card-thumbs`. */
-const DEMO_CARD_BACKGROUNDS = [
-  '/images/demos/soluciones-personales-card.webp',
-  '/images/demos/soluciones-familiares-card.webp',
-  '/images/demos/soluciones-empresa-card.webp',
-  '/images/demos/soluciones-pyme-card.webp',
-] as const;
-
-/** Encuadre fino por card (mockups distintos: retrato vs landing largo). */
-const DEMO_CARD_OBJECT: Record<number, string> = {
-  0: 'object-[50%_28%]',
-  1: 'object-[50%_35%]',
-  2: 'object-[50%_8%]',
-  3: 'object-[50%_30%]',
-};
-
 const serviceIcons = [
   Smartphone,
   Package,
@@ -51,173 +35,49 @@ const mainServiceIcons = [Smartphone, Globe, Monitor];
 
 type ServicesProps = {
   content: AppCopy['services'];
+  /** solutions = Nuestras Soluciones; main = Servicios principales */
+  variant: 'solutions' | 'main';
 };
 
-export default function Services({ content }: ServicesProps) {
-  const [active, setActive] = useState<{ kind: 'item' | 'main' | 'demo'; index: number } | null>(null);
+export default function Services({ content, variant }: ServicesProps) {
+  const [active, setActive] = useState<{ kind: 'item' | 'main'; index: number } | null>(null);
 
   const activeModal: ServiceModalContent | null = useMemo(() => {
     if (!active) return null;
-    if (active.kind === 'demo') return content.demos.modals[active.index] ?? null;
     const source = active.kind === 'item' ? content.itemModals : content.mainModals;
     return source[active.index] ?? null;
-  }, [active, content.demos.modals, content.itemModals, content.mainModals]);
+  }, [active, content.itemModals, content.mainModals]);
 
-  return (
-    <section id="services" className="py-24 relative bg-[#f2efe8]">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#f2efe8] via-[#f6f3ec] to-[#ece8df]"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black mb-4 text-black">{content.title}</h2>
-          <p className="text-xl text-zinc-600 max-w-2xl mx-auto">{content.subtitle}</p>
-        </div>
-
-        <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {content.items.map((service, index) => {
-            const Icon = serviceIcons[index];
-            const thumb = content.itemModals[index]?.images?.[0];
-            return (
-              <button
-                key={index}
-                type="button"
-                onClick={() => setActive({ kind: 'item', index })}
-                className={[
-                  'group overflow-hidden text-left transition hover:-translate-y-1',
-                  thumb
-                    ? 'flex flex-col rounded-2xl border border-black/10 bg-zinc-900 shadow-lg ring-1 ring-black/10'
-                    : 'cx-card cx-card-hover p-6',
-                ].join(' ')}
-                aria-label={`${service.title}. Ver detalle`}
-              >
-                {thumb ? (
-                  <>
-                    <span className="relative block h-36 w-full overflow-hidden sm:h-40">
-                      <img
-                        src={thumb}
-                        alt=""
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-                      <span className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-white/90 shadow-md">
-                        <Icon className="h-5 w-5 text-black" />
-                      </span>
-                    </span>
-                    <span className="p-5">
-                      <h3 className="text-lg font-bold text-white">{service.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-white/85">{service.description}</p>
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg cx-card-surface shadow-md shadow-black/5 transition-transform group-hover:scale-110">
-                      <Icon className="h-6 w-6 text-black" />
-                    </div>
-                    <h3 className="mb-2 text-xl font-semibold text-black">{service.title}</h3>
-                    <p className="text-zinc-600">{service.description}</p>
-                  </>
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mt-14">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-4xl font-black mb-3 text-black">{content.demos.title}</h3>
-            <p className="text-lg text-zinc-600 max-w-2xl mx-auto">{content.demos.subtitle}</p>
+  if (variant === 'solutions') {
+    return (
+      <section id="solutions" className="relative bg-[#f2efe8] py-24">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f2efe8] via-[#f6f3ec] to-[#ece8df]" />
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-4xl font-black text-black md:text-5xl">{content.title}</h2>
+            <p className="mx-auto max-w-2xl text-xl text-zinc-600">{content.subtitle}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.demos.items.map((item, index) => {
-              const thumbSrc = DEMO_CARD_BACKGROUNDS[index];
-              const modalMeta = content.demos.modals[index];
-              const galleryAlt = modalMeta?.galleryAlt?.trim() ?? '';
-              const cardVisual =
-                thumbSrc && modalMeta
-                  ? { url: thumbSrc, alt: galleryAlt }
-                  : null;
-              const objClass = DEMO_CARD_OBJECT[index] ?? 'object-center';
-              return (
-                <button
-                  key={item.title}
-                  type="button"
-                  onClick={() => setActive({ kind: 'demo', index })}
-                  className={[
-                    'group relative overflow-hidden text-left transition-transform hover:-translate-y-1',
-                    cardVisual
-                      ? [
-                          'flex flex-col aspect-[4/5] w-full max-h-[min(420px,70vw)] rounded-2xl border border-white/20 bg-zinc-900 p-0',
-                          'shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] ring-1 ring-black/10 sm:max-h-[460px]',
-                        ].join(' ')
-                      : 'cx-card cx-card-hover min-h-[200px] p-6',
-                  ].join(' ')}
-                  aria-label={
-                    cardVisual?.alt ? `${item.title}. ${cardVisual.alt} Ver detalle` : `${item.title}. Ver detalle`
-                  }
-                >
-                  {cardVisual ? (
-                    <>
-                      <span className="absolute inset-0 block overflow-hidden rounded-[inherit]">
-                        <img
-                          src={cardVisual.url}
-                          alt={cardVisual.alt}
-                          className={[
-                            'h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04]',
-                            objClass,
-                          ].join(' ')}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </span>
-                      {/* Oscurece solo la parte baja para el texto; la mitad superior muestra la foto con claridad */}
-                      <div
-                        className="pointer-events-none absolute inset-x-0 bottom-0 top-[38%] bg-gradient-to-t from-black/92 via-black/45 to-transparent"
-                        aria-hidden
-                      />
-                      <div className="relative z-10 mt-auto w-full p-5 pt-12 sm:p-6">
-                        <h4 className="text-lg font-extrabold leading-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.85)] sm:text-xl">
-                          {item.title}
-                        </h4>
-                        <p className="mt-2 text-sm leading-snug text-white/95 [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
-                          {item.description}
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <h4 className="text-xl font-extrabold text-black mb-2">{item.title}</h4>
-                      <p className="text-zinc-600">{item.description}</p>
-                    </>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="mt-20">
-          <h3 className="text-3xl font-bold text-center mb-12 text-black">{content.mainTitle}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {content.mainItems.map((service, index) => {
-              const Icon = mainServiceIcons[index];
-              const thumb = content.mainModals[index]?.images?.[0];
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {content.items.map((service, index) => {
+              const Icon = serviceIcons[index];
+              const thumb = content.itemModals[index]?.images?.[0];
               return (
                 <button
                   key={index}
                   type="button"
-                  onClick={() => setActive({ kind: 'main', index })}
+                  onClick={() => setActive({ kind: 'item', index })}
                   className={[
-                    'group relative overflow-hidden text-left transition hover:-translate-y-2',
-                    thumb ? 'rounded-2xl border border-black/10 bg-zinc-900 shadow-xl' : 'cx-card cx-card-hover p-8',
+                    'group overflow-hidden text-left transition hover:-translate-y-1',
+                    thumb
+                      ? 'flex flex-col rounded-2xl border border-black/10 bg-zinc-900 shadow-lg ring-1 ring-black/10'
+                      : 'cx-card cx-card-hover p-6',
                   ].join(' ')}
                   aria-label={`${service.title}. Ver detalle`}
                 >
                   {thumb ? (
                     <>
-                      <span className="relative block h-44 w-full overflow-hidden">
+                      <span className="relative block h-36 w-full overflow-hidden sm:h-40">
                         <img
                           src={thumb}
                           alt=""
@@ -225,29 +85,101 @@ export default function Services({ content }: ServicesProps) {
                           loading="lazy"
                           decoding="async"
                         />
-                        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <span className="absolute left-5 top-5 flex h-14 w-14 items-center justify-center rounded-xl border border-white/20 bg-white/90">
-                          <Icon className="h-7 w-7 text-black" />
+                        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                        <span className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-white/90 shadow-md">
+                          <Icon className="h-5 w-5 text-black" />
                         </span>
                       </span>
-                      <span className="block p-6">
-                        <h4 className="text-2xl font-bold text-white">{service.title}</h4>
-                        <p className="mt-2 text-base text-white/85">{service.description}</p>
+                      <span className="p-5">
+                        <h3 className="text-lg font-bold text-white">{service.title}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-white/85">{service.description}</p>
                       </span>
                     </>
                   ) : (
                     <>
-                      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl cx-card-surface shadow-md shadow-black/5 transition-transform group-hover:scale-110">
-                        <Icon className="h-8 w-8 text-black" />
+                      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg cx-card-surface shadow-md shadow-black/5 transition-transform group-hover:scale-110">
+                        <Icon className="h-6 w-6 text-black" />
                       </div>
-                      <h4 className="mb-3 text-2xl font-bold text-black">{service.title}</h4>
-                      <p className="text-lg text-zinc-600">{service.description}</p>
+                      <h3 className="mb-2 text-xl font-semibold text-black">{service.title}</h3>
+                      <p className="text-zinc-600">{service.description}</p>
                     </>
                   )}
                 </button>
               );
             })}
           </div>
+        </div>
+
+        <ServiceModal
+          open={Boolean(activeModal)}
+          onClose={() => setActive(null)}
+          content={
+            activeModal ?? {
+              title: '',
+              description: '',
+              highlights: [],
+              images: [],
+              links: [],
+            }
+          }
+          labels={content.modalLabels}
+        />
+      </section>
+    );
+  }
+
+  return (
+    <section id="services" className="relative bg-[#ece8df] py-24">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#ece8df] via-[#f2efe8] to-[#e8e4db]" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="mb-12 text-center text-3xl font-bold text-black md:text-4xl">{content.mainTitle}</h2>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          {content.mainItems.map((service, index) => {
+            const Icon = mainServiceIcons[index];
+            const thumb = content.mainModals[index]?.images?.[0];
+            return (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setActive({ kind: 'main', index })}
+                className={[
+                  'group relative overflow-hidden text-left transition hover:-translate-y-2',
+                  thumb ? 'rounded-2xl border border-black/10 bg-zinc-900 shadow-xl' : 'cx-card cx-card-hover p-8',
+                ].join(' ')}
+                aria-label={`${service.title}. Ver detalle`}
+              >
+                {thumb ? (
+                  <>
+                    <span className="relative block h-44 w-full overflow-hidden">
+                      <img
+                        src={thumb}
+                        alt=""
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <span className="absolute left-5 top-5 flex h-14 w-14 items-center justify-center rounded-xl border border-white/20 bg-white/90">
+                        <Icon className="h-7 w-7 text-black" />
+                      </span>
+                    </span>
+                    <span className="block p-6">
+                      <h3 className="text-2xl font-bold text-white">{service.title}</h3>
+                      <p className="mt-2 text-base text-white/85">{service.description}</p>
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl cx-card-surface shadow-md shadow-black/5 transition-transform group-hover:scale-110">
+                      <Icon className="h-8 w-8 text-black" />
+                    </div>
+                    <h3 className="mb-3 text-2xl font-bold text-black">{service.title}</h3>
+                    <p className="text-lg text-zinc-600">{service.description}</p>
+                  </>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 

@@ -21,11 +21,39 @@ export const KB_DOCS = [
       'Ofrecemos microapps de seguimiento, control de inventarios, control de órdenes, órdenes de trabajo, control de empleados, gastos e ingresos, planeamiento a futuro, notificaciones automáticas, reportes inteligentes y arquitectura web escalable. También desarrollamos apps Android, PWA y arquitectura de sitios web para alto volumen o pymes.',
   },
   {
+    id: 'demos-overview-es',
+    language: 'es',
+    title: 'Demos funcionales (resumen)',
+    content:
+      'En castlexpert.com ofrecemos demos funcionales listos para explorar: TrackLogic (paquetería), Foodly (restaurantes) y CMMS / MANTE Preventivo (mantenimiento). Cada demo tiene una página de explicación y una guía de instrucciones. Lista: https://castlexpert.com/#demos',
+  },
+  {
+    id: 'demo-tracklogic-es',
+    language: 'es',
+    title: 'Demo TrackLogic',
+    content:
+      'TrackLogic conecta tres aplicaciones: Tracklogistic Manager (https://tracklogistic-manager.castlexpert.com), Tracklogistic para clientes (https://tracklogistic.castlexpert.com) y Tracklogistic Logic para ruta/bodega (https://tracklogistic-logic.castlexpert.com). El administrador de castlexpert.com crea las compañías. Página del demo: https://castlexpert.com/demos/tracklogic — Guía: https://castlexpert.com/demos/tracklogic/guide/',
+  },
+  {
+    id: 'demo-foodly-es',
+    language: 'es',
+    title: 'Demo Foodly',
+    content:
+      'Foodly es el ecosistema para restaurantes: Foodly (app del cliente para pedir), Foodly Manager (panel administrativo / web) y Foodly-rest (APK Android de cocina y delivery). La APK se descarga desde castlexpert.com. Página del demo: https://castlexpert.com/demos/foodly — Guía de instrucciones: https://castlexpert.com/demos/foodly/guide/',
+  },
+  {
+    id: 'demo-cmms-es',
+    language: 'es',
+    title: 'Demo CMMS MANTE Preventivo',
+    content:
+      'CMMS / MANTE Preventivo es el sistema de mantenimiento preventivo multi-compañía: Web Manager, app de técnicos, QR de activos y WhatsApp. Incluye video promocional en la página del demo. Página: https://castlexpert.com/demos/cmms — Guía de instrucciones: https://castlexpert.com/demos/cmms/guide/',
+  },
+  {
     id: 'contact-es',
     language: 'es',
     title: 'Contacto',
     content:
-      'Puedes contactarnos por WhatsApp al +506 85070818 o por correo en info@castlexpert.com. Si deseas hablar con un asesor, el chat puede notificar a un asesor por WhatsApp.',
+      'Puedes contactarnos por WhatsApp al +506 85070818, por correo en info@castlexpert.com o en https://castlexpert.com/contacto. Si deseas hablar con un asesor, el chat puede notificar a un asesor por WhatsApp.',
   },
   {
     id: 'site-overview-en',
@@ -49,10 +77,38 @@ export const KB_DOCS = [
       'We offer tracking microapps, inventory control, order management, work orders, employee control, income/expense tracking, future planning, automatic notifications, smart reports, and scalable web architecture. We also build Android apps, PWAs, and website architecture for high-volume or SMBs.',
   },
   {
+    id: 'demos-overview-en',
+    language: 'en',
+    title: 'Functional demos (overview)',
+    content:
+      'On castlexpert.com we offer functional demos: TrackLogic (parcel tracking), Foodly (restaurants), and CMMS / MANTE Preventive (maintenance). Each demo has an explanation page and an instructions guide. List: https://castlexpert.com/#demos',
+  },
+  {
+    id: 'demo-tracklogic-en',
+    language: 'en',
+    title: 'TrackLogic demo',
+    content:
+      'TrackLogic connects three apps: Tracklogistic Manager (https://tracklogistic-manager.castlexpert.com), Tracklogistic for customers (https://tracklogistic.castlexpert.com), and Tracklogistic Logic for route/warehouse (https://tracklogistic-logic.castlexpert.com). The castlexpert.com administrator creates companies. Demo page: https://castlexpert.com/demos/tracklogic — Guide: https://castlexpert.com/demos/tracklogic/guide/',
+  },
+  {
+    id: 'demo-foodly-en',
+    language: 'en',
+    title: 'Foodly demo',
+    content:
+      'Foodly is the restaurant ecosystem: Foodly (customer ordering app), Foodly Manager (admin / web panel), and Foodly-rest (Android kitchen/delivery APK). Download the APK from castlexpert.com. Demo page: https://castlexpert.com/demos/foodly — Instructions guide: https://castlexpert.com/demos/foodly/guide/',
+  },
+  {
+    id: 'demo-cmms-en',
+    language: 'en',
+    title: 'CMMS MANTE Preventive demo',
+    content:
+      'CMMS / MANTE Preventive is the multi-company preventive maintenance system: Web Manager, tech app, asset QR, and WhatsApp. A promo video is on the demo page. Page: https://castlexpert.com/demos/cmms — Instructions guide: https://castlexpert.com/demos/cmms/guide/',
+  },
+  {
     id: 'contact-en',
     language: 'en',
     title: 'Contact',
     content:
-      'Contact us via WhatsApp at +506 85070818 or email info@castlexpert.com. If you request an advisor, the chat can notify an advisor via WhatsApp.',
+      'Contact us via WhatsApp at +506 85070818, email info@castlexpert.com, or https://castlexpert.com/contacto. If you request an advisor, the chat can notify an advisor via WhatsApp.',
   },
 ];

@@ -190,9 +190,11 @@ export default function ServiceModal({ open, onClose, content, labels }: Service
                             ) : l.url ? (
                               <a
                                 href={l.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                {...(l.url.startsWith('http')
+                                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                                  : {})}
                                 className="rounded-xl bg-white/15 px-3 py-1.5 text-sm font-semibold text-zinc-900 transition hover:bg-white/25"
+                                onClick={l.url.startsWith('/') ? () => onClose() : undefined}
                               >
                                 {labels.open}
                               </a>
