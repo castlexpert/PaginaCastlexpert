@@ -60,6 +60,11 @@ export default function SiteMapPage({
               </Link>
             </li>
             <li>
+              <Link className={linkCls} to="/demos/pura-puntos">
+                Demo Pura Puntos
+              </Link>
+            </li>
+            <li>
               <Link className={linkCls} to="/#solutions">
                 {p.services}
               </Link>

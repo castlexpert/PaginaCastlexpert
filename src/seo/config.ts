@@ -131,6 +131,20 @@ const seoDemoById: Record<string, Record<Language, PageSeo>> = {
       keywords: 'CMMS, MANTE Preventive, maintenance demo, CastleXpert, Costa Rica',
     },
   },
+  'pura-puntos': {
+    es: {
+      title: 'Demo Pura Puntos | CastleXpert',
+      description:
+        'Demo Pura Puntos: lealtad multi-comercio con Pura Puntos, Pura Puntos Cash y Pura Puntos Manager.',
+      keywords: 'Pura Puntos, lealtad, loyalty, Pura Puntos Cash, Pura Puntos Manager, CastleXpert, Costa Rica',
+    },
+    en: {
+      title: 'Pura Puntos Demo | CastleXpert',
+      description:
+        'Pura Puntos demo: multi-merchant loyalty with Pura Puntos, Pura Puntos Cash, and Pura Puntos Manager.',
+      keywords: 'Pura Puntos, loyalty, Pura Puntos Cash, Pura Puntos Manager, CastleXpert, Costa Rica',
+    },
+  },
 };
 
 export function seoForPath(pathname: string, language: Language): PageSeo {
@@ -139,7 +153,7 @@ export function seoForPath(pathname: string, language: Language): PageSeo {
   if (p === '/acerca-de') return seoAboutByLang[language];
   if (p === '/contacto' || p === '/contact') return seoContactByLang[language];
   if (p === '/castlexpertcard' || p === '/castlexpert-card') return seoContactCardByLang[language];
-  const demoMatch = p.match(/^\/demos\/(tracklogic|foodly|cmms)\/?$/);
+  const demoMatch = p.match(/^\/demos\/(tracklogic|foodly|cmms|pura-puntos)\/?$/);
   if (demoMatch) return seoDemoById[demoMatch[1]][language];
   return seoByLang[language];
 }

@@ -180,7 +180,7 @@ export type AppCopy = {
     backDemos: string;
     ctaLabel: string;
     items: Array<{
-      id: 'tracklogic' | 'foodly' | 'cmms';
+      id: 'tracklogic' | 'foodly' | 'cmms' | 'pura-puntos';
       title: string;
       cardDescription: string;
       tagline: string;
@@ -726,6 +726,22 @@ export const copy: Record<Language, AppCopy> = {
           ],
           guideHint: 'Instrucciones: https://castlexpert.com/demos/tracklogic/guide/',
         },
+        {
+          id: 'pura-puntos',
+          title: 'Pura Puntos',
+          cardDescription:
+            'Lealtad multi-comercio: Pura Puntos, Pura Puntos Cash y Pura Puntos Manager.',
+          tagline: 'Programa de lealtad profesional: wallet del cliente, punto de venta y consola de gestión.',
+          description:
+            'Pura Puntos permite a un comercio diseñar, operar y medir su plan de lealtad. Conecta tres aplicaciones: Pura Puntos (wallet del cliente), Pura Puntos Cash (punto de venta) y Pura Puntos Manager (consola de gestión), con red de coalición entre negocios para acumular y canjear valor en toda la red.',
+          highlights: [
+            'Pura Puntos (pura-puntos.castlexpert.com): identidad digital y saldo del cliente.',
+            'Pura Puntos Cash (pura-puntos-cash.castlexpert.com): acumulación y canje en mostrador.',
+            'Pura Puntos Manager (pura-puntos-manager.castlexpert.com): reglas, analítica y campañas.',
+            'Red de coalición entre comercios y video demo listo para ver.',
+          ],
+          guideHint: 'Instrucciones: https://castlexpert.com/demos/pura-puntos/guide/',
+        },
       ],
     },
     whatsapp: {
@@ -1262,6 +1278,22 @@ export const copy: Record<Language, AppCopy> = {
             'Ready-to-read product usage guide.',
           ],
           guideHint: 'Instructions: https://castlexpert.com/demos/tracklogic/guide/',
+        },
+        {
+          id: 'pura-puntos',
+          title: 'Pura Puntos',
+          cardDescription:
+            'Multi-merchant loyalty: Pura Puntos, Pura Puntos Cash, and Pura Puntos Manager.',
+          tagline: 'A professional loyalty program: customer wallet, point of sale, and management console.',
+          description:
+            'Pura Puntos lets a merchant design, run, and measure a loyalty plan. It connects three apps: Pura Puntos (customer wallet), Pura Puntos Cash (point of sale), and Pura Puntos Manager (management console), with a coalition network so value earned at one business can be redeemed at another.',
+          highlights: [
+            'Pura Puntos (pura-puntos.castlexpert.com): digital identity and customer balance.',
+            'Pura Puntos Cash (pura-puntos-cash.castlexpert.com): earn and redeem at the counter.',
+            'Pura Puntos Manager (pura-puntos-manager.castlexpert.com): rules, analytics, and campaigns.',
+            'Coalition network across merchants, plus a ready-to-watch demo video.',
+          ],
+          guideHint: 'Instructions: https://castlexpert.com/demos/pura-puntos/guide/',
         },
       ],
     },

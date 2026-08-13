@@ -1,5 +1,5 @@
 /** Catálogo de demos funcionales publicados en CastleXpert. */
-export type FunctionalDemoId = 'tracklogic' | 'foodly' | 'cmms';
+export type FunctionalDemoId = 'tracklogic' | 'foodly' | 'cmms' | 'pura-puntos';
 
 export type FunctionalDemo = {
   id: FunctionalDemoId;
@@ -43,6 +43,17 @@ export const functionalDemos: FunctionalDemo[] = [
     guidePath: '/demos/tracklogic/guide/',
     image: '/images/demos/soluciones-personales-card.webp',
     sourceGuidePath: 'C:\\Proyectos\\Track_logistic\\guide',
+  },
+  {
+    id: 'pura-puntos',
+    pagePath: '/demos/pura-puntos',
+    guidePath: '/demos/pura-puntos/guide/',
+    image: '/demos/pura-puntos/guide/assets/cliente-demo.png',
+    video: {
+      src: '/images/demos/pp.mp4',
+      poster: '/demos/pura-puntos/guide/assets/cliente-demo.png',
+    },
+    sourceGuidePath: 'C:\\Proyectos\\LOYALTY\\loyalty-platform\\guide',
   },
 ];
 

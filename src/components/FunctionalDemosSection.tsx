@@ -18,7 +18,7 @@ export default function FunctionalDemosSection({ content }: FunctionalDemosSecti
           <p className="mx-auto mt-3 max-w-2xl text-lg text-zinc-600">{content.sectionSubtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {functionalDemos.map((demo) => {
             const item = content.items.find((i) => i.id === demo.id);
             if (!item) return null;

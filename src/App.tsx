@@ -136,6 +136,17 @@ function App() {
             />
           }
         />
+        <Route
+          path="/demos/pura-puntos"
+          element={
+            <DemoProductPage
+              demoId="pura-puntos"
+              content={content}
+              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
       </Routes>
       {!contactCardOnly && (
         <>

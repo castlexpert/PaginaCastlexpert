@@ -11,6 +11,17 @@ npm run demos:sync
 | `tracklogic` | `public/demos/tracklogic/guide/` | `C:\Proyectos\Track_logistic\guide` |
 | `foodly` | `public/demos/foodly/guide/` | `C:\Proyectos\DEMO_fastfood\guide` |
 | `cmms` | `public/demos/cmms/guide/` | `C:\Proyectos\MANTE_PREVENTIVO\guide` (solo `index.html` + `images/`; sin `node_modules` ni `mockups`) |
+| `pura-puntos` | `public/demos/pura-puntos/guide/` | `C:\Proyectos\LOYALTY\loyalty-platform\guide` (`pura-puntos-guia.html` → `index.html` + `assets/`) |
+
+### Pura Puntos — nombres públicos
+
+| App | Nombre | URL |
+|-----|--------|-----|
+| Wallet cliente | Pura Puntos | https://pura-puntos.castlexpert.com |
+| Punto de venta | Pura Puntos Cash | https://pura-puntos-cash.castlexpert.com |
+| Consola | Pura Puntos Manager | https://pura-puntos-manager.castlexpert.com |
+
+Video promo: `public/images/demos/pp.mp4`
 
 ### TrackLogic — nombres públicos
 

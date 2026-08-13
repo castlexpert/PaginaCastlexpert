@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pura Puntos — Plataforma de lealtad</title>
+<meta name="description" content="Pura Puntos: plataforma de lealtad multi-comercio con wallet del cliente, punto de venta y consola de gestión — incluyendo red de coalición entre negocios." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #efead9;
+    --paper-raised: #fffdf7;
+    --paper-sunken: #e4dec8;
+    --ink: #171310;
+    --ink-soft: #6b6355;
+    --ink-faint: #a89f8c;
+    --lime: #c4f542;
+    --lime-ink: #1c2405;
+    --rust: #d94a1a;
+    --rust-ink: #fff6f0;
+    --sky: #2450d6;
+    --sky-ink: #eef2ff;
+    --line: rgba(23, 19, 16, 0.15);
+    --line-strong: rgba(23, 19, 16, 0.32);
+    --shadow: 0 18px 40px -22px rgba(23, 19, 16, 0.45);
+    --radius-card: 26px;
+    --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
+    --font-body: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #15120d;
+    --paper-raised: #201c15;
+    --paper-sunken: #0e0c08;
+    --ink: #f4efdf;
+    --ink-soft: #b0a68f;
+    --ink-faint: #6e6555;
+    --lime: #c4f542;
+    --lime-ink: #14200a;
+    --rust: #ff7a45;
+    --rust-ink: #2a0e02;
+    --sky: #7ea0ff;
+    --sky-ink: #0a1230;
+    --line: rgba(244, 239, 223, 0.14);
+    --line-strong: rgba(244, 239, 223, 0.3);
+    --shadow: 0 18px 46px -20px rgba(0, 0, 0, 0.65);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #15120d;
+      --paper-raised: #201c15;
+      --paper-sunken: #0e0c08;
+      --ink: #f4efdf;
+      --ink-soft: #b0a68f;
+      --ink-faint: #6e6555;
+      --lime: #c4f542;
+      --lime-ink: #14200a;
+      --rust: #ff7a45;
+      --rust-ink: #2a0e02;
+      --sky: #7ea0ff;
+      --sky-ink: #0a1230;
+      --line: rgba(244, 239, 223, 0.14);
+      --line-strong: rgba(244, 239, 223, 0.3);
+      --shadow: 0 18px 46px -20px rgba(0, 0, 0, 0.65);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-family: var(--font-display); letter-spacing: -0.02em; font-weight: 600; }
+  p { margin: 0; }
+  :focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); }
+  .eyebrow {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- theme toggle ---------- */
+  .theme-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 40;
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .theme-toggle button {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 7px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .theme-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+  /* ---------- top ticket strip ---------- */
+  .ticket-strip {
+    border-bottom: 1px dashed var(--line-strong);
+    background: var(--paper-raised);
+  }
+  .ticket-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .ticket {
+    padding: 14px clamp(20px, 5vw, 56px);
+    border-right: 1px dashed var(--line);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ticket:last-child { border-right: none; }
+  .ticket .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .ticket .label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-faint); font-family: var(--font-body); font-weight: 600; }
+  .ticket .url { font-family: var(--font-body); font-weight: 600; font-size: 0.86rem; font-variant-numeric: tabular-nums; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    padding: clamp(56px, 10vw, 120px) 0 clamp(64px, 8vw, 100px);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--line) 1.4px, transparent 1.4px);
+    background-size: 26px 26px;
+    opacity: 0.55;
+    mask-image: linear-gradient(to bottom, black, transparent 88%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 3.6vw + 1.3rem, 4.6rem);
+    line-height: 0.98;
+    font-weight: 700;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 600;
+    color: var(--ink);
+    background: linear-gradient(transparent 62%, rgba(196, 245, 66, 0.55) 62%);
+    padding: 0 0.06em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .hero .sub {
+    margin-top: 22px;
+    max-width: 46ch;
+    font-size: clamp(1rem, 0.4vw + 0.95rem, 1.18rem);
+    color: var(--ink-soft);
+  }
+  .hero .eyebrow { margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
+  .hero .eyebrow::before { content: ""; width: 26px; height: 2px; background: var(--rust); display: inline-block; }
+
+  .hero-actions { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    padding: 13px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 180ms ease;
+  }
+  .btn.solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .btn:hover { transform: translateY(-2px); }
+  @media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+
+  /* hero stamp mark */
+  .stamp-mark {
+    position: relative;
+    width: min(340px, 88vw);
+    aspect-ratio: 1;
+    margin-inline: auto;
+    justify-self: center;
+  }
+  .stamp-mark .ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(
+      50% 0%, 56% 3%, 62% 0%, 68% 3%, 74% 0%, 80% 3%, 86% 0%, 92% 4%, 97% 8%, 100% 14%,
+      97% 20%, 100% 26%, 97% 32%, 100% 38%, 97% 44%, 100% 50%, 97% 56%, 100% 62%, 97% 68%,
+      100% 74%, 96% 79%, 92% 84%, 96% 89%, 91% 93%, 86% 96%, 80% 99%, 74% 96%, 68% 99%,
+      62% 97%, 56% 100%, 50% 97%, 44% 100%, 38% 97%, 32% 99%, 26% 96%, 20% 99%, 14% 96%,
+      9% 92%, 4% 87%, 8% 81%, 3% 75%, 6% 69%, 3% 63%, 6% 57%, 3% 51%, 6% 45%, 3% 39%,
+      6% 33%, 3% 27%, 6% 21%, 4% 15%, 9% 9%, 14% 4%, 20% 7%, 26% 4%, 32% 7%, 38% 4%, 44% 7%
+    );
+    animation: stamp-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .stamp-mark .ring b {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    letter-spacing: -0.02em;
+    transform: rotate(-8deg);
+    display: block;
+  }
+  .stamp-mark .ring small {
+    position: absolute;
+    bottom: 26%;
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+  @keyframes stamp-in {
+    from { opacity: 0; transform: scale(0.55) rotate(-14deg); }
+    to { opacity: 1; transform: scale(1) rotate(-8deg); }
+  }
+  @media (prefers-reduced-motion: reduce) { .stamp-mark .ring { animation: none; } }
+
+  @media (max-width: 880px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .stamp-mark { order: -1; width: min(220px, 60vw); }
+  }
+
+  /* ---------- section shell ---------- */
+  section { padding: clamp(56px, 9vw, 108px) 0; }
+  .section-head { max-width: 62ch; margin-bottom: clamp(36px, 6vw, 60px); }
+  .section-head h2 { font-size: clamp(1.7rem, 1.6vw + 1.2rem, 2.6rem); font-weight: 700; }
+  .section-head p { margin-top: 14px; color: var(--ink-soft); font-size: 1.02rem; max-width: 56ch; }
+
+  /* ---------- overview cards ---------- */
+  .overview { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper-raised); }
+  .overview-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .ov-card {
+    padding: clamp(28px, 3.4vw, 40px) clamp(22px, 3vw, 34px);
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .ov-card:last-child { border-right: none; }
+  .ov-card .chip {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-body); font-weight: 700; font-size: 0.95rem;
+  }
+  .ov-card h3 { font-size: 1.08rem; font-weight: 700; }
+  .ov-card .device { font-size: 0.78rem; color: var(--ink-faint); font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; }
+  .ov-card p.desc { color: var(--ink-soft); font-size: 0.92rem; }
+  .ov-card .go { margin-top: auto; font-family: var(--font-body); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.04em; word-break: break-word; }
+
+  @media (max-width: 880px) {
+    .overview-grid { grid-template-columns: 1fr; }
+    .ov-card { border-right: none; border-bottom: 1px solid var(--line); }
+    .ov-card:last-child { border-bottom: none; }
+  }
+
+  /* ---------- module deep-dive ---------- */
+  .module { border-bottom: 1px solid var(--line); }
+  .module-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 6vw, 72px);
+    align-items: center;
+  }
+  .module.reverse .module-grid { direction: rtl; }
+  .module.reverse .module-grid > * { direction: ltr; }
+  @media (max-width: 900px) {
+    .module-grid { grid-template-columns: 1fr; }
+    .module.reverse .module-grid { direction: ltr; }
+    .module .visual { order: -1; }
+  }
+
+  .module .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-weight: 700; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    padding: 6px 12px; border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .module h2 { font-size: clamp(1.7rem, 1.8vw + 1.1rem, 2.5rem); font-weight: 700; margin-bottom: 6px; }
+  .module .kicker { color: var(--ink-soft); font-size: 1.08rem; margin-bottom: 22px; }
+  .module .domain-line {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.92rem;
+    padding: 10px 16px; border-radius: 12px; border: 1px solid var(--line-strong);
+    margin-bottom: 26px; background: var(--paper-raised);
+  }
+  .module .domain-line .pulse { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .feat-list { display: grid; gap: 14px; list-style: none; margin: 0; padding: 0; }
+  .feat-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 0.98rem; }
+  .feat-list li .mk { flex: none; width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-top: 2px; font-size: 0.7rem; font-family: var(--font-body); font-weight: 700; }
+  .feat-list li span.t { color: var(--ink); }
+  .feat-list li span.d { display: block; color: var(--ink-soft); font-size: 0.86rem; margin-top: 2px; }
+
+  /* device frames */
+  .visual { display: flex; justify-content: center; }
+  .phone {
+    width: min(272px, 78vw);
+    border-radius: 42px;
+    padding: 14px;
+    background: var(--ink);
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .phone .notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 84px; height: 20px; background: var(--ink); border-radius: 0 0 14px 14px; z-index: 2; }
+  .phone .screen { background: var(--paper-raised); border-radius: 30px; padding: 30px 16px 18px; min-height: 400px; display: flex; flex-direction: column; gap: 14px; }
+
+  /* customer: real demo screenshot in a premium phone frame */
+  .phone-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .phone-stage::before {
+    content: "";
+    position: absolute;
+    width: 78%;
+    height: 62%;
+    top: 18%;
+    left: 11%;
+    background: radial-gradient(ellipse at center, rgba(196, 245, 66, 0.35), transparent 68%);
+    filter: blur(28px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  :root[data-theme="dark"] .phone-stage::before {
+    background: radial-gradient(ellipse at center, rgba(196, 245, 66, 0.22), transparent 70%);
+  }
+  .phone-shot {
+    position: relative;
+    z-index: 1;
+    width: min(286px, 82vw);
+    border-radius: 44px;
+    padding: 11px;
+    background: linear-gradient(160deg, #2a2620 0%, #0c0b09 55%, #1a1712 100%);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.08),
+      0 28px 50px -22px rgba(10, 8, 4, 0.7),
+      0 8px 18px -10px rgba(10, 8, 4, 0.45);
+    transform: rotate(-2.5deg);
+    transition: transform 560ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .phone-stage:hover .phone-shot { transform: rotate(0deg) translateY(-4px); }
+  @media (prefers-reduced-motion: reduce) {
+    .phone-shot { transform: none; transition: none; }
+    .phone-stage:hover .phone-shot { transform: none; }
+  }
+  .phone-shot .bezel {
+    position: relative;
+    border-radius: 34px;
+    overflow: hidden;
+    background: #0a0a0a;
+    aspect-ratio: 9 / 19.2;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  }
+  .phone-shot .bezel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .phone-shot .home-bar {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+    width: 34%;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.35);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .phone-shot .side-btn {
+    position: absolute;
+    right: -3px;
+    top: 96px;
+    width: 3px;
+    height: 52px;
+    border-radius: 2px 0 0 2px;
+    background: #3a342c;
+  }
+  .phone-shot .side-btn.vol {
+    left: -3px;
+    right: auto;
+    top: 78px;
+    height: 28px;
+    border-radius: 0 2px 2px 0;
+  }
+  .phone-shot .side-btn.vol2 {
+    left: -3px;
+    right: auto;
+    top: 114px;
+    height: 28px;
+    border-radius: 0 2px 2px 0;
+  }
+  .phone-caption {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 28ch;
+  }
+  .phone-caption .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 7px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+  }
+  .phone-caption .live i {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 0 4px rgba(196,245,66,0.22);
+    font-style: normal;
+  }
+  .phone-caption p {
+    margin-top: 10px;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 900px) {
+    .phone-shot { transform: none; }
+    .phone-stage:hover .phone-shot { transform: none; }
+  }
+
+  .browser {
+    width: min(480px, 92vw);
+    border-radius: 16px;
+    background: var(--paper-raised);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .wide-visual .browser { width: min(600px, 94vw); }
+  .browser .chrome { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--paper-sunken); }
+  .browser .dots { display: flex; gap: 6px; }
+  .browser .dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--line-strong); }
+  .browser .addr { flex: 1; font-family: var(--font-body); font-size: 0.72rem; background: var(--paper-raised); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .browser .content { padding: 22px; display: grid; gap: 14px; }
+
+  /* mini card UI bits reused inside mockups */
+  .mini-card { border: 1px solid var(--line); border-radius: 16px; padding: 14px; background: var(--paper); }
+  .mini-row { display: flex; justify-content: space-between; align-items: center; }
+  .mini-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); font-family: var(--font-body); font-weight: 600; }
+  .mini-num { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+
+  .qr-swatch { width: 74px; height: 74px; border-radius: 8px; background: #fff; padding: 6px; flex: none; }
+  .qr-swatch svg { width: 100%; height: 100%; }
+
+  .stamp-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .stamp-dot { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--line-strong); display: flex; align-items: center; justify-content: center; font-size: 0.55rem; opacity: 0; transform: scale(0.4); transition: opacity 320ms ease, transform 320ms cubic-bezier(0.34,1.56,0.64,1); }
+  .stamp-dot.on { background: var(--lime); border-color: var(--lime); color: var(--lime-ink); }
+  .reveal .stamp-dot { opacity: 1; transform: scale(1); }
+  @media (prefers-reduced-motion: reduce) { .stamp-dot { opacity: 1; transform: scale(1); transition: none; } }
+
+  .bt-scanner { width: min(150px, 40vw); }
+  .capture-pair { display: flex; align-items: flex-end; justify-content: center; gap: clamp(16px, 3vw, 32px); }
+  .capture-card { text-align: center; }
+  .capture-card .caption { margin-top: 10px; font-family: var(--font-body); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+  .plus-divider { font-family: var(--font-body); font-weight: 700; color: var(--ink-faint); padding-bottom: 34px; }
+
+  /* ---------- manager mockup: BI/KPI dashboard, tilted in 3D ---------- */
+  .module.wide-visual .module-grid { grid-template-columns: 0.86fr 1.14fr; }
+  @media (max-width: 900px) { .module.wide-visual .module-grid { grid-template-columns: 1fr; } }
+
+  .browser-stage { perspective: 1600px; }
+  .browser.tilt-3d {
+    transform: rotateX(9deg) rotateY(-15deg) rotateZ(0.6deg);
+    transform-style: preserve-3d;
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 34px 46px 60px -30px rgba(10, 12, 30, 0.5), 0 4px 0 rgba(10,12,30,0.06);
+  }
+  .browser-stage:hover .browser.tilt-3d,
+  .browser-stage:focus-within .browser.tilt-3d { transform: rotateX(2deg) rotateY(-3deg) rotateZ(0deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .browser.tilt-3d { transition: none; transform: rotateX(5deg) rotateY(-8deg); }
+  }
+  @media (max-width: 900px) {
+    .browser-stage { perspective: none; }
+    .browser.tilt-3d { transform: none; box-shadow: var(--shadow); }
+  }
+
+  .dash-content { padding: 20px; display: grid; gap: 16px; background: linear-gradient(155deg, var(--paper-raised) 0%, var(--paper-sunken) 130%); }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  @media (max-width: 560px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .chart-panel { grid-template-columns: 1fr; } }
+  .kpi-card {
+    position: relative;
+    border-radius: 14px;
+    padding: 12px 12px 10px;
+    color: #f4f6ff;
+    background: var(--kpi-grad, linear-gradient(150deg, var(--sky) 0%, #101a3d 130%));
+    box-shadow: 0 10px 18px -10px rgba(10, 14, 40, 0.55), inset 0 1px 0 rgba(255,255,255,0.18);
+    overflow: hidden;
+  }
+  .kpi-card::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(115deg, rgba(255,255,255,0.22), rgba(255,255,255,0) 45%);
+    pointer-events: none;
+  }
+  .kpi-card .k-label { font-family: var(--font-body); font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.78; }
+  .kpi-card .k-num { font-family: var(--font-display); font-weight: 700; font-size: 1.36rem; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .kpi-card .k-trend { display: inline-flex; align-items: center; gap: 3px; margin-top: 6px; font-size: 0.62rem; font-weight: 700; font-family: var(--font-body); padding: 2px 6px; border-radius: 999px; }
+  .kpi-card .k-trend.up { background: rgba(139, 244, 175, 0.22); color: #b7ffd0; }
+  .kpi-card .k-trend.down { background: rgba(255, 170, 150, 0.22); color: #ffd0c2; }
+  .kpi-card .k-spark { position: absolute; right: 8px; bottom: 8px; width: 46px; height: 22px; opacity: 0.85; }
+
+  .chart-panel { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; align-items: stretch; }
+  .panel-box { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+  .panel-box .p-title { font-family: var(--font-body); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+
+  .iso-stage { perspective: 420px; height: 92px; display: flex; align-items: flex-end; }
+  .iso-bars { display: flex; align-items: flex-end; gap: 9px; height: 100%; width: 100%; transform: rotateX(24deg); transform-style: preserve-3d; transform-origin: bottom; }
+  .iso-bar { flex: 1; border-radius: 5px 5px 2px 2px; position: relative; background: linear-gradient(180deg, var(--bar-c1, #6ea0ff) 0%, var(--bar-c2, #24408f) 100%); box-shadow: inset 2px 0 0 rgba(255,255,255,0.35), inset -2px 0 0 rgba(0,0,0,0.18), 0 6px 10px -6px rgba(20,30,70,0.55); }
+  .iso-bar::before { content: ""; position: absolute; top: -4px; left: 0; right: 0; height: 5px; border-radius: 3px; background: linear-gradient(90deg, var(--bar-c1, #6ea0ff), #fff); opacity: 0.9; }
+  @media (prefers-reduced-motion: reduce) { .iso-bars { transform: rotateX(24deg); } }
+
+  .donut-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; height: 100%; }
+  .donut { width: 92px; height: 92px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: conic-gradient(var(--lime) 0deg var(--donut-deg, 230deg), var(--paper-sunken) var(--donut-deg, 230deg) 360deg); box-shadow: 0 10px 16px -10px rgba(23,19,16,0.4), inset 0 2px 4px rgba(255,255,255,0.35); position: relative; }
+  .donut::before { content: ""; position: absolute; inset: 13px; border-radius: 50%; background: var(--paper-raised); box-shadow: inset 0 2px 5px rgba(23,19,16,0.18); }
+  .donut span { position: relative; font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; z-index: 1; }
+  .donut-legend { font-size: 0.66rem; color: var(--ink-soft); text-align: center; }
+
+  .client-table { display: grid; gap: 6px; }
+  .c-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--paper-raised); border: 1px solid var(--line); }
+  .c-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-body); font-size: 0.6rem; font-weight: 700; color: #fff; background: var(--avatar-grad, linear-gradient(150deg, var(--sky), #16224e)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.35); }
+  .c-row .c-name { font-size: 0.78rem; }
+  .c-pill { font-family: var(--font-body); font-size: 0.64rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+
+  /* reveal-on-scroll */
+  .reveal-up { opacity: 0; transform: translateY(18px); transition: opacity 560ms ease, transform 560ms cubic-bezier(0.16,1,0.3,1); }
+  .reveal-up.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal-up { opacity: 1; transform: none; transition: none; } }
+
+  /* ---------- flow ---------- */
+  .flow { background: var(--ink); color: var(--paper); }
+  .flow .section-head h2, .flow .section-head p { color: var(--paper); }
+  .flow .section-head p { color: rgba(244,239,223,0.72); }
+  .flow-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: rgba(244,239,223,0.14); border-radius: 20px; overflow: hidden; }
+  .flow-step { background: var(--ink); padding: 26px 18px; display: flex; flex-direction: column; gap: 10px; min-height: 168px; }
+  .flow-step .n { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; color: var(--lime); }
+  .flow-step p { font-size: 0.86rem; color: rgba(244,239,223,0.82); }
+  @media (max-width: 900px) { .flow-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .flow-steps { grid-template-columns: 1fr; } }
+
+  /* ---------- footer ---------- */
+  footer { padding: clamp(40px, 6vw, 64px) 0; }
+  .foot-grid { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; border-top: 1px solid var(--line); padding-top: 28px; }
+  .foot-brand { font-family: var(--font-display); font-weight: 700; }
+  .foot-credit { font-family: var(--font-body); font-size: 0.78rem; color: var(--ink-soft); }
+  .foot-credit b { color: var(--ink); }
+</style>
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/pura-puntos">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+
+<div class="theme-toggle" role="group" aria-label="Tema de color">
+  <button type="button" data-theme-btn="light" aria-pressed="false">Claro</button>
+  <button type="button" data-theme-btn="dark" aria-pressed="false">Oscuro</button>
+</div>
+
+<div class="ticket-strip">
+  <div class="wrap">
+    <div class="ticket-row">
+      <div class="ticket">
+        <span class="dot" style="background:var(--lime)"></span>
+        <div>
+          <div class="label">Cliente</div>
+          <div class="url">pura&#8209;puntos.castlexpert.com</div>
+        </div>
+      </div>
+      <div class="ticket">
+        <span class="dot" style="background:var(--rust)"></span>
+        <div>
+          <div class="label">Cajero</div>
+          <div class="url">pura&#8209;puntos&#8209;cash.castlexpert.com</div>
+        </div>
+      </div>
+      <div class="ticket">
+        <span class="dot" style="background:var(--sky)"></span>
+        <div>
+          <div class="label">Web Manager</div>
+          <div class="url">pura&#8209;puntos&#8209;manager.castlexpert.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Plataforma de lealtad</div>
+      <h1>Un plan de lealtad profesional, <em>listo para operar.</em></h1>
+      <p class="sub">Pura Puntos es la plataforma con la que un comercio diseña, opera y mide su programa de lealtad: identidad digital del cliente, acumulación y canje en el punto de venta, y una consola de gestión completa. Tres superficies independientes — y una red de coalición donde el valor ganado en un negocio puede redimirse en otro.</p>
+      <div class="hero-actions">
+        <a class="btn solid" href="#modulos">Conocer la plataforma ↓</a>
+        <a class="btn" href="#flujo">Ver el flujo operativo</a>
+      </div>
+    </div>
+    <div class="stamp-mark" aria-hidden="true">
+      <div class="ring">
+        <b>PP</b>
+        <small>Pura Puntos</small>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="overview" id="modulos">
+  <div class="wrap">
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="chip" style="background:var(--lime);color:var(--lime-ink)">①</div>
+        <div class="device">Wallet del cliente</div>
+        <h3>Cliente</h3>
+        <p class="desc">Identidad digital, saldo del programa y acceso a la red de comercios afiliados — sin instalación obligatoria al afiliarse.</p>
+        <div class="go" style="color:var(--lime-ink);background:var(--lime);padding:8px 10px;border-radius:8px;display:inline-block">pura-puntos.castlexpert.com</div>
+      </div>
+      <div class="ov-card">
+        <div class="chip" style="background:var(--rust);color:var(--rust-ink)">②</div>
+        <div class="device">Punto de venta</div>
+        <h3>Cajero</h3>
+        <p class="desc">Acumulación y canje en mostrador, con cámara del dispositivo o lector bluetooth/USB ya existente.</p>
+        <div class="go" style="color:var(--rust-ink);background:var(--rust);padding:8px 10px;border-radius:8px;display:inline-block">pura-puntos-cash.castlexpert.com</div>
+      </div>
+      <div class="ov-card">
+        <div class="chip" style="background:var(--sky);color:var(--sky-ink)">③</div>
+        <div class="device">Consola de gestión</div>
+        <h3>Web Manager</h3>
+        <p class="desc">Configuración del programa, analítica de clientes, campañas y marca — control operativo completo.</p>
+        <div class="go" style="color:var(--sky-ink);background:var(--sky);padding:8px 10px;border-radius:8px;display:inline-block">pura-puntos-manager.castlexpert.com</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MÓDULO CLIENTE ===================== -->
+<section class="module">
+  <div class="wrap module-grid">
+    <div class="reveal-up">
+      <span class="tag" style="background:var(--lime);color:var(--lime-ink)">01 · Wallet del cliente</span>
+      <h2>La membresía del programa, siempre a la mano.</h2>
+      <p class="kicker">El cliente se afilia desde el QR del comercio, sin pasar por una tienda de aplicaciones. Recibe su identidad digital con la marca del negocio, el saldo de su plan (puntos o sellos) y la opción de instalarla en la pantalla de inicio.</p>
+      <div class="domain-line">
+        <span class="pulse" style="background:var(--lime)"></span>
+        pura-puntos.castlexpert.com
+      </div>
+      <ul class="feat-list">
+        <li>
+          <span class="mk" style="background:var(--lime);color:var(--lime-ink)">QR</span>
+          <span><span class="t">Identidad única en toda la red</span><span class="d">Un mismo código QR acredita al cliente en cualquier comercio de su red de coalición.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--lime);color:var(--lime-ink)">✓</span>
+          <span><span class="t">Saldo del programa en tiempo real</span><span class="d">Puntos o sellos según las reglas del comercio. Al presentar el QR, el wallet se actualiza cuando el punto de venta registra la operación.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--lime);color:var(--lime-ink)">◎</span>
+          <span><span class="t">Red de comercios afiliados</span><span class="d">Consulta los negocios de su red con distancia real: misma identidad, mismo saldo transferable.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--lime);color:var(--lime-ink)">＋</span>
+          <span><span class="t">Instalable como aplicación</span><span class="d">Acceso directo desde la pantalla de inicio en Android e iOS, sin publicación en tiendas.</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="visual">
+      <div class="phone-stage reveal-up">
+        <div class="phone-shot">
+          <span class="side-btn vol" aria-hidden="true"></span>
+          <span class="side-btn vol2" aria-hidden="true"></span>
+          <span class="side-btn" aria-hidden="true"></span>
+          <div class="bezel">
+            <img
+              src="assets/cliente-demo.png"
+              alt="Wallet de lealtad Pura Puntos: ChumaVistroBAR con progreso 3/10, QR del socio y comercios de la Red Occidente con distancia."
+              width="720"
+              height="1280"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="home-bar" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="phone-caption">
+          <span class="live"><i></i> Captura en producción</span>
+          <p>ChumaVistroBAR · Red Occidente — marca, progreso del plan, identidad QR y red de afiliados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MÓDULO CAJERO ===================== -->
+<section class="module reverse">
+  <div class="wrap module-grid">
+    <div class="reveal-up">
+      <span class="tag" style="background:var(--rust);color:var(--rust-ink)">02 · Punto de venta</span>
+      <h2>Operación de lealtad en el mostrador, sin fricción.</h2>
+      <p class="kicker">El personal acredita visitas y procesa canjes con la cámara del dispositivo o un lector bluetooth/USB en modo teclado. Incluye resumen operativo del día — check-ins, puntos emitidos y canjes — sin salir de la misma pantalla.</p>
+      <div class="domain-line">
+        <span class="pulse" style="background:var(--rust)"></span>
+        pura-puntos-cash.castlexpert.com
+      </div>
+      <ul class="feat-list">
+        <li>
+          <span class="mk" style="background:var(--rust);color:var(--rust-ink)">⚡</span>
+          <span><span class="t">Acumulación en un toque</span><span class="d">Confirmación inmediata; la escritura al servidor corre en segundo plano y la pantalla queda lista para el siguiente cliente.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--rust);color:var(--rust-ink)">☁</span>
+          <span><span class="t">Operación offline-first</span><span class="d">Si se pierde la conexión, la transacción queda en cola local y se sincroniza automáticamente al restablecerse.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--rust);color:var(--rust-ink)">🎁</span>
+          <span><span class="t">Canje de recompensas en caja</span><span class="d">Consulta el saldo del socio y entrega el premio o el beneficio configurado sin flujos adicionales.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--rust);color:var(--rust-ink)">🔐</span>
+          <span><span class="t">Auditoría por operador</span><span class="d">Cada acumulación o canje queda asociada al usuario autenticado que la ejecutó.</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="visual">
+      <div class="capture-pair">
+        <div class="capture-card">
+          <div class="phone" style="width:min(200px,58vw)">
+            <div class="notch"></div>
+            <div class="screen" style="min-height:280px;padding-top:26px">
+              <div style="aspect-ratio:1;border:2px dashed var(--rust);border-radius:18px;position:relative;overflow:hidden;background:var(--paper-sunken)">
+                <div style="position:absolute;inset:18%;border:2px solid var(--rust);border-radius:12px"></div>
+                <div style="position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:0.6rem;color:var(--ink-soft);font-family:var(--font-body)">buscando QR…</div>
+              </div>
+              <div class="mini-card" style="text-align:center;padding:10px">
+                <span style="font-family:var(--font-body);font-size:0.72rem;font-weight:700">Registrar visita — 1 toque</span>
+              </div>
+            </div>
+          </div>
+          <div class="caption">Cámara del celular</div>
+        </div>
+        <div class="plus-divider">+</div>
+        <div class="capture-card">
+          <svg class="bt-scanner" viewBox="0 0 120 150" aria-hidden="true">
+            <rect x="30" y="6" width="60" height="92" rx="16" fill="var(--ink)"/>
+            <rect x="40" y="20" width="40" height="26" rx="4" fill="var(--paper)"/>
+            <rect x="46" y="27" width="28" height="4" fill="var(--rust)"/>
+            <rect x="46" y="35" width="18" height="4" fill="var(--ink-faint)"/>
+            <circle cx="60" cy="66" r="9" fill="var(--rust)"/>
+            <path d="M60 58 v16 M56 62 l8 8 M64 62 l-8 8" stroke="var(--rust-ink)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <rect x="46" y="84" width="28" height="8" rx="4" fill="var(--paper)" opacity="0.5"/>
+            <path d="M60 98 L45 130 L60 122 L75 130 Z" fill="var(--ink)"/>
+            <circle cx="94" cy="34" r="15" fill="var(--sky)"/>
+            <path d="M91 27 v14 l5 -4 l-8 -6 l8 -6 l-5 -4z" fill="var(--sky-ink)"/>
+          </svg>
+          <div class="caption">Lector QR bluetooth / USB</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MÓDULO WEB MANAGER ===================== -->
+<section class="module wide-visual">
+  <div class="wrap module-grid">
+    <div class="reveal-up">
+      <span class="tag" style="background:var(--sky);color:var(--sky-ink)">03 · Consola de gestión</span>
+      <h2>Gobierne el programa desde una sola consola.</h2>
+      <p class="kicker">Diseñe las reglas del plan, monitoree la base de clientes, ejecute campañas de reenganche por WhatsApp y administre la marca del comercio — con la profundidad que requiere la gestión diaria.</p>
+      <div class="domain-line">
+        <span class="pulse" style="background:var(--sky)"></span>
+        pura-puntos-manager.castlexpert.com
+      </div>
+      <ul class="feat-list">
+        <li>
+          <span class="mk" style="background:var(--sky);color:var(--sky-ink)">⚙</span>
+          <span><span class="t">Motor de reglas del plan</span><span class="d">Tipo de programa, bonificaciones, niveles y vencimiento de puntos — configurables sin desarrollo.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--sky);color:var(--sky-ink)">👥</span>
+          <span><span class="t">Analítica de clientes</span><span class="d">KPIs, tendencias y vista 360° con saldo, visitas, nivel y referidos.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--sky);color:var(--sky-ink)">💬</span>
+          <span><span class="t">Campañas de reenganche</span><span class="d">Contacte a socios inactivos por WhatsApp desde el canal unificado de la plataforma.</span></span>
+        </li>
+        <li>
+          <span class="mk" style="background:var(--sky);color:var(--sky-ink)">🎨</span>
+          <span><span class="t">Marca y liquidación de red</span><span class="d">Tema, logo y banner aplicados al wallet del cliente; más saldos netos entre comercios de la coalición.</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="visual">
+      <div class="browser-stage">
+        <div class="browser tilt-3d">
+          <div class="chrome">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="addr">pura-puntos-manager.castlexpert.com</div>
+          </div>
+          <div class="dash-content">
+
+            <div class="kpi-grid">
+              <div class="kpi-card" style="--kpi-grad:linear-gradient(150deg,#5b8def 0%,#101a3d 130%)">
+                <div class="k-label">Clientes activos</div>
+                <div class="k-num">142</div>
+                <span class="k-trend up">▲ 12%</span>
+                <svg class="k-spark" viewBox="0 0 46 22" preserveAspectRatio="none"><polyline points="0,18 8,14 16,16 24,9 32,11 39,4 46,6" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="kpi-card" style="--kpi-grad:linear-gradient(150deg,#22c197 0%,#083b2f 130%)">
+                <div class="k-label">Retención 30d</div>
+                <div class="k-num">64%</div>
+                <span class="k-trend up">▲ 6%</span>
+                <svg class="k-spark" viewBox="0 0 46 22" preserveAspectRatio="none"><polyline points="0,16 8,17 16,10 24,12 32,7 39,9 46,3" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="kpi-card" style="--kpi-grad:linear-gradient(150deg,#a389f4 0%,#2c1a5e 130%)">
+                <div class="k-label">Puntos emitidos</div>
+                <div class="k-num">18.4k</div>
+                <span class="k-trend up">▲ 9%</span>
+                <svg class="k-spark" viewBox="0 0 46 22" preserveAspectRatio="none"><polyline points="0,15 8,15 16,12 24,13 32,8 39,10 46,5" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="kpi-card" style="--kpi-grad:linear-gradient(150deg,var(--rust) 0%,#3a1204 130%)">
+                <div class="k-label">Canjes del mes</div>
+                <div class="k-num">37</div>
+                <span class="k-trend down">▼ 3%</span>
+                <svg class="k-spark" viewBox="0 0 46 22" preserveAspectRatio="none"><polyline points="0,6 8,9 16,7 24,12 32,10 39,15 46,17" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+
+            <div class="chart-panel">
+              <div class="panel-box">
+                <div class="p-title">Check-ins · últimos 7 días</div>
+                <div class="iso-stage">
+                  <div class="iso-bars" aria-hidden="true">
+                    <div class="iso-bar" style="height:38%;--bar-c1:#8fb4ff;--bar-c2:#1c2f6b"></div>
+                    <div class="iso-bar" style="height:52%;--bar-c1:#8fb4ff;--bar-c2:#1c2f6b"></div>
+                    <div class="iso-bar" style="height:44%;--bar-c1:#8fb4ff;--bar-c2:#1c2f6b"></div>
+                    <div class="iso-bar" style="height:70%;--bar-c1:#8fb4ff;--bar-c2:#1c2f6b"></div>
+                    <div class="iso-bar" style="height:60%;--bar-c1:#8fb4ff;--bar-c2:#1c2f6b"></div>
+                    <div class="iso-bar" style="height:88%;--bar-c1:var(--lime);--bar-c2:#3c4a10"></div>
+                    <div class="iso-bar" style="height:66%;--bar-c1:#8fb4ff;--bar-c2:#1c2f6b"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-box donut-wrap">
+                <div class="p-title" style="align-self:flex-start">Meta de retención</div>
+                <div class="donut" style="--donut-deg:230deg"><span>64%</span></div>
+                <div class="donut-legend">de una meta del 80%</div>
+              </div>
+            </div>
+
+            <div class="panel-box" style="padding:10px">
+              <div class="p-title" style="margin:2px 6px 8px">Clientes recientes</div>
+              <div class="client-table">
+                <div class="c-row">
+                  <div class="c-avatar" style="--avatar-grad:linear-gradient(150deg,#5b8def,#101a3d)">MF</div>
+                  <span class="c-name">María Fernández</span>
+                  <span class="c-pill" style="background:rgba(34,193,151,0.18);color:#0f8f6c">320 pts</span>
+                </div>
+                <div class="c-row">
+                  <div class="c-avatar" style="--avatar-grad:linear-gradient(150deg,var(--rust),#3a1204)">JA</div>
+                  <span class="c-name">Josué Araya</span>
+                  <span class="c-pill" style="background:rgba(217,74,26,0.16);color:var(--rust)">7/10 sellos</span>
+                </div>
+                <div class="c-row">
+                  <div class="c-avatar" style="--avatar-grad:linear-gradient(150deg,#a389f4,#2c1a5e)">KV</div>
+                  <span class="c-name">Karol Vindas</span>
+                  <span class="c-pill" style="background:rgba(91,141,239,0.16);color:#3161d6">115 pts</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FLUJO ===================== -->
+<section class="flow" id="flujo">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" style="color:var(--lime)">Flujo operativo</div>
+      <h2>De la visita al valor acreditado</h2>
+      <p>Cinco pasos que conectan al socio, al punto de venta y a la consola — en el tiempo de una atención normal.</p>
+    </div>
+    <div class="flow-steps">
+      <div class="flow-step"><span class="n">01</span><p>El socio presenta su identidad digital (QR) en el mostrador.</p></div>
+      <div class="flow-step"><span class="n">02</span><p>El operador la lee con cámara o lector bluetooth/USB.</p></div>
+      <div class="flow-step"><span class="n">03</span><p>Se acredita la visita o el canje al instante, con escritura en segundo plano.</p></div>
+      <div class="flow-step"><span class="n">04</span><p>El wallet se actualiza y WhatsApp notifica el nuevo saldo.</p></div>
+      <div class="flow-step"><span class="n">05</span><p>Las recompensas se canjean en ese comercio o en otro de la misma red.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-brand">Pura Puntos</div>
+      <div class="foot-credit" style="margin-top:6px">Plataforma de lealtad · red de coalición · operación multi-comercio.</div>
+    </div>
+    <div class="foot-credit">Hecho por <b>castlexpert.com</b></div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll('[data-theme-btn]');
+    function apply(theme) {
+      if (theme) { root.setAttribute('data-theme', theme); localStorage.setItem('pp-guide-theme', theme); }
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-theme-btn') === theme ? 'true' : 'false'); });
+    }
+    var saved = localStorage.getItem('pp-guide-theme');
+    if (saved) apply(saved);
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () { apply(b.getAttribute('data-theme-btn')); });
+    });
+  })();
+
+  (function () {
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var targets = document.querySelectorAll('.reveal-up');
+    if (reduced || !('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    targets.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

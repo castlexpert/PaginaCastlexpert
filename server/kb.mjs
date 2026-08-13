@@ -25,7 +25,7 @@ export const KB_DOCS = [
     language: 'es',
     title: 'Demos funcionales (resumen)',
     content:
-      'En castlexpert.com ofrecemos demos funcionales listos para explorar: TrackLogic (paquetería), Foodly (restaurantes) y CMMS / MANTE Preventivo (mantenimiento). Cada demo tiene una página de explicación y una guía de instrucciones. Lista: https://castlexpert.com/#demos',
+      'En castlexpert.com ofrecemos demos funcionales listos para explorar: Foodly (restaurantes), CMMS / MANTE Preventivo (mantenimiento), TrackLogic (paquetería) y Pura Puntos (lealtad multi-comercio). Cada demo tiene una página de explicación y una guía de instrucciones. Lista: https://castlexpert.com/#demos',
   },
   {
     id: 'demo-tracklogic-es',
@@ -47,6 +47,13 @@ export const KB_DOCS = [
     title: 'Demo CMMS MANTE Preventivo',
     content:
       'CMMS / MANTE Preventivo es el sistema de mantenimiento preventivo multi-compañía: Web Manager, app de técnicos, QR de activos y WhatsApp. Incluye video promocional en la página del demo. Página: https://castlexpert.com/demos/cmms — Guía de instrucciones: https://castlexpert.com/demos/cmms/guide/',
+  },
+  {
+    id: 'demo-pura-puntos-es',
+    language: 'es',
+    title: 'Demo Pura Puntos',
+    content:
+      'Pura Puntos es la plataforma de lealtad multi-comercio: Pura Puntos (wallet del cliente en https://pura-puntos.castlexpert.com), Pura Puntos Cash (punto de venta en https://pura-puntos-cash.castlexpert.com) y Pura Puntos Manager (consola en https://pura-puntos-manager.castlexpert.com). Incluye red de coalición entre negocios y video demo. Página: https://castlexpert.com/demos/pura-puntos — Guía: https://castlexpert.com/demos/pura-puntos/guide/',
   },
   {
     id: 'contact-es',
@@ -81,7 +88,7 @@ export const KB_DOCS = [
     language: 'en',
     title: 'Functional demos (overview)',
     content:
-      'On castlexpert.com we offer functional demos: TrackLogic (parcel tracking), Foodly (restaurants), and CMMS / MANTE Preventive (maintenance). Each demo has an explanation page and an instructions guide. List: https://castlexpert.com/#demos',
+      'On castlexpert.com we offer functional demos: Foodly (restaurants), CMMS / MANTE Preventive (maintenance), TrackLogic (parcel tracking), and Pura Puntos (multi-merchant loyalty). Each demo has an explanation page and an instructions guide. List: https://castlexpert.com/#demos',
   },
   {
     id: 'demo-tracklogic-en',
@@ -103,6 +110,13 @@ export const KB_DOCS = [
     title: 'CMMS MANTE Preventive demo',
     content:
       'CMMS / MANTE Preventive is the multi-company preventive maintenance system: Web Manager, tech app, asset QR, and WhatsApp. A promo video is on the demo page. Page: https://castlexpert.com/demos/cmms — Instructions guide: https://castlexpert.com/demos/cmms/guide/',
+  },
+  {
+    id: 'demo-pura-puntos-en',
+    language: 'en',
+    title: 'Pura Puntos demo',
+    content:
+      'Pura Puntos is the multi-merchant loyalty platform: Pura Puntos (customer wallet at https://pura-puntos.castlexpert.com), Pura Puntos Cash (point of sale at https://pura-puntos-cash.castlexpert.com), and Pura Puntos Manager (console at https://pura-puntos-manager.castlexpert.com). Includes a coalition network and demo video. Page: https://castlexpert.com/demos/pura-puntos — Guide: https://castlexpert.com/demos/pura-puntos/guide/',
   },
   {
     id: 'contact-en',
