@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup ERP Inventario</title>
+<style>
+  :root {
+    --blue: #4a6fa5;
+    --dark: #1f2d3d;
+    --gray: #64748b;
+    --bg: #e7ebf1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+  }
+  header {
+    background: var(--dark);
+    color: #fff;
+    padding: 34px 24px 22px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0,0,0,.15);
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    letter-spacing: .3px;
+  }
+  header p {
+    margin: 0 0 18px;
+    font-size: 13px;
+    color: #b9c4d6;
+  }
+  nav { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  nav a {
+    color: #dbe4f0;
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid #3a4a63;
+    border-radius: 20px;
+    transition: background .15s, color .15s;
+  }
+  nav a:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  main { max-width: 1400px; margin: 0 auto; padding: 30px 20px 60px; }
+
+  .mockup-section { margin-bottom: 34px; scroll-margin-top: 150px; }
+  .sec-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(15,23,42,.08);
+    border: 1px solid #dde3ec;
+    overflow: hidden;
+  }
+  .sec-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 22px;
+    border-bottom: 1px solid #eef1f5;
+  }
+  .sec-eyebrow .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  .sec-eyebrow .lbl { font-size: 14px; font-weight: 700; color: var(--dark); display:flex; align-items:center; }
+  .sec-eyebrow .desc { font-size: 12px; color: var(--gray); }
+
+  .iframe-wrap {
+    width: 100%;
+    overflow: hidden;
+    background: #f4f6f9;
+  }
+  .iframe-wrap iframe {
+    border: none;
+    display: block;
+  }
+
+  .loading {
+    padding: 60px; text-align: center; color: var(--gray); font-size: 13px;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--gray);
+    padding: 20px;
+  }
+</style>
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; box-sizing: border-box !important; }
+  header { top: 4.25rem !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/mockups">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+
+  <header>
+    <h1>Mockup ERP Inventario</h1>
+    <p>Sistema de Inventarios de Nueva Generación · Vistas de referencia para reunión con cliente / equipo</p>
+    <nav>
+      <a href="#overview">Vista general</a>
+      <a href="#movimientos">Movimientos de inventario</a>
+      <a href="#centros">Centros de costo</a>
+      <a href="#bodegas">Bodegas y estantería</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section id="overview" class="mockup-section">
+      <div class="sec-card">
+        <div class="sec-eyebrow">
+          <div class="lbl"><span class="num">1</span>Vista general</div>
+          <div class="desc">Portal web · App Android de bodega · Mapa de localización</div>
+        </div>
+        <div class="iframe-wrap" data-name="overview"><div class="loading">Cargando mockup…</div></div>
+      </div>
+    </section>
+
+    <section id="movimientos" class="mockup-section">
+      <div class="sec-card">
+        <div class="sec-eyebrow">
+          <div class="lbl"><span class="num">2</span>Movimientos de inventario</div>
+          <div class="desc">Ingreso · Traslado entre bodegas · Salida de bodega</div>
+        </div>
+        <div class="iframe-wrap" data-name="movimientos"><div class="loading">Cargando mockup…</div></div>
+      </div>
+    </section>
+
+    <section id="centros" class="mockup-section">
+      <div class="sec-card">
+        <div class="sec-eyebrow">
+          <div class="lbl"><span class="num">3</span>Centros de costo</div>
+          <div class="desc">Asignación · Traslado de centro de costo · Aprobaciones</div>
+        </div>
+        <div class="iframe-wrap" data-name="centros"><div class="loading">Cargando mockup…</div></div>
+      </div>
+    </section>
+
+    <section id="bodegas" class="mockup-section">
+      <div class="sec-card">
+        <div class="sec-eyebrow">
+          <div class="lbl"><span class="num">4</span>Bodegas y estantería</div>
+          <div class="desc">Ubicación de bodegas · Repartición de estantes · Parametrización por tipo</div>
+        </div>
+        <div class="iframe-wrap" data-name="bodegas"><div class="loading">Cargando mockup…</div></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>Mockup ERP Inventario — documento de referencia, no interactivo. Generado como apoyo visual para la propuesta de arquitectura.</footer>
+
+<script>
+const FRAGMENTS = {
+  overview: `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { background: #f4f6f9; padding: 40px; width: 1720px; }
+  .title-bar { text-align:center; margin-bottom: 28px; }
+  .title-bar h1 { font-size: 26px; color: #1f2d3d; font-weight: 700; }
+  .title-bar p { font-size: 14px; color: #64748b; margin-top: 4px; }
+  .row { display: flex; gap: 24px; }
+  .panel { background:#fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); overflow:hidden; border:1px solid #e2e8f0; }
+  .panel-label { text-align:center; font-size: 14px; font-weight:600; color:#4a6fa5; margin: 14px 0 8px; letter-spacing:.3px; }
+
+  /* ---- Web dashboard ---- */
+  .web { width: 900px; }
+  .web .topbar { background:#1f2d3d; color:#fff; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; font-size:14px; }
+  .web .topbar .brand { font-weight:700; letter-spacing:.5px; }
+  .web .body { display:flex; }
+  .web .sidebar { width:170px; background:#f8fafc; border-right:1px solid #e2e8f0; padding:16px 0; }
+  .web .sidebar div { padding:10px 20px; font-size:13px; color:#475569; }
+  .web .sidebar div.active { background:#e8eef7; color:#2c4a76; font-weight:600; border-left:3px solid #4a6fa5; }
+  .web .content { flex:1; padding:20px; }
+  .kpis { display:flex; gap:14px; margin-bottom:18px; }
+  .kpi { flex:1; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; }
+  .kpi .lbl { font-size:11px; color:#94a3b8; text-transform:uppercase; }
+  .kpi .val { font-size:20px; font-weight:700; color:#1f2d3d; margin-top:4px; }
+  .kpi .val.green { color:#2e7d5b; }
+  .kpi .val.orange { color:#b6712f; }
+  .chartbox { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px; margin-bottom:14px; }
+  .chartbox .h { font-size:12px; color:#64748b; margin-bottom:10px; font-weight:600; }
+  .bars { display:flex; align-items:flex-end; gap:10px; height:90px; }
+  .bars div { flex:1; background:linear-gradient(180deg,#6f93c6,#4a6fa5); border-radius:3px 3px 0 0; }
+  table { width:100%; border-collapse: collapse; font-size:12px; }
+  th { text-align:left; color:#94a3b8; font-weight:600; padding:6px 8px; border-bottom:1px solid #e2e8f0; text-transform:uppercase; font-size:10px;}
+  td { padding:7px 8px; border-bottom:1px solid #f1f5f9; color:#334155; }
+  .tag { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; }
+  .tag.ok { background:#e3f2ea; color:#2e7d5b; }
+  .tag.low { background:#fdecea; color:#c0392b; }
+
+  /* ---- Mobile ---- */
+  .mobile-wrap { width: 300px; }
+  .phone { width: 300px; height: 560px; background:#111; border-radius: 34px; padding: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+  .screen { background:#f4f6f9; width:100%; height:100%; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; }
+  .screen .bar { background:#4a6fa5; color:#fff; padding:14px 14px 10px; font-size:13px; font-weight:700; }
+  .screen .sub { font-size:11px; opacity:.85; font-weight:400; margin-top:2px;}
+  .scan-area { margin:16px; height:150px; border:3px dashed #4a6fa5; border-radius:12px; display:flex; align-items:center; justify-content:center; background:#e8eef7; }
+  .scan-area .code { font-family: monospace; font-size:11px; color:#4a6fa5; }
+  .field { margin:0 16px 10px; background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:9px 12px; font-size:12px; color:#334155; }
+  .field .l { font-size:9px; color:#94a3b8; text-transform:uppercase; }
+  .actions { margin:auto 16px 16px; display:flex; gap:8px; }
+  .btn { flex:1; text-align:center; padding:11px; border-radius:8px; font-size:12px; font-weight:700; }
+  .btn.primary { background:#4a6fa5; color:#fff; }
+  .btn.ghost { background:#fff; border:1px solid #cbd5e1; color:#475569; }
+  .navbar { display:flex; justify-content:space-around; padding:10px 0; border-top:1px solid #e2e8f0; background:#fff; font-size:9px; color:#94a3b8; }
+  .navbar .act { color:#4a6fa5; font-weight:700; }
+
+  /* ---- Warehouse map ---- */
+  .map { width: 460px; }
+  .map .content { padding: 18px; }
+  .rack-grid { display:grid; grid-template-columns: repeat(6, 1fr); gap:6px; margin-top:10px; }
+  .rack { aspect-ratio:1; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#fff; font-weight:700; }
+  .rack.free { background:#cbd5e1; color:#64748b; }
+  .rack.full { background:#4a6fa5; }
+  .rack.low { background:#b6712f; }
+  .rack.sel { background:#2e7d5b; outline:2px solid #1f5c40; }
+  .legend { display:flex; gap:14px; margin-top:12px; font-size:10px; color:#64748b; }
+  .legend span { display:inline-flex; align-items:center; gap:4px; }
+  .dot { width:9px; height:9px; border-radius:2px; display:inline-block; }
+</style>
+</head>
+<body>
+
+  <div class="title-bar">
+    <h1>Sistema de Inventarios — Mockup General de la Solución</h1>
+    <p>Portal web de gestión · App móvil de bodega (Android) · Mapa de ubicaciones</p>
+  </div>
+
+  <div class="row">
+
+    <!-- WEB DASHBOARD -->
+    <div>
+      <div class="panel-label">PORTAL WEB — DASHBOARD DE VALORIZACIÓN</div>
+      <div class="panel web">
+        <div class="topbar">
+          <div class="brand">◆ InvSuite</div>
+          <div>Bodega Central S.A. · usuario: kvargas@empresa.cr</div>
+        </div>
+        <div class="body">
+          <div class="sidebar">
+            <div>Resumen</div>
+            <div class="active">Inventario</div>
+            <div>Movimientos</div>
+            <div>Bodegas</div>
+            <div>Artículos</div>
+            <div>Conteos cíclicos</div>
+            <div>Reportes</div>
+            <div>Configuración</div>
+          </div>
+          <div class="content">
+            <div class="kpis">
+              <div class="kpi"><div class="lbl">Valor total inventario</div><div class="val">₡482.6M</div></div>
+              <div class="kpi"><div class="lbl">Bodegas activas</div><div class="val green">6</div></div>
+              <div class="kpi"><div class="lbl">Artículos bajo mínimo</div><div class="val orange">14</div></div>
+              <div class="kpi"><div class="lbl">Movimientos hoy</div><div class="val">237</div></div>
+            </div>
+            <div class="chartbox">
+              <div class="h">VALOR DE INVENTARIO POR BODEGA (₡ MILLONES)</div>
+              <div class="bars">
+                <div style="height:70%"></div><div style="height:95%"></div><div style="height:40%"></div>
+                <div style="height:60%"></div><div style="height:30%"></div><div style="height:80%"></div>
+              </div>
+            </div>
+            <div class="chartbox">
+              <div class="h">ÚLTIMOS MOVIMIENTOS</div>
+              <table>
+                <tr><th>Artículo</th><th>Tipo</th><th>Bodega</th><th>Cant.</th><th>Estado</th></tr>
+                <tr><td>Repuesto hidráulico HX-220</td><td>Salida</td><td>Bodega Norte</td><td>-4</td><td><span class="tag ok">Sincronizado</span></td></tr>
+                <tr><td>Motor diésel 6D-140</td><td>Entrada</td><td>Bodega Central</td><td>+1</td><td><span class="tag ok">Sincronizado</span></td></tr>
+                <tr><td>Filtro de aceite FA-08</td><td>Ajuste</td><td>Bodega Sur</td><td>-2</td><td><span class="tag low">Pendiente rev.</span></td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="mobile-wrap">
+      <div class="panel-label">APP ANDROID — ESCANEO EN BODEGA</div>
+      <div class="phone">
+        <div class="screen">
+          <div class="bar">Registrar Salida<div class="sub">Bodega Norte · offline (2 pend. de sync)</div></div>
+          <div class="scan-area">
+            <div class="code">▐▐▐  ESCANEAR CÓDIGO  ▐▐▐<br>SKU-0234-HX220</div>
+          </div>
+          <div class="field"><div class="l">Artículo</div>Repuesto hidráulico HX-220</div>
+          <div class="field"><div class="l">Ubicación</div>Rack 4 · Nivel 2 · Pos. 3</div>
+          <div class="field"><div class="l">Cantidad</div>4 unidades</div>
+          <div class="field"><div class="l">Centro de costo</div>CC-105 Mantenimiento</div>
+          <div class="actions">
+            <div class="btn ghost">Cancelar</div>
+            <div class="btn primary">Confirmar</div>
+          </div>
+          <div class="navbar">
+            <div>Entradas</div><div class="act">Salidas</div><div>Ajustes</div><div>Conteo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WAREHOUSE MAP -->
+    <div>
+      <div class="panel-label">LOCALIZACIÓN DE ARTÍCULOS EN BODEGA</div>
+      <div class="panel map">
+        <div class="content">
+          <div style="font-size:12px;color:#64748b;">Bodega Norte · Rack 4 seleccionado</div>
+          <div class="rack-grid">
+            <div class="rack full">A1</div><div class="rack full">A2</div><div class="rack low">A3</div><div class="rack free">A4</div><div class="rack full">A5</div><div class="rack free">A6</div>
+            <div class="rack low">B1</div><div class="rack full">B2</div><div class="rack full">B3</div><div class="rack sel">B4</div><div class="rack free">B5</div><div class="rack full">B6</div>
+            <div class="rack free">C1</div><div class="rack full">C2</div><div class="rack low">C3</div><div class="rack full">C4</div><div class="rack full">C5</div><div class="rack free">C6</div>
+            <div class="rack full">D1</div><div class="rack free">D2</div><div class="rack full">D3</div><div class="rack full">D4</div><div class="rack low">D5</div><div class="rack full">D6</div>
+          </div>
+          <div class="legend">
+            <span><i class="dot" style="background:#4a6fa5"></i>Con stock</span>
+            <span><i class="dot" style="background:#b6712f"></i>Stock bajo</span>
+            <span><i class="dot" style="background:#cbd5e1"></i>Vacía</span>
+            <span><i class="dot" style="background:#2e7d5b"></i>Seleccionada</span>
+          </div>
+          <div class="chartbox" style="margin-top:14px;">
+            <div class="h">UBICACIÓN B4 — SKU-0234-HX220</div>
+            <table>
+              <tr><th>Cant.</th><th>Costo prom.</th><th>Valor</th></tr>
+              <tr><td>18 und</td><td>₡42,500</td><td>₡765,000</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
+`,
+  movimientos: `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+body { background: #f4f6f9; padding: 40px; width: 1720px; }
+.title-bar { text-align:center; margin-bottom: 28px; }
+.title-bar h1 { font-size: 24px; color: #1f2d3d; font-weight: 700; }
+.title-bar p { font-size: 13px; color: #64748b; margin-top: 4px; }
+.row { display: flex; gap: 24px; align-items: flex-start; }
+.panel { background:#fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); overflow:hidden; border:1px solid #e2e8f0; width: 540px; }
+.panel-label { text-align:center; font-size: 13px; font-weight:600; color:#4a6fa5; margin: 0 0 8px; letter-spacing:.3px; }
+.pbar { background:#1f2d3d; color:#fff; padding:14px 18px; }
+.pbar .t { font-size:14px; font-weight:700; }
+.pbar .s { font-size:11px; opacity:.75; margin-top:2px; }
+.pbody { padding: 16px 18px; }
+.field { margin-bottom:11px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:9px 12px; font-size:12px; color:#334155; }
+.field .l { font-size:9px; color:#94a3b8; text-transform:uppercase; letter-spacing:.4px; margin-bottom:2px; }
+.field .v { font-size:12.5px; color:#1f2d3d; font-weight:500; }
+.field-row { display:flex; gap:10px; }
+.field-row .field { flex:1; }
+.actions { display:flex; gap:8px; margin-top:14px; }
+.btn { flex:1; text-align:center; padding:10px; border-radius:8px; font-size:11.5px; font-weight:700; cursor:default; }
+.btn.primary { background:#4a6fa5; color:#fff; }
+.btn.ghost { background:#fff; border:1px solid #cbd5e1; color:#475569; }
+.btn.approve { background:#2e7d5b; color:#fff; }
+.btn.reject { background:#fdecea; color:#c0392b; border:1px solid #f3c6c1; }
+table { width:100%; border-collapse: collapse; font-size:11.5px; }
+th { text-align:left; color:#94a3b8; font-weight:600; padding:6px 8px; border-bottom:1px solid #e2e8f0; text-transform:uppercase; font-size:9.5px;}
+td { padding:8px; border-bottom:1px solid #f1f5f9; color:#334155; vertical-align: middle; }
+.tag { padding:3px 9px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag.ok { background:#e3f2ea; color:#2e7d5b; }
+.tag.low { background:#fdecea; color:#c0392b; }
+.tag.pending { background:#fdf1e3; color:#b6712f; }
+.tag.transit { background:#e8eef7; color:#2c4a76; }
+.mini-btn { padding:4px 9px; border-radius:6px; font-size:10px; font-weight:700; display:inline-block; margin-right:4px; }
+.mini-btn.approve { background:#2e7d5b; color:#fff; }
+.mini-btn.reject { background:#fff; border:1px solid #e0908a; color:#c0392b; }
+.mini-btn.edit { background:#fff; border:1px solid #cbd5e1; color:#475569; }
+.route { display:flex; align-items:center; justify-content:center; gap:10px; padding: 14px 0 4px; }
+.route .node { background:#eef2f7; border:1px solid #dbe4f0; border-radius:8px; padding:10px 14px; font-size:11px; font-weight:700; color:#2c4a76; text-align:center; min-width:110px; }
+.route .arrow { font-size:20px; color:#4a6fa5; }
+.section-h { font-size:11px; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:.4px; margin: 12px 0 8px; }
+.upload { display:flex; align-items:center; gap:8px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; padding:9px 12px; font-size:11.5px; color:#4a6fa5; margin-bottom: 11px; }
+.kpi-row { display:flex; gap:10px; margin-bottom:12px; }
+.kpi-sm { flex:1; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:9px 10px; }
+.kpi-sm .lbl { font-size:9px; color:#94a3b8; text-transform:uppercase; }
+.kpi-sm .val { font-size:15px; font-weight:700; color:#1f2d3d; margin-top:2px; }
+
+</style>
+</head>
+<body>
+  <div class="title-bar">
+    <h1>Movimientos de Inventario</h1>
+    <p>Ingreso de mercadería · Traslado entre bodegas · Salida de bodega</p>
+  </div>
+
+  <div class="row">
+
+    <!-- INGRESO -->
+    <div>
+      <div class="panel-label">INGRESOS DE INVENTARIO</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Nuevo Ingreso de Inventario</div>
+          <div class="s">Documento: OC-04521 · Bodega Central</div>
+        </div>
+        <div class="pbody">
+          <div class="field"><div class="l">Bodega destino</div><div class="v">Bodega Central</div></div>
+          <div class="field"><div class="l">Ubicación</div><div class="v">Rack 2 · Nivel 1 · Pos. 4</div></div>
+          <div class="field"><div class="l">Artículo</div><div class="v">🔍 Motor diésel 6D-140</div></div>
+          <div class="field-row">
+            <div class="field"><div class="l">Cantidad recibida</div><div class="v">1 und</div></div>
+            <div class="field"><div class="l">Costo unitario</div><div class="v">₡1,250,000</div></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><div class="l">Proveedor</div><div class="v">Importadora ABC S.A.</div></div>
+            <div class="field"><div class="l">Fecha</div><div class="v">12/08/2026</div></div>
+          </div>
+          <div class="upload">📎 factura_04521.pdf adjuntada</div>
+          <div class="actions">
+            <div class="btn ghost">Cancelar</div>
+            <div class="btn primary">Guardar ingreso</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRASLADO BODEGA -->
+    <div>
+      <div class="panel-label">TRASLADOS ENTRE BODEGAS</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Nuevo Traslado</div>
+          <div class="s">Solicitud #TRB-0091</div>
+        </div>
+        <div class="pbody">
+          <div class="route">
+            <div class="node">📦 Bodega Norte</div>
+            <div class="arrow">→</div>
+            <div class="node">🏢 Bodega Central</div>
+          </div>
+          <div class="field"><div class="l">Artículo</div><div class="v">Repuesto hidráulico HX-220</div></div>
+          <div class="field-row">
+            <div class="field"><div class="l">Ubicación origen</div><div class="v">Rack 4 · Nivel 2 · Pos. 3</div></div>
+            <div class="field"><div class="l">Ubicación destino</div><div class="v">Rack 1 · Nivel 3 · Pos. 1</div></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><div class="l">Cantidad a trasladar</div><div class="v">6 und</div></div>
+            <div class="field"><div class="l">Estado</div><div class="v"><span class="tag transit">En tránsito</span></div></div>
+          </div>
+          <div class="field"><div class="l">Motivo / Responsable</div><div class="v">Reabastecimiento · J. Solano</div></div>
+          <div class="actions">
+            <div class="btn ghost">Cancelar</div>
+            <div class="btn primary">Confirmar traslado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALIDA -->
+    <div>
+      <div class="panel-label">SALIDAS DE BODEGA</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Registrar Salida</div>
+          <div class="s">Bodega Sur</div>
+        </div>
+        <div class="pbody">
+          <div class="field"><div class="l">Artículo</div><div class="v">Filtro de aceite FA-08</div></div>
+          <div class="field"><div class="l">Ubicación</div><div class="v">Rack C · Nivel 1 · Pos. 2</div></div>
+          <div class="field-row">
+            <div class="field"><div class="l">Cantidad</div><div class="v">2 und</div></div>
+            <div class="field"><div class="l">Motivo</div><div class="v">Consumo interno</div></div>
+          </div>
+          <div class="field"><div class="l">Centro de costo</div><div class="v">CC-105 Mantenimiento</div></div>
+          <div class="field"><div class="l">Documento de referencia</div><div class="v">OT-2216</div></div>
+          <div class="field"><div class="l">Autorizado por</div><div class="v">M. Jiménez — Jefe de Bodega</div></div>
+          <div class="actions">
+            <div class="btn ghost">Cancelar</div>
+            <div class="btn primary">Confirmar salida</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
+`,
+  centros: `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+body { background: #f4f6f9; padding: 40px; width: 1720px; }
+.title-bar { text-align:center; margin-bottom: 28px; }
+.title-bar h1 { font-size: 24px; color: #1f2d3d; font-weight: 700; }
+.title-bar p { font-size: 13px; color: #64748b; margin-top: 4px; }
+.row { display: flex; gap: 24px; align-items: flex-start; }
+.panel { background:#fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); overflow:hidden; border:1px solid #e2e8f0; width: 540px; }
+.panel-label { text-align:center; font-size: 13px; font-weight:600; color:#4a6fa5; margin: 0 0 8px; letter-spacing:.3px; }
+.pbar { background:#1f2d3d; color:#fff; padding:14px 18px; }
+.pbar .t { font-size:14px; font-weight:700; }
+.pbar .s { font-size:11px; opacity:.75; margin-top:2px; }
+.pbody { padding: 16px 18px; }
+.field { margin-bottom:11px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:9px 12px; font-size:12px; color:#334155; }
+.field .l { font-size:9px; color:#94a3b8; text-transform:uppercase; letter-spacing:.4px; margin-bottom:2px; }
+.field .v { font-size:12.5px; color:#1f2d3d; font-weight:500; }
+.field-row { display:flex; gap:10px; }
+.field-row .field { flex:1; }
+.actions { display:flex; gap:8px; margin-top:14px; }
+.btn { flex:1; text-align:center; padding:10px; border-radius:8px; font-size:11.5px; font-weight:700; cursor:default; }
+.btn.primary { background:#4a6fa5; color:#fff; }
+.btn.ghost { background:#fff; border:1px solid #cbd5e1; color:#475569; }
+.btn.approve { background:#2e7d5b; color:#fff; }
+.btn.reject { background:#fdecea; color:#c0392b; border:1px solid #f3c6c1; }
+table { width:100%; border-collapse: collapse; font-size:11.5px; }
+th { text-align:left; color:#94a3b8; font-weight:600; padding:6px 8px; border-bottom:1px solid #e2e8f0; text-transform:uppercase; font-size:9.5px;}
+td { padding:8px; border-bottom:1px solid #f1f5f9; color:#334155; vertical-align: middle; }
+.tag { padding:3px 9px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag.ok { background:#e3f2ea; color:#2e7d5b; }
+.tag.low { background:#fdecea; color:#c0392b; }
+.tag.pending { background:#fdf1e3; color:#b6712f; }
+.tag.transit { background:#e8eef7; color:#2c4a76; }
+.mini-btn { padding:4px 9px; border-radius:6px; font-size:10px; font-weight:700; display:inline-block; margin-right:4px; }
+.mini-btn.approve { background:#2e7d5b; color:#fff; }
+.mini-btn.reject { background:#fff; border:1px solid #e0908a; color:#c0392b; }
+.mini-btn.edit { background:#fff; border:1px solid #cbd5e1; color:#475569; }
+.route { display:flex; align-items:center; justify-content:center; gap:10px; padding: 14px 0 4px; }
+.route .node { background:#eef2f7; border:1px solid #dbe4f0; border-radius:8px; padding:10px 14px; font-size:11px; font-weight:700; color:#2c4a76; text-align:center; min-width:110px; }
+.route .arrow { font-size:20px; color:#4a6fa5; }
+.section-h { font-size:11px; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:.4px; margin: 12px 0 8px; }
+.upload { display:flex; align-items:center; gap:8px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; padding:9px 12px; font-size:11.5px; color:#4a6fa5; margin-bottom: 11px; }
+.kpi-row { display:flex; gap:10px; margin-bottom:12px; }
+.kpi-sm { flex:1; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:9px 10px; }
+.kpi-sm .lbl { font-size:9px; color:#94a3b8; text-transform:uppercase; }
+.kpi-sm .val { font-size:15px; font-weight:700; color:#1f2d3d; margin-top:2px; }
+
+</style>
+</head>
+<body>
+  <div class="title-bar">
+    <h1>Centros de Costo</h1>
+    <p>Asignación · Traslado de centro de costo · Aprobaciones</p>
+  </div>
+
+  <div class="row">
+
+    <!-- ASIGNACION -->
+    <div>
+      <div class="panel-label">ASIGNACIÓN A CENTROS DE COSTO</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Asignación a Centros de Costo</div>
+          <div class="s">Bodega Central · Agosto 2026</div>
+        </div>
+        <div class="pbody">
+          <div class="kpi-row">
+            <div class="kpi-sm"><div class="lbl">Asignado</div><div class="val" style="color:#2e7d5b">₡1.59M</div></div>
+            <div class="kpi-sm"><div class="lbl">Sin asignar</div><div class="val" style="color:#b6712f">₡58K</div></div>
+          </div>
+          <table>
+            <tr><th>Artículo</th><th>Centro de costo</th><th>Monto</th></tr>
+            <tr><td>Motor diésel 6D-140</td><td>CC-105 Mantenim.</td><td>₡1.25M</td></tr>
+            <tr><td>Repuesto HX-220</td><td>CC-210 Operaciones</td><td>₡340K</td></tr>
+            <tr><td>Filtro de aceite FA-08</td><td><span class="tag low">Sin asignar</span></td><td>₡58K</td></tr>
+          </table>
+          <div class="actions">
+            <div class="btn ghost">Exportar</div>
+            <div class="btn primary">Asignar pendientes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRASLADO CC -->
+    <div>
+      <div class="panel-label">TRASLADO DE CENTRO DE COSTO</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Nuevo Traslado de Centro de Costo</div>
+          <div class="s">Reclasificación contable</div>
+        </div>
+        <div class="pbody">
+          <div class="route">
+            <div class="node">CC-105<br>Mantenimiento</div>
+            <div class="arrow">→</div>
+            <div class="node">CC-210<br>Operaciones</div>
+          </div>
+          <div class="field"><div class="l">Artículo / concepto</div><div class="v">Repuesto hidráulico HX-220</div></div>
+          <div class="field-row">
+            <div class="field"><div class="l">Monto a trasladar</div><div class="v">₡340,000</div></div>
+            <div class="field"><div class="l">Fecha</div><div class="v">12/08/2026</div></div>
+          </div>
+          <div class="field"><div class="l">Motivo</div><div class="v">Reclasificación — uso real fue en Operaciones</div></div>
+          <div class="field"><div class="l">Solicitado por</div><div class="v">K. Vargas — Control de Inventarios</div></div>
+          <div class="actions">
+            <div class="btn ghost">Cancelar</div>
+            <div class="btn primary">Enviar a aprobación</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APROBACIONES -->
+    <div>
+      <div class="panel-label">APROBACIONES DE TRASLADO DE CC</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Aprobaciones Pendientes</div>
+          <div class="s">3 solicitudes esperando revisión</div>
+        </div>
+        <div class="pbody">
+          <table>
+            <tr><th>Solicitud</th><th>CC Origen → Destino</th><th>Monto</th><th></th></tr>
+            <tr>
+              <td>#RCC-118</td><td>105 → 210</td><td>₡340K</td>
+              <td><span class="mini-btn approve">✓</span><span class="mini-btn reject">✕</span></td>
+            </tr>
+            <tr>
+              <td>#RCC-119</td><td>210 → 302</td><td>₡92K</td>
+              <td><span class="mini-btn approve">✓</span><span class="mini-btn reject">✕</span></td>
+            </tr>
+            <tr>
+              <td>#RCC-120</td><td>105 → 415</td><td>₡1.1M</td>
+              <td><span class="mini-btn approve">✓</span><span class="mini-btn reject">✕</span></td>
+            </tr>
+          </table>
+          <div style="margin-top:12px;">
+            <span class="tag pending">Pendiente</span>
+            &nbsp;<span style="font-size:11px;color:#94a3b8;">requiere aprobación de Jefatura de Bodega + Control Financiero</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
+`,
+  bodegas: `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+body { background: #f4f6f9; padding: 40px; width: 1720px; }
+.title-bar { text-align:center; margin-bottom: 28px; }
+.title-bar h1 { font-size: 24px; color: #1f2d3d; font-weight: 700; }
+.title-bar p { font-size: 13px; color: #64748b; margin-top: 4px; }
+.row { display: flex; gap: 24px; align-items: flex-start; }
+.panel { background:#fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); overflow:hidden; border:1px solid #e2e8f0; width: 540px; }
+.panel-label { text-align:center; font-size: 13px; font-weight:600; color:#4a6fa5; margin: 0 0 8px; letter-spacing:.3px; }
+.pbar { background:#1f2d3d; color:#fff; padding:14px 18px; }
+.pbar .t { font-size:14px; font-weight:700; }
+.pbar .s { font-size:11px; opacity:.75; margin-top:2px; }
+.pbody { padding: 16px 18px; }
+.field { margin-bottom:11px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:9px 12px; font-size:12px; color:#334155; }
+.field .l { font-size:9px; color:#94a3b8; text-transform:uppercase; letter-spacing:.4px; margin-bottom:2px; }
+.field .v { font-size:12.5px; color:#1f2d3d; font-weight:500; }
+.field-row { display:flex; gap:10px; }
+.field-row .field { flex:1; }
+.actions { display:flex; gap:8px; margin-top:14px; }
+.btn { flex:1; text-align:center; padding:10px; border-radius:8px; font-size:11.5px; font-weight:700; cursor:default; }
+.btn.primary { background:#4a6fa5; color:#fff; }
+.btn.ghost { background:#fff; border:1px solid #cbd5e1; color:#475569; }
+.btn.approve { background:#2e7d5b; color:#fff; }
+.btn.reject { background:#fdecea; color:#c0392b; border:1px solid #f3c6c1; }
+table { width:100%; border-collapse: collapse; font-size:11.5px; }
+th { text-align:left; color:#94a3b8; font-weight:600; padding:6px 8px; border-bottom:1px solid #e2e8f0; text-transform:uppercase; font-size:9.5px;}
+td { padding:8px; border-bottom:1px solid #f1f5f9; color:#334155; vertical-align: middle; }
+.tag { padding:3px 9px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag.ok { background:#e3f2ea; color:#2e7d5b; }
+.tag.low { background:#fdecea; color:#c0392b; }
+.tag.pending { background:#fdf1e3; color:#b6712f; }
+.tag.transit { background:#e8eef7; color:#2c4a76; }
+.mini-btn { padding:4px 9px; border-radius:6px; font-size:10px; font-weight:700; display:inline-block; margin-right:4px; }
+.mini-btn.approve { background:#2e7d5b; color:#fff; }
+.mini-btn.reject { background:#fff; border:1px solid #e0908a; color:#c0392b; }
+.mini-btn.edit { background:#fff; border:1px solid #cbd5e1; color:#475569; }
+.route { display:flex; align-items:center; justify-content:center; gap:10px; padding: 14px 0 4px; }
+.route .node { background:#eef2f7; border:1px solid #dbe4f0; border-radius:8px; padding:10px 14px; font-size:11px; font-weight:700; color:#2c4a76; text-align:center; min-width:110px; }
+.route .arrow { font-size:20px; color:#4a6fa5; }
+.section-h { font-size:11px; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:.4px; margin: 12px 0 8px; }
+.upload { display:flex; align-items:center; gap:8px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; padding:9px 12px; font-size:11.5px; color:#4a6fa5; margin-bottom: 11px; }
+.kpi-row { display:flex; gap:10px; margin-bottom:12px; }
+.kpi-sm { flex:1; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:9px 10px; }
+.kpi-sm .lbl { font-size:9px; color:#94a3b8; text-transform:uppercase; }
+.kpi-sm .val { font-size:15px; font-weight:700; color:#1f2d3d; margin-top:2px; }
+
+</style>
+<style>
+  .cards { display:flex; flex-direction:column; gap:10px; }
+  .wcard { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; }
+  .wcard .top { display:flex; justify-content:space-between; align-items:center; }
+  .wcard .name { font-size:12.5px; font-weight:700; color:#1f2d3d; }
+  .wcard .addr { font-size:10.5px; color:#94a3b8; margin-top:1px; }
+  .wcard .type { font-size:9.5px; background:#e8eef7; color:#2c4a76; padding:2px 8px; border-radius:8px; font-weight:600; }
+  .prog { background:#e2e8f0; border-radius:6px; height:6px; margin-top:8px; overflow:hidden; }
+  .prog i { display:block; height:100%; background:#4a6fa5; border-radius:6px; }
+  .wcard .meta { display:flex; justify-content:space-between; font-size:10px; color:#64748b; margin-top:5px; }
+
+  .floor { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px; }
+  .dock { background:#dbe4f0; color:#2c4a76; text-align:center; font-size:10.5px; font-weight:700; padding:8px; border-radius:6px; margin-bottom:8px; }
+  .aisle { display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+  .rackcol { display:flex; gap:4px; }
+  .rk { width:26px; height:30px; border-radius:3px; font-size:8px; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .rk.full { background:#4a6fa5; }
+  .rk.low { background:#b6712f; }
+  .rk.free { background:#cbd5e1; color:#64748b; }
+  .aisle-lbl { flex:1; text-align:center; font-size:8.5px; color:#94a3b8; font-weight:600; letter-spacing:.3px; }
+  .office { background:#eef2f7; color:#4a6fa5; text-align:center; font-size:10px; font-weight:700; padding:7px; border-radius:6px; margin-top:6px; }
+
+  .cfg-table td, .cfg-table th { font-size:10.5px; }
+
+  /* ---- Rack type schematics ---- */
+  .preview-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 10px 8px; margin-bottom:10px; }
+  .preview-box .pv-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  .preview-box .pv-title { font-size:9px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.4px; }
+  .preview-box .pv-spec { font-size:9.5px; color:#4a6fa5; font-weight:700; }
+  .stage { height:96px; display:flex; align-items:flex-end; justify-content:center; background:#fff; border-radius:6px; }
+
+  .elev { display:flex; flex-direction:column-reverse; gap:5px; height:82px; border-left:3px solid #475569; border-right:3px solid #475569; padding:5px 6px 0; }
+  .elev .lvl { display:flex; gap:4px; align-items:flex-end; border-bottom:2px solid #94a3b8; padding-bottom:3px; }
+  .elev .box { width:15px; height:11px; background:#4a6fa5; border-radius:2px; }
+  .elev.pallet .box { width:24px; height:13px; background:#2c4a76; }
+  .elev.pallet .box.back { opacity:.5; margin-left:-10px; }
+  .elev.liviano { gap:2px; }
+  .elev.liviano .box { width:9px; height:6px; background:#6f93c6; }
+
+  .cant { position:relative; width:130px; height:82px; }
+  .cant .pole { position:absolute; left:6px; top:0; bottom:0; width:5px; background:#475569; border-radius:2px; }
+  .cant .arm { position:absolute; left:10px; width:24px; height:4px; background:#94a3b8; border-radius:2px; }
+  .cant .tube { position:absolute; left:8px; height:7px; border-radius:4px; background:#b6712f; }
+
+  .type-grid { display:flex; gap:7px; margin: 4px 0 12px; }
+  .type-card { flex:1; border:2px solid #e2e8f0; border-radius:8px; padding:5px 3px 6px; text-align:center; background:#fff; }
+  .type-card.selected { border-color:#4a6fa5; background:#eef2f7; }
+  .type-card .mini { height:46px; display:flex; align-items:flex-end; justify-content:center; overflow:hidden; }
+  .type-card .mini-inner { transform:scale(0.5); transform-origin:bottom center; }
+  .type-card .lbl { font-size:8px; font-weight:700; color:#64748b; margin-top:3px; line-height:1.2; }
+  .type-card.selected .lbl { color:#2c4a76; }
+  .type-card .check { font-size:8px; color:#4a6fa5; font-weight:700; }
+</style>
+</head>
+<body>
+  <div class="title-bar">
+    <h1>Bodegas y Estantería</h1>
+    <p>Ubicación de bodegas · Repartición de estantes · Parametrización por tipo de estante</p>
+  </div>
+
+  <div class="row">
+
+    <!-- UBICACION BODEGAS -->
+    <div>
+      <div class="panel-label">UBICACIÓN DE LAS BODEGAS</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Bodegas</div>
+          <div class="s">6 bodegas activas · 3 provincias</div>
+        </div>
+        <div class="pbody">
+          <div class="cards">
+            <div class="wcard">
+              <div class="top"><div class="name">📍 Bodega Central</div><div class="type">Cubierta</div></div>
+              <div class="addr">San José, La Uruca · 1,200 m²</div>
+              <div class="prog"><i style="width:82%"></i></div>
+              <div class="meta"><span>Ocupación 82%</span><span>18 racks</span></div>
+            </div>
+            <div class="wcard">
+              <div class="top"><div class="name">📍 Bodega Norte</div><div class="type">Cubierta</div></div>
+              <div class="addr">Alajuela, Barrial · 800 m²</div>
+              <div class="prog"><i style="width:65%"></i></div>
+              <div class="meta"><span>Ocupación 65%</span><span>12 racks</span></div>
+            </div>
+            <div class="wcard">
+              <div class="top"><div class="name">📍 Bodega Sur</div><div class="type">Cubierta</div></div>
+              <div class="addr">Cartago, El Molino · 650 m²</div>
+              <div class="prog"><i style="width:91%; background:#b6712f"></i></div>
+              <div class="meta"><span>Ocupación 91%</span><span>10 racks</span></div>
+            </div>
+            <div class="wcard">
+              <div class="top"><div class="name">📍 Patio Maquinaria</div><div class="type">Patio abierto</div></div>
+              <div class="addr">Heredia, San Antonio · 2,000 m²</div>
+              <div class="prog"><i style="width:40%"></i></div>
+              <div class="meta"><span>Ocupación 40%</span><span>6 zonas</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPARTICION ESTANTES -->
+    <div>
+      <div class="panel-label">REPARTICIÓN DE LOS ESTANTES</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Distribución — Bodega Central</div>
+          <div class="s">Vista de planta</div>
+        </div>
+        <div class="pbody">
+          <div class="floor">
+            <div class="dock">🚚 ZONA DE CARGA Y DESCARGA</div>
+
+            <div class="aisle">
+              <div class="rackcol">
+                <div class="rk full">A1</div><div class="rk full">A2</div><div class="rk low">A3</div><div class="rk free">A4</div><div class="rk full">A5</div>
+              </div>
+              <div class="aisle-lbl">PASILLO 1</div>
+              <div class="rackcol">
+                <div class="rk low">B1</div><div class="rk full">B2</div><div class="rk full">B3</div><div class="rk free">B4</div><div class="rk full">B5</div>
+              </div>
+            </div>
+
+            <div class="aisle">
+              <div class="rackcol">
+                <div class="rk free">C1</div><div class="rk full">C2</div><div class="rk low">C3</div><div class="rk full">C4</div><div class="rk full">C5</div>
+              </div>
+              <div class="aisle-lbl">PASILLO 2</div>
+              <div class="rackcol">
+                <div class="rk full">D1</div><div class="rk free">D2</div><div class="rk full">D3</div><div class="rk full">D4</div><div class="rk low">D5</div>
+              </div>
+            </div>
+
+            <div class="aisle">
+              <div class="rackcol">
+                <div class="rk full">E1</div><div class="rk low">E2</div><div class="rk full">E3</div><div class="rk free">E4</div><div class="rk full">E5</div>
+              </div>
+              <div class="aisle-lbl">PASILLO 3</div>
+              <div class="rackcol">
+                <div class="rk free">F1</div><div class="rk full">F2</div><div class="rk low">F3</div><div class="rk full">F4</div><div class="rk full">F5</div>
+              </div>
+            </div>
+
+            <div class="office">🖥 OFICINA / CONTROL DE BODEGA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARAMETRIZACION -->
+    <div>
+      <div class="panel-label">PARAMETRIZACIÓN DE ESTANTES</div>
+      <div class="panel">
+        <div class="pbar">
+          <div class="t">Tipos de Estante / Rack</div>
+          <div class="s">Configuración por bodega</div>
+        </div>
+        <div class="pbody">
+
+          <div class="preview-box">
+            <div class="pv-head">
+              <div class="pv-title">Vista previa del estante</div>
+              <div class="pv-spec">3 niveles · 1,500 kg/nivel</div>
+            </div>
+            <div class="stage">
+              <div class="cant">
+                <div class="pole"></div>
+                <div class="arm" style="bottom:6px;"></div><div class="tube" style="bottom:12px; width:70px;"></div>
+                <div class="arm" style="bottom:36px;"></div><div class="tube" style="bottom:42px; width:52px;"></div>
+                <div class="arm" style="bottom:66px;"></div><div class="tube" style="bottom:72px; width:82px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-h" style="margin-top:0;">Tipo de estante — la distribución cambia según el tipo</div>
+          <div class="type-grid">
+            <div class="type-card">
+              <div class="mini"><div class="mini-inner">
+                <div class="elev">
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                </div>
+              </div></div>
+              <div class="lbl">Selectivo</div>
+            </div>
+            <div class="type-card selected">
+              <div class="mini"><div class="mini-inner">
+                <div class="cant" style="width:110px;">
+                  <div class="pole"></div>
+                  <div class="arm" style="bottom:6px;"></div><div class="tube" style="bottom:12px; width:60px;"></div>
+                  <div class="arm" style="bottom:36px;"></div><div class="tube" style="bottom:42px; width:45px;"></div>
+                  <div class="arm" style="bottom:66px;"></div><div class="tube" style="bottom:72px; width:70px;"></div>
+                </div>
+              </div></div>
+              <div class="lbl">Cantilever<br><span class="check">✓ Seleccionado</span></div>
+            </div>
+            <div class="type-card">
+              <div class="mini"><div class="mini-inner">
+                <div class="elev pallet">
+                  <div class="lvl"><span class="box"></span><span class="box back"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box back"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box back"></span></div>
+                </div>
+              </div></div>
+              <div class="lbl">Pallet Rack</div>
+            </div>
+            <div class="type-card">
+              <div class="mini"><div class="mini-inner">
+                <div class="elev liviano">
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                  <div class="lvl"><span class="box"></span><span class="box"></span></div>
+                </div>
+              </div></div>
+              <div class="lbl">Liviano</div>
+            </div>
+          </div>
+
+          <div class="field"><div class="l">Bodega</div><div class="v">Patio Maquinaria</div></div>
+          <div class="field-row">
+            <div class="field"><div class="l">Niveles</div><div class="v">3</div></div>
+            <div class="field"><div class="l">Capacidad / nivel</div><div class="v">1,500 kg</div></div>
+          </div>
+          <div class="field"><div class="l">Dimensiones (A×H×P)</div><div class="v">2.4 × 3.0 × 1.1 m</div></div>
+          <div class="actions" style="margin-bottom:12px;">
+            <div class="btn ghost">Cancelar</div>
+            <div class="btn primary">Guardar tipo</div>
+          </div>
+          <div class="section-h">Tipos configurados</div>
+          <table class="cfg-table">
+            <tr><th>Código</th><th>Bodega</th><th>Tipo</th><th>Niv.</th></tr>
+            <tr><td>EST-STD-01</td><td>Central</td><td>Selectivo</td><td>4</td></tr>
+            <tr><td>EST-CANT-02</td><td>Patio Maq.</td><td>Cantilever</td><td>3</td></tr>
+            <tr><td>EST-PAL-03</td><td>Norte</td><td>Pallet Rack</td><td>5</td></tr>
+            <tr><td>EST-LIV-04</td><td>Sur</td><td>Liviano</td><td>3</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
+`,
+};
+
+const NATURAL_WIDTH = 1720;
+
+function mount(name) {
+  const wrap = document.querySelector('.iframe-wrap[data-name="' + name + '"]');
+  wrap.innerHTML = '';
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('scrolling', 'no');
+  wrap.appendChild(iframe);
+
+  iframe.addEventListener('load', () => {
+    const doc = iframe.contentDocument;
+    const naturalHeight = doc.body.scrollHeight;
+
+    function applyScale() {
+      const available = wrap.clientWidth;
+      const scale = Math.min(1, available / NATURAL_WIDTH);
+      iframe.style.width = NATURAL_WIDTH + 'px';
+      iframe.style.height = naturalHeight + 'px';
+      iframe.style.transform = 'scale(' + scale + ')';
+      iframe.style.transformOrigin = 'top left';
+      wrap.style.height = Math.round(naturalHeight * scale) + 'px';
+    }
+    applyScale();
+    window.addEventListener('resize', applyScale);
+  });
+
+  iframe.srcdoc = FRAGMENTS[name];
+}
+
+['overview', 'movimientos', 'centros', 'bodegas'].forEach(mount);
+</script>
+</body>
+</html>

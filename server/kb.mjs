@@ -56,6 +56,34 @@ export const KB_DOCS = [
       'Pura Puntos es la plataforma de lealtad multi-comercio: Pura Puntos (wallet del cliente en https://pura-puntos.castlexpert.com), Pura Puntos Cash (punto de venta en https://pura-puntos-cash.castlexpert.com) y Pura Puntos Manager (consola en https://pura-puntos-manager.castlexpert.com). Incluye red de coalición entre negocios y video demo. Página: https://castlexpert.com/demos/pura-puntos — Guía: https://castlexpert.com/demos/pura-puntos/guide/',
   },
   {
+    id: 'mockups-overview-es',
+    language: 'es',
+    title: 'Repositorio de mockups y presentaciones',
+    content:
+      'CastleXpert tiene un repositorio de mockups (presentaciones interactivas) en https://castlexpert.com/mockups. Incluye CMMS con inventario, Logistic Internacional y ERP Inventario.',
+  },
+  {
+    id: 'mockup-cmms-inventario-es',
+    language: 'es',
+    title: 'Presentación CMMS con inventario',
+    content:
+      'Si piden presentación CMMS con inventario, mockup CMMS inventario, CMMS MRO o ver inventario del CMMS, entrega SIEMPRE este enlace: https://castlexpert.com/mockups/cmms-inventario/ — Es el mockup interactivo de CMMS CastleXpert / MANTE Preventivo con módulo de inventario. Repositorio: https://castlexpert.com/mockups',
+  },
+  {
+    id: 'mockup-logistic-internacional-es',
+    language: 'es',
+    title: 'Presentación Logistic Internacional',
+    content:
+      'Si piden presentación de Logistic Internacional, mockup Logistic Internacional, ver Logistic Internacional o presentación Logistic, entrega SIEMPRE este enlace: https://castlexpert.com/mockups/logistic-internacional/ — Es el mockup interactivo de Logistic Internacional. Repositorio: https://castlexpert.com/mockups',
+  },
+  {
+    id: 'mockup-erp-inventario-es',
+    language: 'es',
+    title: 'Presentación ERP Inventario',
+    content:
+      'Si piden presentación ERP Inventario, mockup ERP Inventario, ERP de inventarios, sistema de inventarios ERP o ver el mockup ERP, entrega SIEMPRE este enlace: https://castlexpert.com/mockups/erp-inventario/ — Incluye vista general, movimientos, centros de costo y bodegas. Repositorio: https://castlexpert.com/mockups',
+  },
+  {
     id: 'contact-es',
     language: 'es',
     title: 'Contacto',
@@ -117,6 +145,34 @@ export const KB_DOCS = [
     title: 'Pura Puntos demo',
     content:
       'Pura Puntos is the multi-merchant loyalty platform: Pura Puntos (customer wallet at https://pura-puntos.castlexpert.com), Pura Puntos Cash (point of sale at https://pura-puntos-cash.castlexpert.com), and Pura Puntos Manager (console at https://pura-puntos-manager.castlexpert.com). Includes a coalition network and demo video. Page: https://castlexpert.com/demos/pura-puntos — Guide: https://castlexpert.com/demos/pura-puntos/guide/',
+  },
+  {
+    id: 'mockups-overview-en',
+    language: 'en',
+    title: 'Mockup and presentation repository',
+    content:
+      'CastleXpert has a mockup repository (interactive presentations) at https://castlexpert.com/mockups. It includes CMMS with inventory, Logistic Internacional, and ERP Inventory.',
+  },
+  {
+    id: 'mockup-cmms-inventario-en',
+    language: 'en',
+    title: 'CMMS with inventory presentation',
+    content:
+      'If someone asks for the CMMS with inventory presentation, CMMS inventory mockup, CMMS MRO, or to see CMMS inventory, ALWAYS give this link: https://castlexpert.com/mockups/cmms-inventario/ — Interactive CastleXpert CMMS / MANTE Preventive mockup with inventory. Repository: https://castlexpert.com/mockups',
+  },
+  {
+    id: 'mockup-logistic-internacional-en',
+    language: 'en',
+    title: 'Logistic Internacional presentation',
+    content:
+      'If someone asks for the Logistic Internacional presentation, Logistic Internacional mockup, or to see Logistic Internacional, ALWAYS give this link: https://castlexpert.com/mockups/logistic-internacional/ — Interactive Logistic Internacional mockup. Repository: https://castlexpert.com/mockups',
+  },
+  {
+    id: 'mockup-erp-inventario-en',
+    language: 'en',
+    title: 'ERP Inventory presentation',
+    content:
+      'If someone asks for the ERP Inventory presentation, ERP inventory mockup, ERP warehouse mockup, or to see the ERP mockup, ALWAYS give this link: https://castlexpert.com/mockups/erp-inventario/ — Overview, movements, cost centers, and warehouses. Repository: https://castlexpert.com/mockups',
   },
   {
     id: 'contact-en',

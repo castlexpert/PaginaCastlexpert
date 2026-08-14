@@ -132,6 +132,7 @@ export type AppCopy = {
     cookiePolicyLink: string;
     servicesLink: string;
     contactLink: string;
+    mockupsLink: string;
     followUs: string;
     paymentsTitle: string;
     rights: string;
@@ -191,6 +192,18 @@ export type AppCopy = {
   };
   whatsapp: {
     tooltip: string;
+  };
+  mockups: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    openLabel: string;
+    backHome: string;
+    items: Array<{
+      id: 'cmms-inventario' | 'logistic-internacional' | 'erp-inventario';
+      title: string;
+      description: string;
+    }>;
   };
 };
 
@@ -628,6 +641,7 @@ export const copy: Record<Language, AppCopy> = {
       cookiePolicyLink: 'Política de cookies',
       servicesLink: 'Servicios',
       contactLink: 'Contacto',
+      mockupsLink: 'Mockups',
       followUs: 'Síguenos',
       paymentsTitle: 'Métodos de pago',
       rights: 'Todos los derechos reservados.',
@@ -746,6 +760,32 @@ export const copy: Record<Language, AppCopy> = {
     },
     whatsapp: {
       tooltip: 'Chatea con nosotros',
+    },
+    mockups: {
+      eyebrow: 'Presentaciones',
+      title: 'Repositorio de mockups',
+      subtitle:
+        'Presentaciones interactivas para recorrer el producto antes de una demo funcional. Ábrelas y explora las pantallas.',
+      openLabel: 'Abrir mockup',
+      backHome: 'Volver al inicio',
+      items: [
+        {
+          id: 'cmms-inventario',
+          title: 'CMMS con inventario',
+          description: 'Presentación del CMMS CastleXpert con módulo de inventario MRO, órdenes y dashboard.',
+        },
+        {
+          id: 'logistic-internacional',
+          title: 'Logistic Internacional',
+          description: 'Presentación de Logistic Internacional: operación, seguimiento y vistas de producto.',
+        },
+        {
+          id: 'erp-inventario',
+          title: 'ERP Inventario',
+          description:
+            'Presentación del sistema de inventarios: vista general, movimientos, centros de costo y bodegas.',
+        },
+      ],
     },
   },
   en: {
@@ -1178,6 +1218,7 @@ export const copy: Record<Language, AppCopy> = {
       linksTitle: 'Quick links',
       aboutLink: 'About',
       siteMapLink: 'Site map',
+      mockupsLink: 'Mockups',
       cookiePolicyLink: 'Cookie policy',
       servicesLink: 'Services',
       contactLink: 'Contact',
@@ -1299,6 +1340,31 @@ export const copy: Record<Language, AppCopy> = {
     },
     whatsapp: {
       tooltip: 'Chat with us',
+    },
+    mockups: {
+      eyebrow: 'Presentations',
+      title: 'Mockup repository',
+      subtitle:
+        'Interactive presentations to walk through a product before a functional demo. Open them and explore the screens.',
+      openLabel: 'Open mockup',
+      backHome: 'Back to homepage',
+      items: [
+        {
+          id: 'cmms-inventario',
+          title: 'CMMS with inventory',
+          description: 'CastleXpert CMMS presentation with MRO inventory, work orders, and dashboard.',
+        },
+        {
+          id: 'logistic-internacional',
+          title: 'Logistic Internacional',
+          description: 'Logistic Internacional presentation: operations, tracking, and product views.',
+        },
+        {
+          id: 'erp-inventario',
+          title: 'ERP Inventory',
+          description: 'Inventory system presentation: overview, movements, cost centers, and warehouses.',
+        },
+      ],
     },
   },
 };

@@ -23,6 +23,22 @@ npm run demos:sync
 
 Video promo: `public/images/demos/pp.mp4`
 
+## Mockups / presentaciones
+
+Al actualizar un mockup, corre desde `project/`:
+
+```bash
+npm run mockups:sync
+```
+
+| Mockup (slug) | Ruta pública | Fuente original |
+|---------------|--------------|-----------------|
+| `cmms-inventario` | `/mockups/cmms-inventario/` | `C:\Proyectos\MANTE_PREVENTIVO\guide\inventario-mockup.html` |
+| `logistic-internacional` | `/mockups/logistic-internacional/` | `C:\Proyectos\Logistic\mockup\index.html` |
+| `erp-inventario` | `/mockups/erp-inventario/` | `C:\Users\castl\Downloads\Mockup_ERP_Inventario.html` |
+
+Listado: `/mockups`
+
 ### TrackLogic — nombres públicos
 
 | App | Nombre | URL |

@@ -44,6 +44,11 @@ export default function Footer({ content, onOpenCookiePolicy }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link to="/mockups" className="text-zinc-600 hover:text-black transition-colors">
+                  {content.mockupsLink}
+                </Link>
+              </li>
+              <li>
                 <button
                   type="button"
                   onClick={onOpenCookiePolicy}

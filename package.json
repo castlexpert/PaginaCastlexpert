@@ -11,6 +11,7 @@
     "vcf:generate": "node scripts/generate-contact-vcf.mjs",
     "demos:sync": "node scripts/sync-demo-guides.mjs",
     "demos:inject-nav": "node scripts/sync-demo-guides.mjs --inject-only",
+    "mockups:sync": "node scripts/sync-mockups.mjs",
     "services:generate-images": "node scripts/generate-missing-service-images.mjs",
     "lint": "eslint .",
     "preview": "vite preview",

@@ -65,6 +65,26 @@ export default function SiteMapPage({
               </Link>
             </li>
             <li>
+              <Link className={linkCls} to="/mockups">
+                Repositorio de mockups
+              </Link>
+            </li>
+            <li>
+              <a className={linkCls} href="/mockups/cmms-inventario/">
+                Mockup CMMS con inventario
+              </a>
+            </li>
+            <li>
+              <a className={linkCls} href="/mockups/logistic-internacional/">
+                Mockup Logistic Internacional
+              </a>
+            </li>
+            <li>
+              <a className={linkCls} href="/mockups/erp-inventario/">
+                Mockup ERP Inventario
+              </a>
+            </li>
+            <li>
               <Link className={linkCls} to="/#solutions">
                 {p.services}
               </Link>

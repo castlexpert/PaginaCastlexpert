@@ -13,6 +13,7 @@ import AboutPage from './pages/AboutPage';
 import ContactCardPage from './pages/ContactCardPage';
 import ContactPage from './pages/ContactPage';
 import DemoProductPage from './pages/DemoProductPage';
+import MockupsPage from './pages/MockupsPage';
 import { enableSiteAnalytics, trackPageView } from './lib/siteAnalytics';
 
 function isContactCardPath(pathname: string) {
@@ -141,6 +142,16 @@ function App() {
           element={
             <DemoProductPage
               demoId="pura-puntos"
+              content={content}
+              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
+        <Route
+          path="/mockups"
+          element={
+            <MockupsPage
               content={content}
               onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}

@@ -6,6 +6,7 @@ import express from 'express';
 import cors from 'cors';
 import { getPool, ensureSchema, ensureConversation, addMessage, getRecentMessages, searchKb } from './db.mjs';
 import { answerWithLlm, isOpenAiConfigured } from './llm.mjs';
+import { answerMockupPresentation } from './mockupIntents.mjs';
 import { notifyAdvisor } from './whatsapp.mjs';
 import { notifyContactFormSubmission } from './mail.mjs';
 import {
@@ -129,6 +130,13 @@ app.post('/api/chat', async (req, res) => {
     const history = await getRecentMessages(db, String(conversationId), 8);
     const lang = String(language);
     const msg = String(message);
+
+    const mockupAnswer = answerMockupPresentation(msg, lang);
+    if (mockupAnswer) {
+      await addMessage(db, String(conversationId), 'assistant', mockupAnswer);
+      res.json({ answer: mockupAnswer });
+      return;
+    }
 
     let siteRows = [];
     try {

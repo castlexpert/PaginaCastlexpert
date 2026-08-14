@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mockup — Inventario MRO · CMMS CastleXpert</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --paper: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: rgba(15, 23, 42, 0.1);
+      --primary: #0066ff;
+      --ok: #059669;
+      --warn: #d97706;
+      --err: #dc2626;
+      --side: 236px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 14px/1.45 Inter, Roboto, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .banner {
+      background: #0f172a;
+      color: #e8eef7;
+      padding: 10px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .banner strong { color: #fff; }
+    .banner .hint { color: #94a3b8; font-size: 12px; }
+    .switch {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #1e293b;
+      padding: 5px 8px 5px 12px;
+      border-radius: 8px;
+    }
+    .switch label { font-size: 12px; color: #94a3b8; }
+    .switch button {
+      border: 0;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: 600;
+      background: #334155;
+      color: #e2e8f0;
+    }
+    body.on .switch .btn-on { background: var(--primary); color: #fff; }
+    body:not(.on) .switch .btn-off { background: #64748b; color: #fff; }
+    .app { display: flex; min-height: calc(100vh - 48px); }
+    aside {
+      width: var(--side);
+      background: var(--paper);
+      border-right: 1px solid var(--line);
+      padding: 16px 12px;
+      flex-shrink: 0;
+    }
+    aside .logo { font-weight: 700; padding: 8px 10px 18px; letter-spacing: -0.02em; }
+    aside a {
+      display: block;
+      padding: 9px 12px;
+      border-radius: 10px;
+      color: var(--text);
+      text-decoration: none;
+      margin-bottom: 4px;
+    }
+    aside a:hover { background: rgba(0, 26, 63, 0.05); }
+    aside a.active {
+      background: rgba(0, 102, 255, 0.1);
+      border-left: 3px solid var(--primary);
+      font-weight: 700;
+    }
+    aside .inv { display: none; }
+    body.on aside .inv { display: block; }
+    main { flex: 1; padding: 24px 28px 48px; min-width: 0; }
+    h1 { font-size: 22px; margin: 0 0 4px; letter-spacing: -0.02em; }
+    .sub { color: var(--muted); margin: 0 0 20px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+    .tabs button, .btn {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .tabs button.active, .btn.primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); font-size: 13px; }
+    th { color: var(--text); font-size: 12px; }
+    .chip {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .warn { background: #fff7ed; color: var(--warn); }
+    .ok { background: #ecfdf5; color: var(--ok); }
+    .bad { background: #fef2f2; color: var(--err); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .row-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    select, input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+    }
+    .note { font-size: 12px; color: var(--muted); }
+    .hidden { display: none !important; }
+    .off-msg {
+      background: #fff;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      padding: 28px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .phone {
+      width: 320px;
+      margin: 0 auto;
+      background: #111827;
+      border-radius: 28px;
+      padding: 12px;
+    }
+    .phone-in {
+      background: #f8fafc;
+      border-radius: 20px;
+      min-height: 540px;
+      overflow: hidden;
+    }
+    .phone-bar { background: #fff; padding: 14px 14px 10px; border-bottom: 1px solid var(--line); }
+    .phone-tabs { display: flex; gap: 4px; padding: 8px; background: #fff; }
+    .phone-tabs span {
+      flex: 1;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 2px;
+      border-radius: 8px;
+      color: var(--muted);
+    }
+    .phone-tabs span.cur { background: rgba(0, 102, 255, 0.1); color: var(--primary); }
+    .phone-body { padding: 12px; }
+    .sug {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .toolbar input { max-width: 240px; }
+    footer.cap {
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 10px;
+      align-items: stretch;
+      margin: 8px 0 4px;
+    }
+    .flow-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fafc;
+    }
+    .flow-box.cmms { background: #eff6ff; border-color: rgba(0, 102, 255, 0.25); }
+    .flow-box.erp { background: #f8fafc; }
+    .flow-arrow {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-width: 88px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      text-align: center;
+    }
+    .flow-arrow .dir { font-size: 22px; line-height: 1; font-weight: 400; color: var(--text); }
+    .code {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 12px;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      overflow: auto;
+      white-space: pre;
+      margin: 8px 0 0;
+    }
+    .api-card h3 { margin: 0 0 4px; font-size: 15px; }
+    .log { font-size: 12px; }
+    .log div { padding: 6px 0; border-bottom: 1px solid var(--line); }
+    @media (max-width: 1100px) {
+      .flow { grid-template-columns: 1fr; }
+      .flow-arrow { flex-direction: row; min-width: 0; padding: 4px 0; }
+    }
+    @media (max-width: 900px) {
+      .app { flex-direction: column; }
+      aside { width: 100%; }
+      .row, .row-4 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .row, .row-4 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; box-sizing: border-box !important; }
+  header { top: 4.25rem !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/mockups">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="banner">
+    <strong>Mockup de exposición</strong>
+    <span class="hint">Archivo suelto. No es producción, no llama API y no se despliega con el CMMS.</span>
+    <div class="switch">
+      <label>Inventario</label>
+      <button class="btn-off" type="button" onclick="setOn(false)">Apagado</button>
+      <button class="btn-on" type="button" onclick="setOn(true)">Encendido</button>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside>
+      <div class="logo">CMMS CastleXpert</div>
+      <a href="#dash" data-view="dash">Dashboard</a>
+      <a href="#cfg" data-view="cfg">Configuración</a>
+      <a href="#ot" data-view="ot">Órdenes</a>
+      <a href="#inv" data-view="inv" class="inv">Inventario</a>
+      <a href="#apis" data-view="apis" class="inv">APIs ERP</a>
+      <a href="#pwa" data-view="pwa">App CMMS Tech</a>
+    </aside>
+
+    <main>
+      <section id="dash">
+        <h1>Dashboard</h1>
+        <p class="sub">Visión ejecutiva del mantenimiento preventivo</p>
+        <div class="row-4">
+          <div class="card"><div class="note">OT abiertas</div><h1>12</h1></div>
+          <div class="card"><div class="note">OT cerradas</div><h1>48</h1></div>
+          <div class="card"><div class="note">Preventivos próximos</div><h1>5</h1></div>
+          <div class="card only-on">
+            <div class="note">Ítems bajo mínimo</div>
+            <h1>2</h1>
+            <div class="note">Agregado Fase 2 · solo con módulo on</div>
+          </div>
+        </div>
+        <p class="note">Las tres primeras tarjetas ya existen. La cuarta es el agregado y se oculta si el inventario está apagado.</p>
+      </section>
+
+      <section id="cfg" class="hidden">
+        <h1>Configuración</h1>
+        <p class="sub">Parámetros especiales de la compañía</p>
+        <div class="card">
+          <strong>Parámetros actuales (no se quitan)</strong>
+          <div class="row" style="margin-top:12px">
+            <div>
+              <label>Refiere a</label>
+              <select disabled><option>Cliente</option></select>
+            </div>
+            <div>
+              <label>Fecha/hora de OT</label>
+              <select disabled><option>Hora del sistema (fija)</option></select>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <strong>Inventario de mantenimiento</strong>
+          <p class="note">Bloque nuevo. Apagado deja el CMMS como hoy. Encendido muestra menú, materiales en OT, pestaña en la App y las 2 APIs con el ERP.</p>
+          <div class="row" style="margin-top:12px">
+            <div>
+              <label>Módulo</label>
+              <select id="cfgFlag" onchange="setOn(this.value === '1')">
+                <option value="0">Apagado</option>
+                <option value="1">Encendido</option>
+              </select>
+            </div>
+            <div class="only-on">
+              <label>Fuente</label>
+              <select>
+                <option>Interno (CMMS)</option>
+                <option selected>Externo (ERP) — 2 APIs</option>
+              </select>
+            </div>
+            <div class="only-on">
+              <label>Permitir stock negativo</label>
+              <select><option>No</option><option>Sí</option></select>
+            </div>
+            <div class="only-on">
+              <label>Exigir materiales al cerrar OT</label>
+              <select><option>No</option><option>Sí</option></select>
+            </div>
+            <div class="only-on">
+              <label>Un solo almacén</label>
+              <select><option>Sí</option><option>No</option></select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="inv" class="hidden">
+        <h1>Inventario</h1>
+        <p class="sub">Repuestos e insumos de mantenimiento · 3 ítems · 2 bajo mínimo</p>
+        <div class="off-msg only-off">
+          Módulo apagado. Esta pantalla no aparece en el menú ni en las rutas del Manager.
+        </div>
+        <div class="only-on">
+          <div class="tabs">
+            <button type="button" class="active" data-tab="cat">Catálogo</button>
+            <button type="button" data-tab="exi">Existencias</button>
+            <button type="button" data-tab="kar">Kardex</button>
+            <button class="btn primary" type="button" style="margin-left:auto">+ Nuevo ítem</button>
+            <button class="btn" type="button">Exportar CSV</button>
+          </div>
+          <div class="toolbar">
+            <input type="search" placeholder="Buscar SKU o nombre" />
+            <select style="max-width:160px">
+              <option>Tipo: todos</option>
+              <option>Repuesto</option>
+              <option>Consumible</option>
+              <option>Insumo</option>
+            </select>
+          </div>
+          <div id="tab-cat" class="card" style="padding:0">
+            <table>
+              <thead>
+                <tr>
+                  <th>SKU</th><th>Nombre</th><th>Tipo</th><th>Unidad</th>
+                  <th>Stock</th><th>Mínimo</th><th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>FIL-001</td><td>Filtro 20x20</td><td>Repuesto</td><td>UND</td>
+                  <td>2</td><td>5</td><td><span class="chip warn">Bajo mínimo</span></td>
+                </tr>
+                <tr>
+                  <td>GAS-R410</td><td>Gas R-410A</td><td>Insumo</td><td>L</td>
+                  <td>18</td><td>8</td><td><span class="chip ok">OK</span></td>
+                </tr>
+                <tr>
+                  <td>ACE-032</td><td>Aceite compressor</td><td>Consumible</td><td>L</td>
+                  <td>0</td><td>2</td><td><span class="chip bad">Sin stock</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="tab-exi" class="card hidden" style="padding:0">
+            <table>
+              <thead>
+                <tr><th>SKU</th><th>Nombre</th><th>Almacén</th><th>Disponible</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>FIL-001</td><td>Filtro 20x20</td><td>Principal</td><td>2</td></tr>
+                <tr><td>GAS-R410</td><td>Gas R-410A</td><td>Principal</td><td>18</td></tr>
+                <tr><td>ACE-032</td><td>Aceite compressor</td><td>Principal</td><td>0</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="tab-kar" class="card hidden" style="padding:0">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th><th>Tipo</th><th>SKU</th><th>Cantidad</th>
+                  <th>OT</th><th>Usuario</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5 ago 2026, 4:16 p.m.</td><td>CONSUMO_OT</td><td>FIL-001</td>
+                  <td>−1</td><td>OT-2026-0027</td><td>TecnicoJuan</td>
+                </tr>
+                <tr>
+                  <td>5 ago 2026, 9:02 a.m.</td><td>SYNC ERP</td><td>FIL-001</td>
+                  <td>stock=2</td><td>—</td><td>API 1 artículos</td>
+                </tr>
+                <tr>
+                  <td>4 ago 2026, 9:00 a.m.</td><td>ENTRADA</td><td>GAS-R410</td>
+                  <td>+10</td><td>—</td><td>Admin</td>
+                </tr>
+                <tr>
+                  <td>1 ago 2026, 2:20 p.m.</td><td>AJUSTE</td><td>ACE-032</td>
+                  <td>−1</td><td>—</td><td>Supervisor</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">La existencia no se edita a mano. Entrada o ajuste generan un movimiento de kardex.</p>
+        </div>
+      </section>
+
+      <section id="ot" class="hidden">
+        <h1>OT-2026-0027</h1>
+        <p class="sub">Cliente ejemplo · ACT-00015 · Aire industrial</p>
+        <div class="card">
+          <div class="row-4">
+            <div><div class="note">Estado</div><strong>FINALIZADA</strong></div>
+            <div><div class="note">Inicio campo</div>5 ago 2026, 4:09 p.m.</div>
+            <div><div class="note">Fin campo</div>5 ago 2026, 4:16 p.m.</div>
+            <div><div class="note">Duración</div><strong>7 min</strong></div>
+          </div>
+          <p class="note" style="margin-top:12px">Bloque actual de la OT: no se reacomoda.</p>
+        </div>
+        <div class="off-msg only-off">
+          Inventario apagado: no hay materiales. El detalle de OT queda como hoy.
+        </div>
+        <div class="card only-on">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+            <strong>Materiales de la OT</strong>
+            <div>
+              <button class="btn" type="button">Sin materiales</button>
+              <button class="btn primary" type="button">+ Agregar</button>
+            </div>
+          </div>
+          <table style="margin-top:10px">
+            <thead>
+              <tr><th>SKU</th><th>Nombre</th><th>Planif.</th><th>Usado</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>FIL-001</td><td>Filtro 20x20</td><td>1</td><td>1</td>
+                <td><span class="chip ok">Usado</span></td>
+              </tr>
+              <tr>
+                <td>GAS-R410</td><td>Gas R-410A</td><td>0.5</td><td>—</td>
+                <td><span class="chip warn">Planificado</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="note">Agregado debajo. Confirmar “usado” escribe CONSUMO_OT. El cierre de la OT sigue siendo el flujo actual.</p>
+        </div>
+        <div class="card only-on">
+          <strong>API 2 — reporte al ERP</strong>
+          <p class="note" style="margin:8px 0 0">
+            Al confirmar materiales usados, el CMMS no descuenta el stock contable del ERP.
+            Llama <code>POST /salidas</code> para que el ERP registre la salida.
+          </p>
+          <div class="code">POST https://erp.ejemplo.com/api/inventario/salidas
+{
+  "ot": "OT-2026-0027",
+  "sku": "FIL-001",
+  "cantidad": 1,
+  "unidad": "UND",
+  "motivo": "CONSUMO_MANTENIMIENTO"
+}</div>
+        </div>
+      </section>
+
+      <section id="apis" class="hidden">
+        <h1>APIs de sincronización ERP</h1>
+        <p class="sub">Dos contratos, en direcciones opuestas. El CMMS no sustituye el inventario contable del ERP.</p>
+        <div class="off-msg only-off">
+          Módulo apagado. Las APIs de integración no se exponen.
+        </div>
+        <div class="only-on">
+          <div class="card">
+            <strong>Flujo entre sistemas</strong>
+            <div class="flow" style="margin-top:12px">
+              <div class="flow-box erp">
+                <div class="note">Sistema de inventario</div>
+                <strong>ERP</strong>
+                <p class="note" style="margin:8px 0 0">Dueño del catálogo y del stock contable.</p>
+              </div>
+              <div class="flow-arrow">
+                <span class="dir">→</span>
+                API 1<br />artículos
+              </div>
+              <div class="flow-box cmms">
+                <div class="note">Módulo CMMS</div>
+                <strong>Inventario MRO</strong>
+                <p class="note" style="margin:8px 0 0">Usa el catálogo en la OT. Reporta lo consumido.</p>
+              </div>
+              <div class="flow-arrow">
+                <span class="dir">→</span>
+                API 2<br />salidas
+              </div>
+              <div class="flow-box erp">
+                <div class="note">Sistema de inventario</div>
+                <strong>ERP</strong>
+                <p class="note" style="margin:8px 0 0">Registra la salida contra el almacén.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="card api-card">
+              <h3>API 1 · Artículos hacia el CMMS</h3>
+              <p class="note">El ERP (o un job) envía o actualiza el catálogo y existencias en el módulo de inventario del CMMS. No se crean a mano si la fuente es Externa.</p>
+              <p class="note" style="margin-top:8px"><strong>Dirección:</strong> ERP → CMMS</p>
+              <p class="note"><strong>Cuándo:</strong> alta/cambio de SKU, ajuste de stock, sync programado</p>
+              <div class="code">POST /api/inventario/erp/articulos
+Authorization: Bearer {token_tenant}
+
+{
+  "origen": "ERP",
+  "articulos": [
+    {
+      "sku": "FIL-001",
+      "codigoExterno": "ERP-FIL-001",
+      "nombre": "Filtro 20x20",
+      "tipo": "REPUESTO",
+      "unidad": "UND",
+      "stock": 2,
+      "minimo": 5,
+      "almacen": "Principal"
+    }
+  ]
+}</div>
+              <button class="btn primary" type="button" style="margin-top:12px" onclick="simularApi1()">Simular sync de artículos</button>
+            </div>
+
+            <div class="card api-card">
+              <h3>API 2 · Salidas hacia el ERP</h3>
+              <p class="note">Cuando el técnico confirma materiales usados en la OT, el CMMS reporta cada línea como salida de inventario para que el ERP descuente el stock.</p>
+              <p class="note" style="margin-top:8px"><strong>Dirección:</strong> CMMS → ERP</p>
+              <p class="note"><strong>Cuándo:</strong> al confirmar uso (no al cerrar la OT, salvo que el parámetro lo exija)</p>
+              <div class="code">POST {erpBaseUrl}/inventario/salidas
+X-Tenant: {empresa}
+
+{
+  "origen": "CMMS",
+  "ot": "OT-2026-0027",
+  "activo": "ACT-00015",
+  "tecnico": "TecnicoJuan",
+  "lineas": [
+    {
+      "sku": "FIL-001",
+      "codigoExterno": "ERP-FIL-001",
+      "cantidad": 1,
+      "unidad": "UND",
+      "motivo": "CONSUMO_MANTENIMIENTO"
+    }
+  ]
+}</div>
+              <button class="btn primary" type="button" style="margin-top:12px" onclick="simularApi2()">Simular reporte de salida</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <strong>Bitácora de sincronización (mock)</strong>
+            <p class="note">Cada llamada queda trazada. Si el ERP no responde, el consumo sigue en el CMMS y se reintenta la salida.</p>
+            <div id="apiLog" class="log" style="margin-top:8px">
+              <div>5 ago 2026, 9:02 a.m. · API 1 · 24 artículos recibidos del ERP · OK</div>
+              <div>5 ago 2026, 4:16 p.m. · API 2 · OT-2026-0027 · FIL-001 −1 UND · salida aceptada por ERP</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pwa" class="hidden">
+        <h1>App CMMS Tech</h1>
+        <p class="sub">El técnico ve una pestaña más solo si el módulo está encendido.</p>
+        <div class="phone">
+          <div class="phone-in">
+            <div class="phone-bar">
+              <div class="note">OT-2026-0027</div>
+              <strong>EN_CAMPO</strong>
+              <div class="note">ACT-00015 · Aire industrial</div>
+            </div>
+            <div class="phone-tabs">
+              <span>Checklist</span>
+              <span>Fotos</span>
+              <span>GPS</span>
+              <span class="cur only-on">Materiales</span>
+            </div>
+            <div class="phone-body only-off">
+              <p class="note">Módulo apagado: tres pestañas, igual que hoy (Checklist, Fotos, GPS).</p>
+            </div>
+            <div class="phone-body only-on">
+              <div class="note" style="margin-bottom:8px">Sugeridos para Aire industrial</div>
+              <div class="sug"><span>FIL-001 Filtro 20x20</span><strong>1 UND</strong></div>
+              <div class="sug"><span>GAS-R410 Gas R-410A</span><strong>0.5 L</strong></div>
+              <button class="btn primary" type="button" style="width:100%;margin-top:8px">Cerrar mantenimiento</button>
+              <p class="note" style="margin-top:8px">
+                Si se exige consumo y no hay líneas, pide registrar materiales o “cerrar sin materiales”.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="cap">
+        CMMS CastleXpert · mockup de inventario MRO · no modifica tablas ni servicios en producción
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    let current = "dash";
+
+    function setOn(on) {
+      document.body.classList.toggle("on", on);
+      document.getElementById("cfgFlag").value = on ? "1" : "0";
+      document.querySelectorAll(".only-on").forEach((el) => el.classList.toggle("hidden", !on));
+      document.querySelectorAll(".only-off").forEach((el) => el.classList.toggle("hidden", on));
+      if (!on && (current === "inv" || current === "apis")) show("cfg");
+    }
+
+    function simularApi1() {
+      prependLog("Ahora · API 1 · 3 artículos sincronizados desde el ERP · OK");
+    }
+
+    function simularApi2() {
+      prependLog("Ahora · API 2 · OT-2026-0027 · FIL-001 −1 UND · salida reportada al ERP");
+    }
+
+    function prependLog(text) {
+      const log = document.getElementById("apiLog");
+      const row = document.createElement("div");
+      row.textContent = text;
+      log.insertBefore(row, log.firstChild);
+    }
+
+    function show(id) {
+      current = id;
+      document.querySelectorAll("main > section").forEach((s) => s.classList.add("hidden"));
+      document.getElementById(id).classList.remove("hidden");
+      document.querySelectorAll("aside a").forEach((a) => {
+        a.classList.toggle("active", a.dataset.view === id);
+      });
+    }
+
+    document.querySelectorAll("aside a").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        show(a.dataset.view);
+      });
+    });
+
+    document.querySelectorAll("#inv .tabs button[data-tab]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#inv .tabs button[data-tab]").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        ["cat", "exi", "kar"].forEach((t) => {
+          document.getElementById("tab-" + t).classList.toggle("hidden", t !== btn.dataset.tab);
+        });
+      });
+    });
+
+    setOn(false);
+    show("dash");
+  </script>
+</body>
+</html>

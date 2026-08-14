@@ -20,6 +20,34 @@ function uid() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function renderMessageText(text: string) {
+  const parts = text.split(/(https?:\/\/[^\s<]+)/g);
+  return parts.map((part, i) => {
+    if (!/^https?:\/\//i.test(part)) {
+      return (
+        <span key={i} className="whitespace-pre-wrap">
+          {part}
+        </span>
+      );
+    }
+    const trimmed = part.replace(/[.,;:)]+$/g, '');
+    const trail = part.slice(trimmed.length);
+    return (
+      <span key={i}>
+        <a
+          href={trimmed}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="break-all underline underline-offset-2"
+        >
+          {trimmed}
+        </a>
+        {trail}
+      </span>
+    );
+  });
+}
+
 function looksLikeHtmlPayload(text: string): boolean {
   const t = text.slice(0, 400).trimStart();
   return /^<!DOCTYPE/i.test(t) || /^<html[\s>]/i.test(t) || /<\!--\[if/i.test(t);
@@ -199,7 +227,7 @@ export default function ChatWidget({ content, language, layoutCookieBanner }: Ch
                       : 'bg-white/10 text-zinc-900 border border-white/10',
                   ].join(' ')}
                 >
-                  {m.text}
+                  {renderMessageText(m.text)}
                 </div>
               </div>
             ))}

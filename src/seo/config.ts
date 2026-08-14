@@ -43,6 +43,20 @@ export const seoSiteMapByLang: Record<Language, PageSeo> = {
   },
 };
 
+export const seoMockupsByLang: Record<Language, PageSeo> = {
+  es: {
+    title: 'Repositorio de mockups | CastleXpert',
+    description:
+      'Presentaciones interactivas CastleXpert: CMMS con inventario, Logistic Internacional y ERP Inventario.',
+    keywords: 'mockups CastleXpert, presentación CMMS inventario, Logistic Internacional, ERP Inventario, Costa Rica',
+  },
+  en: {
+    title: 'Mockup repository | CastleXpert',
+    description: 'CastleXpert interactive presentations: CMMS with inventory, Logistic Internacional, and ERP Inventory.',
+    keywords: 'CastleXpert mockups, CMMS inventory presentation, Logistic Internacional, ERP Inventory, Costa Rica',
+  },
+};
+
 export const seoAboutByLang: Record<Language, PageSeo> = {
   es: {
     title: 'Acerca de CastleXpert | Quiénes somos',
@@ -155,6 +169,7 @@ export function seoForPath(pathname: string, language: Language): PageSeo {
   if (p === '/castlexpertcard' || p === '/castlexpert-card') return seoContactCardByLang[language];
   const demoMatch = p.match(/^\/demos\/(tracklogic|foodly|cmms|pura-puntos)\/?$/);
   if (demoMatch) return seoDemoById[demoMatch[1]][language];
+  if (p === '/mockups' || p.startsWith('/mockups/')) return seoMockupsByLang[language];
   return seoByLang[language];
 }
 

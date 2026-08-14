@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logistic — Mockup de producto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --bg: #0b1220;
+      --bg-2: #111a2b;
+      --panel: #162033;
+      --panel-2: #1c2a42;
+      --line: #2a3b57;
+      --text: #e8eef8;
+      --muted: #93a4bf;
+      --accent: #3d9cf0;
+      --accent-2: #1f6fbf;
+      --ok: #3dce8e;
+      --warn: #f0b429;
+      --danger: #f07167;
+      --violet: #8b7cf6;
+      --phone: #0e1524;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #1a3260 0%, transparent 50%),
+                  radial-gradient(900px 500px at 110% 10%, #16304a 0%, transparent 45%),
+                  var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+    button, input, select { font-family: inherit; }
+    .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+    /* Shell */
+    .app-shell { display: flex; flex-direction: column; height: 100%; }
+    .topbar {
+      height: 58px; flex: none;
+      display: flex; align-items: center; gap: 16px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(11, 18, 32, 0.86);
+      backdrop-filter: blur(10px);
+      z-index: 20;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em; }
+    .logo {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, #3d9cf0, #1f6fbf);
+      display: grid; place-items: center; font-size: 14px; font-weight: 700;
+    }
+    .brand small { display: block; font-weight: 500; color: var(--muted); font-size: 11px; letter-spacing: 0.04em; }
+    .switcher { display: flex; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 3px; margin-left: 12px; }
+    .switcher button {
+      border: 0; background: transparent; color: var(--muted);
+      padding: 7px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px;
+    }
+    .switcher button.active { background: var(--accent-2); color: #fff; }
+    .top-note { margin-left: auto; color: var(--muted); font-size: 12px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 9px; border-radius: 999px; font-size: 11px; font-weight: 600;
+      background: #1d334d; color: #9fd0ff; border: 1px solid #2c5074;
+    }
+    .pill.ok { background: #163528; color: #7de3b2; border-color: #1f5a3d; }
+    .pill.warn { background: #3a2d12; color: #ffd37a; border-color: #6a4e16; }
+    .pill.danger { background: #3a1c1c; color: #ffb3ad; border-color: #6a2c2c; }
+    .pill.violet { background: #2a2450; color: #c8c0ff; border-color: #433a7a; }
+    .pill.muted { background: #1b2433; color: var(--muted); border-color: var(--line); }
+
+    .workspace { flex: 1; min-height: 0; display: grid; }
+    .workspace.manager { grid-template-columns: 228px 1fr; }
+    .workspace.pwa { place-items: center; padding: 18px; }
+
+    /* Manager */
+    .nav {
+      border-right: 1px solid var(--line);
+      background: rgba(14, 22, 38, 0.9);
+      padding: 14px 10px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .nav button {
+      width: 100%; text-align: left; border: 0; background: transparent;
+      color: var(--muted); padding: 10px 12px; border-radius: 10px;
+      cursor: pointer; font-weight: 600; font-size: 13.5px;
+    }
+    .nav button.active, .nav button:hover { background: var(--panel-2); color: var(--text); }
+    .nav .section { font-size: 10px; letter-spacing: 0.08em; color: #6f829e; padding: 12px 12px 6px; text-transform: uppercase; }
+    .nav .who { margin-top: auto; padding: 12px; border-top: 1px solid var(--line); }
+    .who b { display: block; font-size: 13px; }
+    .who span { color: var(--muted); font-size: 12px; }
+
+    .main { min-width: 0; min-height: 0; overflow: auto; padding: 18px 20px 28px; }
+    .view { display: none; }
+    .view.active { display: block; }
+    h1 { font-size: 22px; letter-spacing: -0.03em; }
+    h2 { font-size: 15px; font-weight: 700; }
+    .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 16px 0; }
+    .kpi {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 12px;
+    }
+    .kpi .label { color: var(--muted); font-size: 12px; }
+    .kpi .value { font-size: 26px; font-weight: 700; letter-spacing: -0.03em; margin-top: 4px; }
+    .kpi .delta { font-size: 11px; color: var(--ok); margin-top: 4px; }
+
+    .grid-2 { display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    }
+    .card-h { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    .card-b { padding: 12px 14px; }
+    #map { height: 360px; background: #0d1828; }
+    .feed-item, .table-row, .asset-row {
+      display: grid; gap: 8px; padding: 10px 0; border-bottom: 1px solid #22344f;
+      font-size: 13px; align-items: center;
+    }
+    .feed-item { grid-template-columns: 74px 1fr auto; }
+    .feed-item:last-child, .table-row:last-child { border-bottom: 0; }
+    .time { color: var(--muted); font-size: 11px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; color: var(--muted); font-weight: 600; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    td { padding: 10px; border-bottom: 1px solid #22344f; vertical-align: middle; }
+    tr.clickable { cursor: pointer; }
+    tr.clickable:hover { background: #1b2c46; }
+
+    .kanban { display: grid; grid-template-columns: repeat(6, minmax(170px, 1fr)); gap: 10px; overflow-x: auto; padding-bottom: 8px; }
+    .col { background: #121c2e; border: 1px solid var(--line); border-radius: 12px; min-height: 360px; }
+    .col-h { padding: 10px 12px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 12px; }
+    .col-b { padding: 8px; display: flex; flex-direction: column; gap: 8px; }
+    .ticket {
+      background: var(--panel-2); border: 1px solid #2d4263; border-radius: 10px; padding: 10px; cursor: pointer;
+    }
+    .ticket:hover { border-color: var(--accent); }
+    .ticket b { display: block; font-size: 13px; }
+    .ticket span { color: var(--muted); font-size: 11px; }
+
+    .timeline { position: relative; padding-left: 18px; }
+    .timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: #2c4466; }
+    .t-item { position: relative; margin: 0 0 16px; }
+    .t-item::before {
+      content: ""; position: absolute; left: -16px; top: 6px; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 0 3px #1a3a5c;
+    }
+    .t-item.ex::before { background: var(--warn); }
+    .photos { display: flex; gap: 8px; margin-top: 8px; }
+    .ph {
+      width: 92px; height: 70px; border-radius: 8px; overflow: hidden;
+      background: linear-gradient(135deg, #2a3f5e, #1a2a40);
+      border: 1px solid #3a5478; display: grid; place-items: center; color: #9bb4d3; font-size: 11px;
+    }
+    .ph.engine { background: linear-gradient(160deg, #4a3a2a, #1c1610 70%); }
+    .ph.door { background: linear-gradient(160deg, #2a3a4a, #121820 70%); }
+    .ph.yard { background: linear-gradient(160deg, #2f4a32, #121810 70%); }
+    .ph.docs { background: linear-gradient(160deg, #3a2a4a, #161018 70%); }
+
+    .search {
+      background: var(--bg-2); border: 1px solid var(--line); color: var(--text);
+      border-radius: 10px; padding: 8px 12px; min-width: 240px; outline: none;
+    }
+    .btn {
+      border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 600; cursor: pointer; font-size: 13px;
+      background: var(--accent-2); color: #fff;
+    }
+    .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--text); }
+    .btn.ok { background: #1f7a4f; }
+
+    /* Phone */
+    .phone-wrap { display: flex; gap: 28px; align-items: center; }
+    .phone {
+      width: 390px; height: 780px; background: var(--phone);
+      border: 10px solid #222c3d; border-radius: 36px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.45);
+      display: flex; flex-direction: column; overflow: hidden; position: relative;
+    }
+    .notch { height: 22px; display: flex; justify-content: center; align-items: flex-end; color: #5b6d86; font-size: 10px; letter-spacing: 0.08em; }
+    .pwa-top {
+      padding: 8px 14px 10px; display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #223047;
+    }
+    .pwa-body { flex: 1; overflow: auto; padding: 12px 14px 80px; }
+    .pwa-tab {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 64px;
+      background: #101827; border-top: 1px solid #223047;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    .pwa-tab button {
+      border: 0; background: transparent; color: #7d8fa8; font-size: 11px; font-weight: 600; cursor: pointer;
+    }
+    .pwa-tab button.active { color: #7ec4ff; }
+    .offline-banner {
+      background: #3a2d12; color: #ffd37a; border: 1px solid #6a4e16;
+      border-radius: 10px; padding: 8px 10px; font-size: 12px; margin-bottom: 10px;
+      display: none;
+    }
+    .offline-banner.show { display: block; }
+    .big-scan {
+      height: 168px; border-radius: 16px; border: 1px dashed #3d5a80;
+      background: linear-gradient(180deg, #1a2b44, #121c2e);
+      display: grid; place-items: center; text-align: center; cursor: pointer; margin: 8px 0 14px;
+    }
+    .big-scan:hover { border-color: var(--accent); }
+    .pwa-card {
+      background: #162033; border: 1px solid #2a3b57; border-radius: 14px; padding: 12px; margin-bottom: 10px;
+    }
+    .pwa-card h3 { font-size: 14px; margin-bottom: 4px; }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .field input, .field select, .field textarea {
+      width: 100%; background: #0f1a2b; border: 1px solid #2a3b57; color: var(--text);
+      border-radius: 10px; padding: 9px 10px; outline: none;
+    }
+    .scanner-overlay {
+      display: none; position: absolute; inset: 0; background: #071018; z-index: 5;
+      flex-direction: column;
+    }
+    .scanner-overlay.show { display: flex; }
+    .viewfinder {
+      flex: 1; margin: 40px 28px; border: 2px solid #49b4ff; border-radius: 18px;
+      box-shadow: 0 0 0 2000px rgba(0,0,0,.45);
+      position: relative; overflow: hidden;
+    }
+    .laser { position: absolute; left: 8%; right: 8%; height: 2px; background: #49b4ff; top: 42%; animation: scan 1.8s infinite; }
+    @keyframes scan { 0% { top: 18%; } 50% { top: 78%; } 100% { top: 18%; } }
+    .scan-actions { padding: 16px; display: flex; gap: 8px; }
+
+    .legend { display: flex; flex-direction: column; gap: 14px; max-width: 360px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .legend h2 { color: var(--text); margin-bottom: 4px; }
+    .toast {
+      position: fixed; right: 18px; bottom: 18px; z-index: 50;
+      background: #1c2a42; border: 1px solid #3d5a80; border-radius: 12px;
+      padding: 12px 14px; min-width: 280px; box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      display: none;
+    }
+    .toast.show { display: block; animation: pop .25s ease; }
+    @keyframes pop { from { transform: translateY(8px); opacity: 0; } }
+    .muted { color: var(--muted); }
+    .linkish { color: #8ec7ff; cursor: pointer; font-weight: 600; }
+    @media (max-width: 1100px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .workspace.manager { grid-template-columns: 64px 1fr; }
+      .nav span, .nav .section, .nav .who { display: none; }
+    }
+  </style>
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; box-sizing: border-box !important; }
+  header { top: 4.25rem !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/mockups">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">L</div>
+        <div>Logistic<small>MOCKUP · USA → Centroamérica</small></div>
+      </div>
+      <div class="switcher">
+        <button class="active" id="btn-manager" onclick="setApp('manager')">Web Manager</button>
+        <button id="btn-pwa" onclick="setApp('pwa')">PWA de campo</button>
+      </div>
+      <span class="pill ok" id="conn-pill">● Online</span>
+      <button class="btn ghost" onclick="toggleOffline()">Simular sin señal</button>
+      <div class="top-note">HTML estático · datos de demostración · no es el sistema real</div>
+    </header>
+
+    <!-- MANAGER -->
+    <div class="workspace manager" id="app-manager">
+      <aside class="nav">
+        <div class="section">Operación</div>
+        <button class="active" data-view="dash" onclick="showView('dash', this)">Panel central</button>
+        <button data-view="pipeline" onclick="showView('pipeline', this)">Pipeline</button>
+        <button data-view="inventario" onclick="showView('inventario', this)">Inventario</button>
+        <button data-view="lotes" onclick="showView('lotes', this)">Lotes / aduana</button>
+        <button data-view="activo" onclick="showView('activo', this)">Activo / timeline</button>
+        <div class="section">Sistema</div>
+        <button data-view="usuarios" onclick="showView('usuarios', this)">Usuarios y sitios</button>
+        <div class="who">
+          <b>María Solano</b>
+          <span>MANAGER · todos los países</span>
+        </div>
+      </aside>
+      <main class="main">
+        <section class="view active" id="view-dash">
+          <div class="row" style="justify-content:space-between">
+            <div>
+              <h1>Seguimiento centralizado</h1>
+              <p class="sub">Una empresa · 6 países · 14 sitios · todos los activos en un solo panel</p>
+            </div>
+            <div class="row">
+              <span class="pill danger" id="exc-pill">3 excepciones</span>
+              <span class="pill">12 scans última hora</span>
+            </div>
+          </div>
+          <div class="kpi-grid">
+            <div class="kpi"><div class="label">Activos vivos</div><div class="value">1,284</div><div class="delta">+18 hoy</div></div>
+            <div class="kpi"><div class="label">En USA</div><div class="value">642</div><div class="delta">patios + desarme</div></div>
+            <div class="kpi"><div class="label">En tránsito / aduana</div><div class="value">211</div><div class="delta">4 lotes abiertos</div></div>
+            <div class="kpi"><div class="label">Fiscal + CEDI</div><div class="value">431</div><div class="delta">CR 298 · GT 87 · HN 46</div></div>
+            <div class="kpi"><div class="label">Cola offline</div><div class="value" id="kpi-offline">0</div><div class="delta">eventos por sincronizar</div></div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-h"><h2>Mapa en tiempo real</h2><span class="muted">último GPS o centroide del sitio</span></div>
+              <div id="map"></div>
+            </div>
+            <div class="card">
+              <div class="card-h"><h2>Feed de scans</h2><span class="pill">en vivo</span></div>
+              <div class="card-b" id="feed">
+                <div class="feed-item"><span class="time">17:41</span><div><b>TAG-P-04821</b> puerta RH escaneada en <b>Aduana Caldera</b><div class="muted">Carlos Méndez · ADUANA · GPS dispositivo</div></div><span class="pill warn">En aduana</span></div>
+                <div class="feed-item"><span class="time">17:28</span><div><b>VIN …004352</b> ingresó a bahía 3 de desarme<div class="muted">Joe Harris · DESARME · Yard Miami</div></div><span class="pill violet">En desarme</span></div>
+                <div class="feed-item"><span class="time">16:55</span><div><b>Lote CR-26-014</b> 38/40 partes verificadas en fiscal<div class="muted">Ana Rojas · BODEGA · Alajuela</div></div><span class="pill">Fiscal</span></div>
+                <div class="feed-item"><span class="time">16:12</span><div><b>TAG-P-05110</b> motor 2.4 ubicado en CEDI A-12<div class="muted">Luis Chaves · BODEGA · GPS sitio</div></div><span class="pill ok">CEDI</span></div>
+                <div class="feed-item"><span class="time">15:48</span><div><b>VIN … Hilux</b> salió de puerto Miami · BL MSCU442<b>91</b><div class="muted">Keisha Brown · EMBARQUE</div></div><span class="pill">Tránsito</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-pipeline">
+          <h1>Pipeline USA → destino</h1>
+          <p class="sub">El mismo flujo aplica a CR, GT, HN, NI, SV y PA. Arrastra visualmente el estado (mockup).</p>
+          <div class="kanban" style="margin-top:16px">
+            <div class="col"><div class="col-h">Patio USA <span class="pill muted">4</span></div><div class="col-b">
+              <div class="ticket" onclick="openAsset('v1')"><b>Honda Accord 2018</b><span>VIN 1HGC…4352 · Copart FL</span></div>
+              <div class="ticket"><b>Ram 1500 2017</b><span>VIN 1C6R…1102 · IAA Tampa</span></div>
+              <div class="ticket"><b>TAG-P-06001 faro LH</b><span>compra directa · Miami</span></div>
+            </div></div>
+            <div class="col"><div class="col-h">Desarme <span class="pill violet">2</span></div><div class="col-b">
+              <div class="ticket" onclick="openAsset('v1')"><b>Accord · bahía 3</b><span>12 partes ya tagueadas</span></div>
+              <div class="ticket"><b>Civic 2015</b><span>pendiente motor y caja</span></div>
+            </div></div>
+            <div class="col"><div class="col-h">Embarque <span class="pill">3</span></div><div class="col-b">
+              <div class="ticket" onclick="showView('lotes')"><b>Lote CR-26-014</b><span>40 unidades · Caldera</span></div>
+              <div class="ticket"><b>Lote GT-26-008</b><span>Hilux + 9 partes</span></div>
+            </div></div>
+            <div class="col"><div class="col-h">Aduana <span class="pill warn">2</span></div><div class="col-b">
+              <div class="ticket" onclick="openAsset('p1')"><b>TAG-P-04821 puerta</b><span>CR · DUA 2611-8831</span></div>
+              <div class="ticket"><b>Lote HN-26-003</b><span>retención documentos</span></div>
+            </div></div>
+            <div class="col"><div class="col-h">Fiscal <span class="pill">3</span></div><div class="col-b">
+              <div class="ticket" onclick="openAsset('p2')"><b>TAG-P-04822 motor</b><span>Alajuela · zona F-04</span></div>
+              <div class="ticket"><b>TAG-P-04790 caja</b><span>espera nacionalización</span></div>
+            </div></div>
+            <div class="col"><div class="col-h">CEDI <span class="pill ok">5</span></div><div class="col-b">
+              <div class="ticket" onclick="openAsset('p3')"><b>TAG-P-05110 motor 2.4</b><span>CR CEDI · A-12 · disponible</span></div>
+              <div class="ticket"><b>TAG-P-05002 bumper</b><span>GT CEDI Mixco</span></div>
+            </div></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-inventario">
+          <div class="row" style="justify-content:space-between;margin-bottom:14px">
+            <div><h1>Inventario propio</h1><p class="sub">Cada vehículo o parte es unidad serializada (tag / VIN), no SKU suelto</p></div>
+            <div class="row">
+              <input class="search" placeholder="Buscar VIN, tag, lote…" />
+              <select class="search"><option>Todos los países</option><option>USA</option><option>Costa Rica</option><option>Guatemala</option><option>Honduras</option></select>
+              <select class="search"><option>Todos los sitios</option><option>CEDI CR</option><option>Fiscal Alajuela</option><option>Yard Miami</option></select>
+            </div>
+          </div>
+          <div class="card">
+            <table>
+              <thead><tr><th>Activo</th><th>Tipo</th><th>Estado</th><th>Sitio / bin</th><th>País</th><th>Último GPS</th><th>Lote</th></tr></thead>
+              <tbody>
+                <tr class="clickable" onclick="openAsset('p3')"><td class="mono">TAG-P-05110</td><td>Parte · motor 2.4</td><td><span class="pill ok">Disponible</span></td><td>CEDI CR · A-12</td><td>CR</td><td>9.93, -84.18 · sitio</td><td>CR-26-011</td></tr>
+                <tr class="clickable" onclick="openAsset('p2')"><td class="mono">TAG-P-04822</td><td>Parte · motor</td><td><span class="pill">Fiscal</span></td><td>Fiscal Alajuela · F-04</td><td>CR</td><td>10.02, -84.21 · GPS</td><td>CR-26-014</td></tr>
+                <tr class="clickable" onclick="openAsset('p1')"><td class="mono">TAG-P-04821</td><td>Parte · puerta RH</td><td><span class="pill warn">Aduana</span></td><td>Aduana Caldera</td><td>CR</td><td>9.91, -84.73 · GPS</td><td>CR-26-014</td></tr>
+                <tr class="clickable" onclick="openAsset('v1')"><td class="mono">1HGC…4352</td><td>Vehículo · Accord 2018</td><td><span class="pill violet">Desarme</span></td><td>Yard Miami · Bahía 3</td><td>USA</td><td>25.79, -80.31 · GPS</td><td>—</td></tr>
+                <tr class="clickable"><td class="mono">1C6R…1102</td><td>Vehículo · Ram 1500</td><td><span class="pill">Patio USA</span></td><td>IAA Tampa · fila 18</td><td>USA</td><td>27.98, -82.34 · sitio</td><td>—</td></tr>
+                <tr class="clickable"><td class="mono">VIN Hilux 2016</td><td>Vehículo entero</td><td><span class="pill">Tránsito</span></td><td>En barco · MSCU44291</td><td>GT</td><td>último: Puerto Miami</td><td>GT-26-008</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-lotes">
+          <h1>Lotes de embarque y aduana</h1>
+          <p class="sub">Manifiesto vs escaneos. Destino configurable: no está atado a Costa Rica.</p>
+          <div class="grid-3" style="margin-top:16px">
+            <div class="card">
+              <div class="card-h"><h2>CR-26-014</h2><span class="pill warn">En aduana</span></div>
+              <div class="card-b">
+                <p>Destino <b>Costa Rica · Caldera</b></p>
+                <p class="muted">Contenedor MSCU 442291 · DUA 2611-8831</p>
+                <p style="margin:10px 0">Escaneados <b>38 / 40</b></p>
+                <div style="height:8px;background:#22344f;border-radius:99px;overflow:hidden"><div style="width:95%;height:100%;background:#f0b429"></div></div>
+                <p class="muted" style="margin-top:10px">Faltan TAG-P-04833, TAG-P-04840</p>
+                <button class="btn ghost" style="margin-top:12px" onclick="openAsset('p1')">Ver activos</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-h"><h2>GT-26-008</h2><span class="pill">Tránsito</span></div>
+              <div class="card-b">
+                <p>Destino <b>Guatemala · Puerto Quetzal</b></p>
+                <p class="muted">BL MSCU44291 · Hilux + 9 partes</p>
+                <p style="margin:10px 0">Cargados <b>10 / 10</b></p>
+                <div style="height:8px;background:#22344f;border-radius:99px;overflow:hidden"><div style="width:100%;height:100%;background:#3dce8e"></div></div>
+                <p class="muted" style="margin-top:10px">ETA 18 ago · sin excepciones</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-h"><h2>HN-26-003</h2><span class="pill danger">Excepción</span></div>
+              <div class="card-b">
+                <p>Destino <b>Honduras · Puerto Cortés</b></p>
+                <p class="muted">Retención documental · 11 partes</p>
+                <p style="margin:10px 0">En aduana <b>6 días</b></p>
+                <p class="muted">El manager ve la excepción; el operador de aduana reporta desde la misma PWA.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-activo">
+          <div class="row" style="justify-content:space-between">
+            <div>
+              <h1 id="asset-title">TAG-P-04821 · Puerta RH Accord</h1>
+              <p class="sub">Nació del desarme de VIN 1HGC…4352 · tag interno + QR</p>
+            </div>
+            <div class="row">
+              <span class="pill warn" id="asset-state">En aduana</span>
+              <span class="pill">Lote CR-26-014</span>
+            </div>
+          </div>
+          <div class="grid-2" style="margin-top:16px">
+            <div class="card">
+              <div class="card-h"><h2>Línea de tiempo</h2><span class="muted">inmutable · GPS + foto + usuario</span></div>
+              <div class="card-b timeline">
+                <div class="t-item">
+                  <b>Scan aduana Caldera</b>
+                  <div class="time">12 ago 17:41 · Carlos Méndez · ADUANA · 9.912, -84.730 · ±8 m</div>
+                  <div class="photos"><div class="ph docs">DUA / sello</div><div class="ph door">Puerta en patio</div></div>
+                </div>
+                <div class="t-item">
+                  <b>Descarga puerto</b>
+                  <div class="time">12 ago 09:10 · Ana Rojas · BODEGA · centroide sitio Puerto</div>
+                  <div class="photos"><div class="ph">Contenedor</div></div>
+                </div>
+                <div class="t-item">
+                  <b>Embarque Miami</b>
+                  <div class="time">04 ago 14:02 · Keisha Brown · EMBARQUE · 25.774, -80.190</div>
+                </div>
+                <div class="t-item">
+                  <b>Salida yard + tag QR</b>
+                  <div class="time">01 ago 11:20 · Joe Harris · DESARME · foto de evidencia compacta WebP</div>
+                  <div class="photos"><div class="ph door">Tag en puerta</div><div class="ph yard">Bahía 3</div></div>
+                </div>
+                <div class="t-item">
+                  <b>Nace por desarme</b>
+                  <div class="time">01 ago 10:04 · padre VIN 1HGC…4352 · Orden D-8841</div>
+                </div>
+                <div class="t-item">
+                  <b>Vehículo comprado Copart FL</b>
+                  <div class="time">22 jul · COMPRADOR_USA · lote subasta 77219</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom:12px">
+                <div class="card-h"><h2>Ficha</h2></div>
+                <div class="card-b" style="font-size:13px;line-height:1.8">
+                  Tag <b class="mono">TAG-P-04821</b><br />
+                  Interchange <b>7202</b> · Condición <b>B</b><br />
+                  Sitio actual <b>Aduana Caldera</b><br />
+                  Destino <b>CEDI Reporto, Costa Rica</b><br />
+                  Fuente ubicación <b>GPS dispositivo</b><br />
+                  Fotos compactadas <b>4 · ~180 KB c/u</b>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-h"><h2>QR / código de barras</h2></div>
+                <div class="card-b" style="text-align:center">
+                  <svg width="148" height="148" viewBox="0 0 29 29" style="background:#fff;border-radius:8px;padding:8px">
+                    <rect width="29" height="29" fill="#fff"/>
+                    <path fill="#111" d="M1 1h7v7H1zm2 2v3h3V3zm10-2h7v7h-7zm2 2v3h3V3zM1 11h3v2H1zm4 0h3v2H5zm8 0h2v2h-2zm6 0h3v2h-3zM1 15h7v7H1zm2 2v3h3v-3zm18-6h3v2h-3zm-8 2h2v2h-2zm4 0h4v2h-4zm-4 4h2v2h-2zm4 0h2v3h-2zm4-2h3v2h-3zm-8 6h2v2h-2zm4 0h7v2h-7zM21 1h7v7h-7zm2 2v3h3V3z"/>
+                  </svg>
+                  <p class="mono" style="margin-top:8px">TAG-P-04821</p>
+                  <p class="muted">Escanear notifica al manager y guarda el punto</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-usuarios">
+          <h1>Usuarios, roles y sitios</h1>
+          <p class="sub">Misma PWA para todos. El rol y el sitio asignado cambian lo que pueden registrar.</p>
+          <div class="card" style="margin-top:16px">
+            <table>
+              <thead><tr><th>Persona</th><th>Rol</th><th>Sitios</th><th>App</th></tr></thead>
+              <tbody>
+                <tr><td>María Solano</td><td>MANAGER</td><td>Todos</td><td>Web Manager</td></tr>
+                <tr><td>Joe Harris</td><td>DESARME / YARD</td><td>Yard Miami, Taller FL</td><td>PWA campo</td></tr>
+                <tr><td>Keisha Brown</td><td>EMBARQUE</td><td>Puerto Miami</td><td>PWA campo</td></tr>
+                <tr><td>Carlos Méndez</td><td>ADUANA</td><td>Caldera, Peñas Blancas</td><td>PWA campo</td></tr>
+                <tr><td>Ana Rojas</td><td>BODEGA</td><td>Fiscal Alajuela, CEDI Reporto</td><td>PWA campo</td></tr>
+                <tr><td>Luis Chaves</td><td>BODEGA</td><td>CEDI CR</td><td>PWA campo</td></tr>
+                <tr><td>Pedro López</td><td>ADUANA</td><td>Puerto Quetzal GT</td><td>PWA campo</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- PWA -->
+    <div class="workspace pwa" id="app-pwa" style="display:none">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="notch">9:41 · PWA Logistic</div>
+          <div class="pwa-top">
+            <div>
+              <b id="pwa-user">Ana Rojas</b>
+              <div class="muted" style="font-size:11px">BODEGA · Fiscal Alajuela</div>
+            </div>
+            <span class="pill ok" id="pwa-conn">Online</span>
+          </div>
+          <div class="pwa-body" id="pwa-home">
+            <div class="offline-banner" id="off-banner">Sin señal. Los scans se guardan en el teléfono y se suben solos.</div>
+            <div class="big-scan" onclick="openScanner()">
+              <div>
+                <div style="font-size:28px;margin-bottom:6px">▢</div>
+                <b>Escanear QR / código</b>
+                <div class="muted">Guarda GPS + notifica al manager</div>
+              </div>
+            </div>
+            <div class="pwa-card">
+              <h3>Mi turno</h3>
+              <p class="muted">Lote CR-26-014 · 2 faltantes por ubicar en fiscal</p>
+              <p style="margin-top:8px"><span class="pill warn">2 pendientes</span> <span class="pill">38 ok</span></p>
+            </div>
+            <div class="pwa-card">
+              <h3>Últimos que registré</h3>
+              <p style="font-size:13px;margin-top:8px"><b>TAG-P-04822</b> · bin F-04<br /><span class="muted">16:55 · foto + GPS</span></p>
+              <p style="font-size:13px;margin-top:8px"><b>TAG-P-04790</b> · zona F<br /><span class="muted">16:40 · sin foto</span></p>
+            </div>
+            <div class="pwa-card" id="pwa-queue-card" style="display:none">
+              <h3>Cola offline</h3>
+              <p class="muted" id="queue-txt">1 evento y 1 foto esperando señal</p>
+            </div>
+          </div>
+          <div class="pwa-body" id="pwa-form" style="display:none">
+            <h2>Registrar movimiento</h2>
+            <p class="mono" style="margin:6px 0 12px">TAG-P-04821</p>
+            <div class="field"><label>Nuevo estado</label>
+              <select id="new-state">
+                <option>En aduana</option>
+                <option selected>Almacén fiscal</option>
+                <option>CEDI</option>
+                <option>En tránsito</option>
+              </select>
+            </div>
+            <div class="field"><label>Bin / zona</label><input value="F-04" /></div>
+            <div class="field"><label>Nota</label><textarea rows="2">Ingreso a fiscal, sello visible.</textarea></div>
+            <div class="field"><label>Ubicación</label><input class="mono" id="gps-field" value="9.9124, -84.7301  ±8m  · GPS" /></div>
+            <div class="field"><label>Evidencia (se compacta a WebP)</label>
+              <div class="photos"><div class="ph docs">+ Foto sello</div><div class="ph door">+ Foto parte</div></div>
+            </div>
+            <button class="btn ok" style="width:100%" onclick="saveEvent()">Guardar y notificar</button>
+            <button class="btn ghost" style="width:100%;margin-top:8px" onclick="closeForm()">Cancelar</button>
+          </div>
+          <div class="pwa-body" id="pwa-compra" style="display:none">
+            <h2>Nueva compra USA</h2>
+            <div class="field"><label>Tipo</label><select><option>Vehículo</option><option>Parte</option></select></div>
+            <div class="field"><label>VIN / tag proveedor</label><input placeholder="1HGCM82633A004352" /></div>
+            <div class="field"><label>Proveedor</label><input value="Copart Florida" /></div>
+            <div class="field"><label>Destino previsto</label><select><option>Costa Rica</option><option>Guatemala</option><option>Honduras</option><option>El Salvador</option></select></div>
+            <button class="btn" style="width:100%">Crear y generar QR</button>
+          </div>
+          <div class="pwa-body" id="pwa-desarme" style="display:none">
+            <h2>Desarme</h2>
+            <p class="muted">Vehículo padre → N partes con tag nuevo</p>
+            <div class="pwa-card" style="margin-top:12px">
+              <b>Accord 2018</b>
+              <div class="mono muted">1HGC…4352</div>
+              <p style="margin-top:8px;font-size:13px">Partes ya tagueadas: 12</p>
+            </div>
+            <button class="btn" style="width:100%" onclick="openScanner()">Escanear / crear parte</button>
+          </div>
+          <div class="scanner-overlay" id="scanner">
+            <div class="viewfinder"><div class="laser"></div></div>
+            <div class="scan-actions">
+              <button class="btn" style="flex:1" onclick="fakeScan()">Simular lectura</button>
+              <button class="btn ghost" onclick="closeScanner()">Cerrar</button>
+            </div>
+          </div>
+          <nav class="pwa-tab">
+            <button class="active" onclick="pwaTab('home', this)">Inicio</button>
+            <button onclick="openScanner()">Scan</button>
+            <button onclick="pwaTab('compra', this)">Compra</button>
+            <button onclick="pwaTab('desarme', this)">Desarme</button>
+          </nav>
+        </div>
+        <div class="legend">
+          <h2>Así se usa en campo</h2>
+          <p>Una sola PWA instalable. Yard en Miami, aduana en Caldera o bodega en Guatemala abren la misma app; el rol limita el sitio.</p>
+          <p>Al escanear: se toma GPS, opcionalmente fotos compactas, se escribe el evento aunque no haya señal, y el manager lo ve en el feed al sincronizar.</p>
+          <p>Prueba <b>Simular sin señal</b> arriba, luego escanea y guarda. Verás la cola offline y el toast en el panel.</p>
+          <p class="muted">Esto es un mockup de producto para validar UX con arquitectura. No persiste datos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <b>Nuevo scan</b>
+    <div class="muted" id="toast-msg">TAG-P-04821 movido a Almacén fiscal</div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    let map, offline = false, queue = 0, mapReady = false;
+
+    function setApp(which) {
+      document.getElementById("app-manager").style.display = which === "manager" ? "grid" : "none";
+      document.getElementById("app-pwa").style.display = which === "pwa" ? "grid" : "none";
+      document.getElementById("btn-manager").classList.toggle("active", which === "manager");
+      document.getElementById("btn-pwa").classList.toggle("active", which === "pwa");
+      if (which === "manager") setTimeout(initMap, 50);
+    }
+
+    function showView(id, btn) {
+      document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
+      document.getElementById("view-" + id).classList.add("active");
+      document.querySelectorAll(".nav button[data-view]").forEach((b) => b.classList.remove("active"));
+      const target = btn || document.querySelector('.nav button[data-view="' + id + '"]');
+      if (target) target.classList.add("active");
+      if (id === "dash") setTimeout(initMap, 50);
+    }
+
+    function openAsset(key) {
+      const titles = {
+        v1: ["Honda Accord 2018 · VIN 1HGC…4352", "En desarme"],
+        p1: ["TAG-P-04821 · Puerta RH Accord", "En aduana"],
+        p2: ["TAG-P-04822 · Motor Accord", "Almacén fiscal"],
+        p3: ["TAG-P-05110 · Motor 2.4", "Disponible · CEDI"],
+      };
+      const t = titles[key] || titles.p1;
+      document.getElementById("asset-title").textContent = t[0];
+      document.getElementById("asset-state").textContent = t[1];
+      showView("activo");
+    }
+
+    function initMap() {
+      const el = document.getElementById("map");
+      if (!el || el.offsetHeight < 40) return;
+      if (mapReady) { map.invalidateSize(); return; }
+      map = L.map("map", { zoomControl: true, attributionControl: false }).setView([15.2, -87.5], 4);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 18 }).addTo(map);
+      const pts = [
+        [25.79, -80.31, "Yard Miami · 84 activos", "#8b7cf6"],
+        [25.77, -80.17, "Puerto Miami · lote GT-26-008", "#3d9cf0"],
+        [9.91, -84.73, "Aduana Caldera · TAG-P-04821", "#f0b429"],
+        [10.02, -84.21, "Fiscal Alajuela", "#3d9cf0"],
+        [9.93, -84.18, "CEDI Reporto CR", "#3dce8e"],
+        [13.92, -90.79, "Puerto Quetzal GT", "#3d9cf0"],
+        [15.51, -87.94, "Puerto Cortés HN · excepción", "#f07167"],
+      ];
+      pts.forEach(([lat, lng, label, color]) => {
+        L.circleMarker([lat, lng], { radius: 8, color, fillColor: color, fillOpacity: 0.9, weight: 2 }).addTo(map).bindPopup(label);
+      });
+      mapReady = true;
+    }
+
+    function toggleOffline() {
+      offline = !offline;
+      document.getElementById("conn-pill").textContent = offline ? "● Sin señal" : "● Online";
+      document.getElementById("conn-pill").className = "pill " + (offline ? "warn" : "ok");
+      document.getElementById("pwa-conn").textContent = offline ? "Offline" : "Online";
+      document.getElementById("pwa-conn").className = "pill " + (offline ? "warn" : "ok");
+      document.getElementById("off-banner").classList.toggle("show", offline);
+      if (!offline && queue) {
+        notify("Sincronizado", queue + " evento(s) de campo subidos al panel");
+        queue = 0;
+        updateQueue();
+      }
+    }
+
+    function pwaTab(name, btn) {
+      ["home", "form", "compra", "desarme"].forEach((n) => {
+        const el = document.getElementById("pwa-" + (n === "form" ? "form" : n === "home" ? "home" : n));
+        if (el) el.style.display = "none";
+      });
+      const mapName = { home: "pwa-home", compra: "pwa-compra", desarme: "pwa-desarme", form: "pwa-form" };
+      document.getElementById(mapName[name]).style.display = "block";
+      document.querySelectorAll(".pwa-tab button").forEach((b) => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+    }
+
+    function openScanner() { document.getElementById("scanner").classList.add("show"); }
+    function closeScanner() { document.getElementById("scanner").classList.remove("show"); }
+    function fakeScan() {
+      closeScanner();
+      document.getElementById("pwa-home").style.display = "none";
+      document.getElementById("pwa-compra").style.display = "none";
+      document.getElementById("pwa-desarme").style.display = "none";
+      document.getElementById("pwa-form").style.display = "block";
+    }
+    function closeForm() { pwaTab("home", document.querySelector(".pwa-tab button")); }
+
+    function saveEvent() {
+      const state = document.getElementById("new-state").value;
+      if (offline) {
+        queue += 1;
+        updateQueue();
+        notify("Guardado en el teléfono", "TAG-P-04821 → " + state + " · se subirá con señal");
+      } else {
+        prependFeed(state);
+        notify("Nuevo scan", "TAG-P-04821 movido a " + state + " · Ana Rojas · Fiscal Alajuela");
+      }
+      closeForm();
+    }
+
+    function updateQueue() {
+      document.getElementById("kpi-offline").textContent = String(queue);
+      document.getElementById("pwa-queue-card").style.display = queue ? "block" : "none";
+      document.getElementById("queue-txt").textContent = queue + " evento(s) y foto(s) esperando señal";
+    }
+
+    function prependFeed(state) {
+      const feed = document.getElementById("feed");
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mm = String(now.getMinutes()).padStart(2, "0");
+      const div = document.createElement("div");
+      div.className = "feed-item";
+      div.innerHTML = '<span class="time">' + hh + ":" + mm + '</span><div><b>TAG-P-04821</b> actualizado a <b>' + state + '</b><div class="muted">Ana Rojas · BODEGA · GPS dispositivo</div></div><span class="pill ok">Nuevo</span>';
+      feed.prepend(div);
+    }
+
+    function notify(title, msg) {
+      const t = document.getElementById("toast");
+      t.querySelector("b").textContent = title;
+      document.getElementById("toast-msg").textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 4200);
+    }
+
+    window.addEventListener("load", initMap);
+  </script>
+</body>
+</html>
