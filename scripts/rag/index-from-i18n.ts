@@ -195,6 +195,43 @@ function buildDocuments(c: AppCopy, lang: 'es' | 'en', base: string): IndexDoc[]
     secciones: [{ titulo: SITE_WHATSAPP, descripcion: c.whatsapp.tooltip }],
   });
 
+  const om = c.oracleMigration;
+  docs.push({
+    url: `${base}/servicios/migracion-oracle/${L === 'en' ? '?lang=en' : ''}`,
+    titulo: om.sectionTitle,
+    descripcion: [
+      om.eyebrow,
+      om.sectionSubtitle,
+      om.pageTitle,
+      om.pageLead,
+      om.imageCaption,
+      om.flowTitle,
+      om.flowSubtitle,
+      ...om.promises,
+      om.evalTitle,
+      om.evalSubtitle,
+      om.deliveryTitle,
+      om.closingTitle,
+      om.closingText,
+    ]
+      .filter(Boolean)
+      .join('\n'),
+    secciones: [
+      ...om.flowSteps.map((s) => ({
+        titulo: `${s.label}: ${s.title}`,
+        descripcion: s.detail,
+      })),
+      ...om.evalItems.map((item, i) => ({
+        titulo: `${L === 'es' ? 'Evaluación' : 'Assessment'} ${i + 1}`,
+        descripcion: item,
+      })),
+      ...om.deliveryItems.map((d) => ({
+        titulo: d.title,
+        descripcion: d.description,
+      })),
+    ],
+  });
+
   return docs;
 }
 

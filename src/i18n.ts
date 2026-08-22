@@ -35,6 +35,7 @@ export type AppCopy = {
       description: string;
       highlights: string[];
       images: string[];
+      links?: Array<{ label: string; url: string; kind?: 'link' | 'video'; poster?: string }>;
     }>;
     modalLabels: {
       close: string;
@@ -204,6 +205,31 @@ export type AppCopy = {
       title: string;
       description: string;
     }>;
+  };
+  oracleMigration: {
+    eyebrow: string;
+    sectionTitle: string;
+    sectionSubtitle: string;
+    promises: string[];
+    versions: string[];
+    ctaDetails: string;
+    ctaContact: string;
+    ctaEvaluation: string;
+    imageAlt: string;
+    imageCaption: string;
+    pageTitle: string;
+    pageLead: string;
+    flowTitle: string;
+    flowSubtitle: string;
+    flowSteps: Array<{ label: string; title: string; detail: string }>;
+    evalTitle: string;
+    evalSubtitle: string;
+    evalItems: string[];
+    deliveryTitle: string;
+    deliveryItems: Array<{ title: string; description: string }>;
+    closingTitle: string;
+    closingText: string;
+    backHome: string;
   };
 };
 
@@ -413,6 +439,10 @@ export const copy: Record<Language, AppCopy> = {
         { title: 'Desarrollo de apps Android', description: 'Aplicaciones nativas optimizadas para Android' },
         { title: 'Desarrollo de PWA', description: 'Apps web progresivas compatibles con iOS' },
         { title: 'Arquitectura de sitios web', description: 'Plataformas para empresas de alto volumen y emprendimientos pymes' },
+        {
+          title: 'Migración Oracle Developer',
+          description: 'Evaluamos y migramos Forms 6i–14c a React, Node.js, Vite y API REST',
+        },
       ],
       mainModals: [
         {
@@ -453,6 +483,23 @@ export const copy: Record<Language, AppCopy> = {
             'Base preparada para evolucionar sin rehacer todo.',
           ],
           images: ['/services/web-architecture/web-architecture-1.webp'],
+        },
+        {
+          title: 'Migración Oracle Developer → Web moderna',
+          description:
+            'CastleXpert ejecuta la migración de sistemas Oracle Forms 6i, 9i, 10g, 11g, 12c y 14c hacia una plataforma web responsive con React, Vite, Node.js y API REST. Entregamos los códigos fuente e implementamos por etapas, con costo según la complejidad de cada Form.',
+          highlights: [
+            'Evaluación de Modernización: Forms, Reports, Libraries, PL/SQL e integraciones.',
+            'Arquitectura destino: React + Vite, Node.js, API REST y Oracle Database.',
+            'Migración incremental para probar cada avance (sin “big bang”).',
+            'Costo por nivel de complejidad de cada Form.',
+            'Entrega de códigos fuente de lo desarrollado.',
+          ],
+          images: ['/images/services/oracle-migration.webp'],
+          links: [
+            { label: 'Ver servicio completo', url: '/servicios/migracion-oracle/?lang=es' },
+            { label: 'Solicitar evaluación', url: '/contacto' },
+          ],
         },
       ],
       modalLabels: {
@@ -559,9 +606,9 @@ export const copy: Record<Language, AppCopy> = {
     about: {
       title: 'Acerca de',
       paragraphs: [
-        'Castlexpert nace de una amplia experiencia liderando proyectos tecnológicos, desarrollando soluciones empresariales y diseñando sistemas de alto rendimiento.',
-        'Hoy llevamos ese conocimiento al siguiente nivel mediante plataformas modernas, automatización inteligente y herramientas digitales orientadas a resultados reales.',
-        'No solo desarrollamos software. Creamos ventajas competitivas.',
+        'CastleXpert nace de más de dos décadas construyendo y modernizando sistemas empresariales: desde entornos Oracle y lógica de negocio exigente hasta plataformas web y móviles pensadas para operar de verdad, no solo para verse bien.',
+        'Hoy convertimos esa experiencia en productos y servicios claros: apps a medida, arquitectura digital, demos funcionales y migración de Oracle Developer hacia React, Node.js y API REST — conservando lo que funciona y entregando código fuente listo para evolucionar.',
+        'No solo desarrollamos software. Creamos herramientas que ordenan la operación y dan ventaja competitiva.',
       ],
       close: 'Cerrar',
     },
@@ -787,6 +834,78 @@ export const copy: Record<Language, AppCopy> = {
         },
       ],
     },
+    oracleMigration: {
+      eyebrow: 'Nuevo servicio CastleXpert',
+      sectionTitle: 'Migración Oracle Developer a web moderna',
+      sectionSubtitle:
+        'Ejecutamos la modernización de Forms 6i–14c hacia React, Vite, Node.js y API REST. Entregamos código fuente e implementamos de forma incremental.',
+      promises: [
+        'CastleXpert realiza la migración de punta a punta.',
+        'Se entregan los códigos fuente de lo desarrollado.',
+        'Entrega incremental para que su equipo pruebe cada avance.',
+        'Costo según la complejidad de cada Form.',
+      ],
+      versions: ['6i', '9i', '10g', '11g', '12c', '14c'],
+      ctaDetails: 'Ver servicio completo',
+      ctaContact: 'Solicitar evaluación',
+      ctaEvaluation: 'Ver Evaluación de Modernización',
+      imageAlt: 'Antes y después: Oracle Forms legado frente a aplicación web moderna',
+      imageCaption:
+        'De Oracle Forms a una experiencia web moderna: responsive, accesible y preparada para el futuro.',
+      pageTitle: 'Nosotros migramos su Oracle Developer y entregamos el código fuente',
+      pageLead:
+        'Modernizamos sistemas Oracle Forms 6i, 9i, 10g, 11g, 12c y 14c hacia una plataforma web responsive con React, Vite, Node.js y API REST, conservando Oracle Database cuando aplica.',
+      flowTitle: 'El camino de la migración',
+      flowSubtitle:
+        'Partimos del sistema actual, hacemos una evaluación técnica profunda y construimos la arquitectura moderna sobre su Oracle Database, con frontend y API separados.',
+      flowSteps: [
+        { label: 'Sistema actual', title: 'Oracle Forms 6i–14c', detail: 'Cliente pesado / Forms + Reports' },
+        { label: 'Base de datos', title: 'Oracle Database', detail: 'Datos, PL/SQL, packages y jobs' },
+        { label: 'CastleXpert', title: 'Evaluación técnica', detail: 'Inventario, riesgos y plan incremental' },
+        { label: 'Frontend', title: 'React + Vite', detail: 'Interfaz web responsive' },
+        { label: 'Backend', title: 'Node.js · API REST', detail: 'Lógica de negocio expuesta' },
+        { label: 'Persistencia', title: 'Oracle Database', detail: 'Se conserva y se conecta vía API' },
+      ],
+      evalTitle: 'Evaluación de Modernización',
+      evalSubtitle:
+        'Análisis previo para decidir con datos: qué migrar, en qué orden y con qué esfuerzo estimado.',
+      evalItems: [
+        'Inventario de Forms, Reports, Libraries y módulos.',
+        'Dependencias entre módulos.',
+        'Complejidad de la lógica PL/SQL.',
+        'Integraciones existentes.',
+        'Uso de triggers, procedures, packages, jobs, etc.',
+        'Dependencias de versiones de Oracle.',
+        'Riesgos técnicos de una migración.',
+        'Qué componentes pueden reutilizarse.',
+        'Qué debería convertirse a API REST.',
+        'Qué debería pasar a frontend web.',
+        'Propuesta de arquitectura moderna.',
+        'Estrategia de migración incremental (sin “big bang”).',
+        'Estimación preliminar de esfuerzo y fases.',
+      ],
+      deliveryTitle: 'Modelo de entrega y costo',
+      deliveryItems: [
+        {
+          title: 'Costo por complejidad',
+          description:
+            'El valor se calcula según el nivel de complejidad de cada Form: pantallas simples, PL/SQL denso, integraciones o reportes.',
+        },
+        {
+          title: 'Entrega incremental',
+          description: 'Liberamos avances por etapas para que su operación pruebe la migración real.',
+        },
+        {
+          title: 'Código fuente incluido',
+          description:
+            'Al cerrar cada entrega recibe los fuentes: frontend React/Vite y servicios Node.js / API REST correspondientes.',
+        },
+      ],
+      closingTitle: '¿Listo para una Evaluación de Modernización?',
+      closingText:
+        'Analizamos su inventario Oracle Developer y le devolvemos una propuesta concreta: arquitectura, fases, riesgos y estimación por complejidad.',
+      backHome: 'Volver al inicio',
+    },
   },
   en: {
     hero: {
@@ -993,6 +1112,10 @@ export const copy: Record<Language, AppCopy> = {
         { title: 'Android app development', description: 'Native applications optimized for Android' },
         { title: 'PWA development', description: 'Progressive web apps compatible with iOS' },
         { title: 'Website architecture', description: 'Platforms for high-volume companies and SMB entrepreneurship' },
+        {
+          title: 'Oracle Developer migration',
+          description: 'We assess and migrate Forms 6i–14c to React, Node.js, Vite, and REST APIs',
+        },
       ],
       mainModals: [
         {
@@ -1033,6 +1156,23 @@ export const copy: Record<Language, AppCopy> = {
             'Foundation ready to evolve without full rebuilds.',
           ],
           images: ['/services/web-architecture/web-architecture-1.webp'],
+        },
+        {
+          title: 'Oracle Developer migration → modern web',
+          description:
+            'CastleXpert migrates Oracle Forms 6i, 9i, 10g, 11g, 12c, and 14c systems to a responsive web platform with React, Vite, Node.js, and REST APIs. We deliver source code and ship incrementally, with pricing based on each Form’s complexity.',
+          highlights: [
+            'Modernization Assessment: Forms, Reports, Libraries, PL/SQL, and integrations.',
+            'Target architecture: React + Vite, Node.js, REST API, and Oracle Database.',
+            'Incremental migration so you can test each advance (no big bang).',
+            'Pricing by Form complexity level.',
+            'Source code delivered for what we build.',
+          ],
+          images: ['/images/services/oracle-migration.webp'],
+          links: [
+            { label: 'View full service', url: '/servicios/migracion-oracle/?lang=en' },
+            { label: 'Request assessment', url: '/contacto' },
+          ],
         },
       ],
       modalLabels: {
@@ -1139,9 +1279,9 @@ export const copy: Record<Language, AppCopy> = {
     about: {
       title: 'About',
       paragraphs: [
-        'CastleXpert is born from broad experience leading technology projects, building business solutions, and designing high-performance systems.',
-        'Today, we take that knowledge to the next level through modern platforms, intelligent automation, and digital tools focused on real outcomes.',
-        'We do not just build software. We create competitive advantages.',
+        'CastleXpert comes from more than two decades building and modernizing business systems — from Oracle environments and demanding business logic to web and mobile platforms designed to run in production, not just look good.',
+        'Today we turn that experience into clear products and services: custom apps, digital architecture, working demos, and Oracle Developer migration to React, Node.js, and REST APIs — keeping what works and delivering source code ready to evolve.',
+        'We do not just build software. We build tools that organize operations and create competitive advantage.',
       ],
       close: 'Close',
     },
@@ -1365,6 +1505,78 @@ export const copy: Record<Language, AppCopy> = {
           description: 'Inventory system presentation: overview, movements, cost centers, and warehouses.',
         },
       ],
+    },
+    oracleMigration: {
+      eyebrow: 'New CastleXpert service',
+      sectionTitle: 'Oracle Developer migration to modern web',
+      sectionSubtitle:
+        'We modernize Forms 6i–14c into React, Vite, Node.js, and REST APIs. Source code is delivered and work ships incrementally.',
+      promises: [
+        'CastleXpert runs the migration end to end.',
+        'Source code for what we build is delivered.',
+        'Incremental delivery so your team can test each advance.',
+        'Pricing based on each Form’s complexity.',
+      ],
+      versions: ['6i', '9i', '10g', '11g', '12c', '14c'],
+      ctaDetails: 'View full service',
+      ctaContact: 'Request assessment',
+      ctaEvaluation: 'See Modernization Assessment',
+      imageAlt: 'Before and after: legacy Oracle Forms versus a modern web application',
+      imageCaption:
+        'From Oracle Forms to a modern web experience: responsive, accessible, and built for the future.',
+      pageTitle: 'We migrate your Oracle Developer system and deliver the source code',
+      pageLead:
+        'We modernize Oracle Forms 6i, 9i, 10g, 11g, 12c, and 14c into a responsive web platform with React, Vite, Node.js, and REST APIs, keeping Oracle Database when it applies.',
+      flowTitle: 'The migration path',
+      flowSubtitle:
+        'We start from the current system, perform a deep technical assessment, and build the modern architecture on your Oracle Database, with separate frontend and API.',
+      flowSteps: [
+        { label: 'Current system', title: 'Oracle Forms 6i–14c', detail: 'Thick client / Forms + Reports' },
+        { label: 'Database', title: 'Oracle Database', detail: 'Data, PL/SQL, packages, and jobs' },
+        { label: 'CastleXpert', title: 'Technical assessment', detail: 'Inventory, risks, and incremental plan' },
+        { label: 'Frontend', title: 'React + Vite', detail: 'Responsive web interface' },
+        { label: 'Backend', title: 'Node.js · REST API', detail: 'Business logic exposed' },
+        { label: 'Persistence', title: 'Oracle Database', detail: 'Kept and connected via API' },
+      ],
+      evalTitle: 'Modernization Assessment',
+      evalSubtitle:
+        'A prior analysis so decisions are data-driven: what to migrate, in what order, and with what estimated effort.',
+      evalItems: [
+        'Inventory of Forms, Reports, Libraries, and modules.',
+        'Dependencies between modules.',
+        'Complexity of PL/SQL logic.',
+        'Existing integrations.',
+        'Use of triggers, procedures, packages, jobs, etc.',
+        'Oracle version dependencies.',
+        'Technical risks of a migration.',
+        'Which components can be reused.',
+        'What should become a REST API.',
+        'What should move to the web frontend.',
+        'Modern architecture proposal.',
+        'Incremental migration strategy (no big bang).',
+        'Preliminary effort and phase estimate.',
+      ],
+      deliveryTitle: 'Delivery and pricing model',
+      deliveryItems: [
+        {
+          title: 'Pricing by complexity',
+          description:
+            'Value is based on each Form’s complexity: simple screens, dense PL/SQL, integrations, or reports.',
+        },
+        {
+          title: 'Incremental delivery',
+          description: 'We release progress in stages so your operations can test the real migration.',
+        },
+        {
+          title: 'Source code included',
+          description:
+            'At each delivery close you receive the sources: React/Vite frontend and corresponding Node.js / REST services.',
+        },
+      ],
+      closingTitle: 'Ready for a Modernization Assessment?',
+      closingText:
+        'We analyze your Oracle Developer inventory and return a concrete proposal: architecture, phases, risks, and complexity-based estimate.',
+      backHome: 'Back to homepage',
     },
   },
 };

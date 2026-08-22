@@ -61,14 +61,14 @@ export const seoAboutByLang: Record<Language, PageSeo> = {
   es: {
     title: 'Acerca de CastleXpert | Quiénes somos',
     description:
-      'CastleXpert diseña aplicaciones y arquitectura digital para empresas y proyectos en Costa Rica, con proceso claro y soporte cercano.',
-    keywords: 'CastleXpert, acerca de, empresa, Costa Rica, apps, arquitectura digital',
+      'Más de dos décadas modernizando sistemas empresariales: Oracle, apps a medida, arquitectura digital y migración a web moderna desde Costa Rica.',
+    keywords: 'CastleXpert, acerca de, Oracle, migración, apps, arquitectura digital, Costa Rica',
   },
   en: {
     title: 'About CastleXpert | Who we are',
     description:
-      'CastleXpert designs mobile apps and digital architecture for businesses and projects—with a clear process and hands-on support from Costa Rica.',
-    keywords: 'CastleXpert, about, company, Costa Rica, apps, digital architecture',
+      'More than two decades modernizing business systems: Oracle, custom apps, digital architecture, and migration to modern web — from Costa Rica.',
+    keywords: 'CastleXpert, about, Oracle, migration, apps, digital architecture, Costa Rica',
   },
 };
 
@@ -161,12 +161,28 @@ const seoDemoById: Record<string, Record<Language, PageSeo>> = {
   },
 };
 
+export const seoOracleMigrationByLang: Record<Language, PageSeo> = {
+  es: {
+    title: 'Migración Oracle Developer a web moderna | CastleXpert',
+    description:
+      'Migración de Oracle Forms 6i–14c a React, Vite, Node.js y API REST. Evaluación de modernización, entrega incremental y códigos fuente.',
+    keywords: 'migración Oracle Forms, Oracle Developer, React, Node.js, Vite, API REST, CastleXpert, Costa Rica',
+  },
+  en: {
+    title: 'Oracle Developer migration to modern web | CastleXpert',
+    description:
+      'Migrate Oracle Forms 6i–14c to React, Vite, Node.js, and REST APIs. Modernization assessment, incremental delivery, and source code.',
+    keywords: 'Oracle Forms migration, Oracle Developer, React, Node.js, Vite, REST API, CastleXpert, Costa Rica',
+  },
+};
+
 export function seoForPath(pathname: string, language: Language): PageSeo {
   const p = pathname.toLowerCase();
   if (p === '/mapa-del-sitio') return seoSiteMapByLang[language];
   if (p === '/acerca-de') return seoAboutByLang[language];
   if (p === '/contacto' || p === '/contact') return seoContactByLang[language];
   if (p === '/castlexpertcard' || p === '/castlexpert-card') return seoContactCardByLang[language];
+  if (p === '/servicios/migracion-oracle') return seoOracleMigrationByLang[language];
   const demoMatch = p.match(/^\/demos\/(tracklogic|foodly|cmms|pura-puntos)\/?$/);
   if (demoMatch) return seoDemoById[demoMatch[1]][language];
   if (p === '/mockups' || p.startsWith('/mockups/')) return seoMockupsByLang[language];

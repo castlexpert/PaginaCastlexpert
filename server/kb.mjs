@@ -7,6 +7,13 @@ export const KB_DOCS = [
       'CastleXpert diseña apps, sistemas y arquitectura web para empresas y proyectos personales. Creamos herramientas prácticas para automatizar procesos, ordenar operaciones y potenciar el crecimiento.',
   },
   {
+    id: 'about-es',
+    language: 'es',
+    title: 'Acerca de CastleXpert',
+    content:
+      'CastleXpert nace de más de dos décadas construyendo y modernizando sistemas empresariales: desde entornos Oracle y lógica de negocio exigente hasta plataformas web y móviles pensadas para operar de verdad. Hoy convertimos esa experiencia en apps a medida, arquitectura digital, demos funcionales y migración de Oracle Developer hacia React, Node.js y API REST — conservando lo que funciona y entregando código fuente listo para evolucionar. No solo desarrollamos software: creamos herramientas que ordenan la operación y dan ventaja competitiva. Más: https://castlexpert.com/acerca-de',
+  },
+  {
     id: 'process-es',
     language: 'es',
     title: 'Proceso de trabajo (Cómo funciona)',
@@ -84,6 +91,13 @@ export const KB_DOCS = [
       'Si piden presentación ERP Inventario, mockup ERP Inventario, ERP de inventarios, sistema de inventarios ERP o ver el mockup ERP, entrega SIEMPRE este enlace: https://castlexpert.com/mockups/erp-inventario/ — Incluye vista general, movimientos, centros de costo y bodegas. Repositorio: https://castlexpert.com/mockups',
   },
   {
+    id: 'oracle-migration-es',
+    language: 'es',
+    title: 'Migración Oracle Developer a web moderna',
+    content:
+      'Servicio propietario CastleXpert: migración de Oracle Forms / Oracle Developer 6i, 9i, 10g, 11g, 12c y 14c a una experiencia web moderna (responsive, accesible y preparada para el futuro) con React, Vite, Node.js y API REST. Partimos del sistema actual, hacemos una evaluación técnica profunda y construimos la arquitectura moderna sobre su Oracle Database, con frontend y API separados. Promesas clave: CastleXpert realiza la migración de punta a punta; se entregan los códigos fuente; entrega incremental (liberamos avances por etapas para que su operación pruebe la migración real); costo según la complejidad de cada Form. Incluye Evaluación de Modernización: inventario de Forms/Reports/Libraries, dependencias, PL/SQL, integraciones, riesgos, qué reutilizar, qué pasar a API REST/frontend, arquitectura destino y plan incremental (sin big bang). Página del servicio: https://castlexpert.com/servicios/migracion-oracle/ — Contacto / solicitar evaluación: https://castlexpert.com/contacto',
+  },
+  {
     id: 'contact-es',
     language: 'es',
     title: 'Contacto',
@@ -96,6 +110,13 @@ export const KB_DOCS = [
     title: 'What does CastleXpert do?',
     content:
       'CastleXpert designs apps, systems, and web architecture for companies and personal projects. We build practical tools to automate workflows, organize operations, and support growth.',
+  },
+  {
+    id: 'about-en',
+    language: 'en',
+    title: 'About CastleXpert',
+    content:
+      'CastleXpert comes from more than two decades building and modernizing business systems — from Oracle environments and demanding business logic to web and mobile platforms designed to run in production. Today we turn that experience into custom apps, digital architecture, working demos, and Oracle Developer migration to React, Node.js, and REST APIs — keeping what works and delivering source code ready to evolve. We do not just build software: we build tools that organize operations and create competitive advantage. More: https://castlexpert.com/acerca-de',
   },
   {
     id: 'process-en',
@@ -173,6 +194,13 @@ export const KB_DOCS = [
     title: 'ERP Inventory presentation',
     content:
       'If someone asks for the ERP Inventory presentation, ERP inventory mockup, ERP warehouse mockup, or to see the ERP mockup, ALWAYS give this link: https://castlexpert.com/mockups/erp-inventario/ — Overview, movements, cost centers, and warehouses. Repository: https://castlexpert.com/mockups',
+  },
+  {
+    id: 'oracle-migration-en',
+    language: 'en',
+    title: 'Oracle Developer migration to modern web',
+    content:
+      'CastleXpert proprietary service: migrate Oracle Forms / Oracle Developer 6i, 9i, 10g, 11g, 12c, and 14c to a modern web experience (responsive, accessible, and built for the future) with React, Vite, Node.js, and REST APIs. We start from the current system, perform a deep technical assessment, and build the modern architecture on your Oracle Database, with separate frontend and API. Key promises: CastleXpert runs the migration end to end; source code is delivered; incremental delivery (we release progress in stages so operations can test the real migration); pricing by each Form’s complexity. Includes a Modernization Assessment: Forms/Reports/Libraries inventory, dependencies, PL/SQL, integrations, risks, what to reuse, what should become REST API/frontend, target architecture, and an incremental plan (no big bang). Service page: https://castlexpert.com/servicios/migracion-oracle/?lang=en — Contact / request assessment: https://castlexpert.com/contacto',
   },
   {
     id: 'contact-en',

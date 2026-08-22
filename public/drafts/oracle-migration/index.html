@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evaluación y migración Oracle Developer → Web | CastleXpert</title>
+  <meta name="description" content="CastleXpert realiza la migración de Oracle Forms 6i–14c a React, Vite, Node.js y API REST. Entregamos código fuente. Evaluación de modernización y entrega incremental." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+  <style>
+    :root {
+      --ink: #0c1a14;
+      --ink-soft: #3d4f46;
+      --muted: #6b7c72;
+      --paper: #f3efe6;
+      --brand: #0d4d38;
+      --brand-deep: #072a1f;
+      --brand-glow: #1a7a58;
+      --accent: #c4a35a;
+      --line: rgba(12, 26, 20, 0.12);
+      --shadow: 0 28px 60px -28px rgba(7, 42, 31, 0.45);
+      --radius: 20px;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Instrument Sans", "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -10%, rgba(13, 77, 56, 0.14), transparent 55%),
+        radial-gradient(700px 380px at 100% 8%, rgba(196, 163, 90, 0.14), transparent 50%),
+        linear-gradient(180deg, #f7f3ea 0%, var(--paper) 45%, #ebe5d6 100%);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    img, svg { max-width: 100%; display: block; }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em; line-height: 1.12; margin: 0; text-wrap: balance; }
+    p { margin: 0; }
+    ul { margin: 0; padding: 0; }
+
+    .cx-bar {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;
+      padding: 0.8rem 1.15rem;
+      background: rgba(13, 77, 56, 0.97);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+    }
+    .cx-bar .left { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; }
+    .draft-tag {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+    }
+    .cx-bar a, .cx-bar button {
+      font-family: inherit; cursor: pointer;
+      text-decoration: none; font-weight: 700; font-size: 0.9rem;
+      border-radius: 10px; padding: 0.48rem 0.9rem;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: transparent; color: #fff;
+    }
+    .cx-bar .home { background: #fff; color: var(--brand); border-color: #fff; }
+    .cx-bar .pdf {
+      background: var(--accent); color: var(--brand-deep); border-color: var(--accent);
+    }
+    .cx-bar .pdf:disabled { opacity: 0.65; cursor: wait; }
+    .cx-bar #btnLang { min-width: 2.6rem; letter-spacing: 0.04em; }
+
+    .wrap { width: min(1100px, calc(100% - 2.4rem)); margin: 0 auto; }
+    .wrap-wide { width: min(1280px, calc(100% - 2rem)); margin: 0 auto; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--brand); margin-bottom: 0.85rem;
+    }
+    .eyebrow::before { content: ""; width: 1.5rem; height: 2px; background: var(--accent); border-radius: 99px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      border-radius: 12px; padding: 0.85rem 1.2rem;
+      font-weight: 700; font-size: 0.95rem; text-decoration: none; border: 0; cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--brand); color: #fff; box-shadow: 0 14px 28px -12px rgba(13,77,56,0.65); }
+    .btn-ghost { background: transparent; color: var(--brand-deep); border: 1px solid rgba(13,77,56,0.28); }
+
+    /* Hero */
+    .hero { padding: clamp(2.4rem, 5vw, 3.8rem) 0 1.5rem; }
+    .hero-copy { max-width: 46rem; }
+    .hero h1 { font-size: clamp(2.15rem, 4.8vw, 3.25rem); color: var(--brand-deep); }
+    .hero h1 em { font-style: italic; color: var(--brand-glow); font-weight: 500; }
+    .hero-lead { margin-top: 1rem; font-size: 1.08rem; color: var(--ink-soft); max-width: 48ch; }
+    .cta-row { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.7rem; }
+    .promise {
+      margin-top: 1.35rem;
+      display: grid; gap: 0.55rem;
+    }
+    .promise li {
+      list-style: none;
+      display: flex; gap: 0.65rem; align-items: flex-start;
+      font-size: 0.95rem; color: var(--ink-soft);
+    }
+    .promise li::before {
+      content: "✓"; flex: none; width: 1.25rem; height: 1.25rem; border-radius: 50%;
+      display: grid; place-items: center; font-size: 0.72rem; font-weight: 800;
+      background: rgba(13,77,56,0.12); color: var(--brand); margin-top: 0.12rem;
+    }
+    .version-strip { margin-top: 1.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .version-strip span {
+      font-size: 0.76rem; font-weight: 700; padding: 0.38rem 0.68rem; border-radius: 999px;
+      background: rgba(13,77,56,0.08); color: var(--brand-deep); border: 1px solid rgba(13,77,56,0.12);
+    }
+    .hero-visual {
+      margin-top: 1.75rem;
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #1a2430;
+      border: 1px solid var(--line);
+    }
+    .hero-visual img {
+      width: 100%;
+      height: auto;
+      max-height: none;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      background: #1a2430;
+    }
+    .hero-caption {
+      padding: 0.85rem 1.1rem 1rem;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      background: rgba(255,255,255,0.72);
+      border-top: 1px solid var(--line);
+    }
+
+    .section { padding: 1.2rem 0 3.4rem; }
+    .section-head { max-width: 42rem; margin-bottom: 1.5rem; }
+    .section-head h2 { font-size: clamp(1.7rem, 3.2vw, 2.35rem); color: var(--brand-deep); }
+    .section-head p { margin-top: 0.7rem; color: var(--ink-soft); font-size: 1.02rem; }
+
+    /* Migration flow */
+    .flow {
+      display: grid; gap: 0.55rem; justify-items: center; text-align: center;
+      padding: 1.4rem 1rem 1.6rem;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.58);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .flow-node {
+      min-width: min(100%, 320px);
+      border-radius: 14px; padding: 0.85rem 1.1rem;
+      background: #fff; border: 1px solid var(--line);
+    }
+    .flow-node.dark {
+      background: var(--brand-deep); color: #f4f0e6; border-color: transparent;
+    }
+    .flow-node.accent {
+      background: linear-gradient(135deg, var(--brand), var(--brand-deep));
+      color: #fff; border: 0;
+    }
+    .flow-node .lbl {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      opacity: 0.72; margin-bottom: 0.25rem;
+    }
+    .flow-node .ttl { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
+    .flow-node .sub { margin-top: 0.25rem; font-size: 0.88rem; opacity: 0.85; }
+    .flow-arrow { color: var(--brand); font-size: 1.2rem; font-weight: 700; line-height: 1; }
+    .flow-split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; width: min(100%, 520px);
+    }
+    @media (max-width: 560px) { .flow-split { grid-template-columns: 1fr; } }
+    .flow-merge-note {
+      margin-top: 0.2rem; font-size: 0.9rem; color: var(--muted); max-width: 40ch;
+    }
+
+    /* Architecture diagram Spanish */
+    .arch {
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: clamp(1rem, 2.5vw, 1.6rem);
+    }
+    .arch h3 {
+      text-align: center; font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+      color: var(--brand-deep); margin-bottom: 1rem;
+    }
+    .arch-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .arch-caption {
+      margin-top: 0.9rem; text-align: center; font-size: 0.92rem; color: var(--ink-soft);
+    }
+
+    /* Evaluation */
+    .check-list {
+      list-style: none; display: grid; gap: 0.55rem;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(255,255,255,0.62); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 1.15rem 1.2rem; box-shadow: var(--shadow);
+    }
+    @media (max-width: 720px) {
+      .check-list { grid-template-columns: 1fr; }
+    }
+    .check-list li {
+      display: grid; grid-template-columns: auto 1fr; gap: 0.65rem; align-items: start;
+      font-size: 0.95rem; color: var(--ink-soft); padding: 0.45rem 0.2rem;
+    }
+    .check-list li::before {
+      content: ""; width: 0.55rem; height: 0.55rem; border-radius: 50%;
+      background: var(--brand); margin-top: 0.45rem;
+    }
+
+    /* Delivery / pricing */
+    .three {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem;
+    }
+    @media (max-width: 800px) { .three { grid-template-columns: 1fr; } }
+    .tile {
+      border-radius: 18px; padding: 1.2rem 1.15rem 1.3rem;
+      background: rgba(255,255,255,0.62); border: 1px solid var(--line);
+      min-height: 100%;
+    }
+    .tile .n { font-family: var(--font-display); font-size: 1.7rem; color: var(--accent); font-weight: 700; }
+    .tile h3 { font-size: 1.15rem; color: var(--brand-deep); margin: 0.35rem 0 0.45rem; }
+    .tile p { color: var(--muted); font-size: 0.93rem; }
+
+    .close-panel {
+      border-radius: calc(var(--radius) + 4px); overflow: hidden; position: relative;
+      min-height: 260px; display: grid; align-items: end; box-shadow: var(--shadow);
+    }
+    .close-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .close-panel::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(100deg, rgba(7,42,31,0.93) 0%, rgba(7,42,31,0.7) 55%, rgba(7,42,31,0.35) 100%);
+    }
+    .close-inner { position: relative; z-index: 1; padding: clamp(1.4rem, 3.5vw, 2.3rem); color: #f7f3ea; max-width: 38rem; }
+    .close-inner h2 { font-size: clamp(1.55rem, 2.8vw, 2.1rem); margin-bottom: 0.65rem; }
+    .close-inner p { color: rgba(247,243,234,0.84); margin-bottom: 1.15rem; }
+    .close-inner .btn-primary { background: #fff; color: var(--brand-deep); box-shadow: none; }
+    .note { margin-top: 1.1rem; text-align: center; font-size: 0.8rem; color: var(--muted); }
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media print {
+      .cx-bar, .no-print { display: none !important; }
+      body { background: #fff; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .section, .hero { padding-top: 0.6rem; padding-bottom: 1rem; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cx-bar no-print">
+    <div class="left">
+      <button type="button" class="pdf" id="btnPdf" data-i18n="pdf">Descargar PDF</button>
+      <button type="button" id="btnLang">EN</button>
+    </div>
+    <a class="home" href="/" data-i18n="home">Volver a CastleXpert</a>
+  </div>
+
+  <div id="pdf-root">
+    <header class="hero">
+      <div class="wrap">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Servicio propietario CastleXpert</p>
+          <h1>Nosotros migramos su Oracle Developer <em>y entregamos el código fuente</em></h1>
+          <p class="hero-lead">
+            Ejecutamos la modernización de sistemas Oracle Forms 6i, 9i, 10g, 11g, 12c y 14c hacia una
+            plataforma web responsive con React, Vite, Node.js y API REST — manteniendo Oracle Database
+            cuando aplica. Es un servicio de migración entregado por nuestro equipo.
+          </p>
+          <ul class="promise">
+            <li><strong>CastleXpert realiza la migración</strong> de punta a punta.</li>
+            <li><strong>Se entregan los códigos fuente</strong> de lo desarrollado.</li>
+            <li><strong>Entrega incremental</strong> para que su equipo pruebe cada avance.</li>
+            <li><strong>Costo según complejidad de cada Form</strong> (no un precio genérico).</li>
+          </ul>
+          <div class="cta-row no-print">
+            <a class="btn btn-primary" href="#evaluacion">Ver Evaluación de Modernización</a>
+            <a class="btn btn-ghost" href="#arquitectura">Ver arquitectura destino</a>
+          </div>
+          <div class="version-strip" aria-label="Versiones Oracle Developer">
+            <span>6i</span><span>9i</span><span>10g</span><span>11g</span><span>12c</span><span>14c</span>
+          </div>
+        </div>
+      </div>
+      <div class="wrap-wide">
+        <figure class="hero-visual reveal">
+          <img
+            src="legacy-to-modern.png"
+            alt="Antes y después: Oracle Forms en monitor legado frente a aplicación web moderna"
+            width="1600"
+            height="900"
+          />
+          <figcaption class="hero-caption">
+            De Oracle Forms a una experiencia web moderna: responsive, accesible y preparada para el futuro.
+          </figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <section class="section" id="flujo">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>El camino de la migración</h2>
+          <p>
+            Partimos del sistema actual, hacemos una evaluación técnica profunda y construimos la
+            arquitectura moderna sobre su Oracle Database, con frontend y API separados.
+          </p>
+        </div>
+
+        <div class="flow reveal" aria-label="Flujo de migración">
+          <div class="flow-node dark">
+            <div class="lbl">Sistema actual</div>
+            <div class="ttl">Oracle Forms 6i–14c</div>
+            <div class="sub">Cliente pesado / Forms + Reports</div>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">↓</div>
+          <div class="flow-node">
+            <div class="lbl">Base de datos</div>
+            <div class="ttl">Oracle Database</div>
+            <div class="sub">Datos, PL/SQL, packages, jobs</div>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">↓</div>
+          <div class="flow-node accent">
+            <div class="lbl">CastleXpert</div>
+            <div class="ttl">Evaluación técnica</div>
+            <div class="sub">Inventario, riesgos, plan incremental</div>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">↓</div>
+          <div class="flow-node dark">
+            <div class="lbl">Destino</div>
+            <div class="ttl">Arquitectura moderna</div>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">↓</div>
+          <div class="flow-split">
+            <div class="flow-node">
+              <div class="lbl">Frontend</div>
+              <div class="ttl">React + Vite</div>
+              <div class="sub">Interfaz web responsive</div>
+            </div>
+            <div class="flow-node">
+              <div class="lbl">Backend</div>
+              <div class="ttl">Node.js · API REST</div>
+              <div class="sub">Lógica de negocio expuesta</div>
+            </div>
+          </div>
+          <div class="flow-arrow" aria-hidden="true">↓</div>
+          <div class="flow-node">
+            <div class="lbl">Persistencia</div>
+            <div class="ttl">Oracle Database</div>
+            <div class="sub">Se conserva y se conecta vía API</div>
+          </div>
+          <p class="flow-merge-note">
+            Evitamos el enfoque “big bang”: migramos por olas, con entregas que usted puede probar
+            mientras el resto del sistema sigue operando.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="arquitectura">
+      <div class="wrap-wide">
+        <div class="section-head reveal">
+          <h2>Arquitectura moderna</h2>
+          <p>
+            Alineación React + Node.js con flujo de API estructurado, contratos compartidos y
+            herramientas comunes — adaptada a una migración desde Oracle Developer.
+          </p>
+        </div>
+
+        <div class="arch reveal">
+          <h3>Alineación React y Node.js en servicios</h3>
+          <svg class="arch-svg" viewBox="0 0 920 560" role="img" aria-label="Diagrama de arquitectura moderna">
+            <defs>
+              <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.12"/>
+              </filter>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+              </marker>
+            </defs>
+
+            <!-- React -->
+            <rect x="330" y="18" width="260" height="58" rx="12" fill="#e8f3ff" stroke="#93c5fd" filter="url(#soft)"/>
+            <circle cx="368" cy="47" r="14" fill="#61dafb"/>
+            <text x="392" y="52" font-family="Instrument Sans, Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#0f172a">Aplicación React</text>
+            <line x1="460" y1="76" x2="460" y2="108" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- API Gateway -->
+            <rect x="180" y="112" width="560" height="48" rx="10" fill="#e2e8f0" stroke="#94a3b8" filter="url(#soft)"/>
+            <text x="460" y="142" text-anchor="middle" font-family="Instrument Sans, Segoe UI, sans-serif" font-size="16" font-weight="700" fill="#0f172a">Puerta de enlace API (API Gateway)</text>
+
+            <line x1="260" y1="160" x2="200" y2="198" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="460" y1="160" x2="460" y2="198" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="660" y1="160" x2="720" y2="198" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- Services -->
+            <g>
+              <rect x="70" y="202" width="220" height="118" rx="12" fill="#fff" stroke="#cbd5e1" filter="url(#soft)"/>
+              <text x="180" y="232" text-anchor="middle" font-family="Instrument Sans, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#0f172a">Servicio Node.js A</text>
+              <rect x="88" y="248" width="88" height="50" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+              <rect x="184" y="248" width="88" height="50" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+              <text x="132" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">API REST</text>
+              <text x="228" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">Lógica de negocio</text>
+            </g>
+            <g>
+              <rect x="350" y="202" width="220" height="118" rx="12" fill="#fff" stroke="#cbd5e1" filter="url(#soft)"/>
+              <text x="460" y="232" text-anchor="middle" font-family="Instrument Sans, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#0f172a">Servicio Node.js B</text>
+              <rect x="368" y="248" width="88" height="50" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+              <rect x="464" y="248" width="88" height="50" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+              <text x="412" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">API REST</text>
+              <text x="508" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">Lógica de negocio</text>
+            </g>
+            <g>
+              <rect x="630" y="202" width="220" height="118" rx="12" fill="#fff" stroke="#cbd5e1" filter="url(#soft)"/>
+              <text x="740" y="232" text-anchor="middle" font-family="Instrument Sans, Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#0f172a">Servicio Node.js C</text>
+              <rect x="648" y="248" width="88" height="50" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+              <rect x="744" y="248" width="88" height="50" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+              <text x="692" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">API REST</text>
+              <text x="788" y="278" text-anchor="middle" font-size="11" font-weight="600" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">Lógica de negocio</text>
+            </g>
+
+            <line x1="180" y1="320" x2="180" y2="352" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="460" y1="320" x2="460" y2="352" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="740" y1="320" x2="740" y2="352" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <!-- Databases -->
+            <g>
+              <ellipse cx="180" cy="368" rx="52" ry="16" fill="#dbeafe" stroke="#60a5fa"/>
+              <rect x="128" y="368" width="104" height="34" fill="#dbeafe" stroke="#60a5fa"/>
+              <ellipse cx="180" cy="402" rx="52" ry="16" fill="#bfdbfe" stroke="#60a5fa"/>
+              <text x="180" y="390" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a" font-family="Instrument Sans, Segoe UI, sans-serif">Base de datos</text>
+            </g>
+            <g>
+              <ellipse cx="460" cy="368" rx="52" ry="16" fill="#dbeafe" stroke="#60a5fa"/>
+              <rect x="408" y="368" width="104" height="34" fill="#dbeafe" stroke="#60a5fa"/>
+              <ellipse cx="460" cy="402" rx="52" ry="16" fill="#bfdbfe" stroke="#60a5fa"/>
+              <text x="460" y="390" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a" font-family="Instrument Sans, Segoe UI, sans-serif">Base de datos</text>
+            </g>
+            <g>
+              <ellipse cx="740" cy="368" rx="52" ry="16" fill="#dbeafe" stroke="#60a5fa"/>
+              <rect x="688" y="368" width="104" height="34" fill="#dbeafe" stroke="#60a5fa"/>
+              <ellipse cx="740" cy="402" rx="52" ry="16" fill="#bfdbfe" stroke="#60a5fa"/>
+              <text x="740" y="390" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a" font-family="Instrument Sans, Segoe UI, sans-serif">Base de datos</text>
+            </g>
+
+            <!-- Shared ecosystem -->
+            <rect x="70" y="440" width="780" height="96" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="5 4"/>
+            <text x="460" y="466" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a" font-family="Instrument Sans, Segoe UI, sans-serif">Ecosistema JavaScript compartido</text>
+            <text x="160" y="500" text-anchor="middle" font-size="11" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">Contratos API</text>
+            <text x="160" y="516" text-anchor="middle" font-size="10" fill="#64748b" font-family="Instrument Sans, Segoe UI, sans-serif">(OpenAPI / JSON)</text>
+            <text x="360" y="500" text-anchor="middle" font-size="11" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">Validación</text>
+            <text x="360" y="516" text-anchor="middle" font-size="10" fill="#64748b" font-family="Instrument Sans, Segoe UI, sans-serif">(Zod / Joi)</text>
+            <text x="560" y="500" text-anchor="middle" font-size="11" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">Herramientas</text>
+            <text x="560" y="516" text-anchor="middle" font-size="10" fill="#64748b" font-family="Instrument Sans, Segoe UI, sans-serif">(npm, CI/CD)</text>
+            <text x="760" y="500" text-anchor="middle" font-size="11" fill="#334155" font-family="Instrument Sans, Segoe UI, sans-serif">Pruebas</text>
+            <text x="760" y="516" text-anchor="middle" font-size="10" fill="#64748b" font-family="Instrument Sans, Segoe UI, sans-serif">(Jest, ESLint)</text>
+          </svg>
+          <p class="arch-caption">
+            Flujo de API estructurado + herramientas y contratos compartidos.
+            En migraciones Oracle, la base puede permanecer en Oracle Database conectada por API REST.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="evaluacion">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>Evaluación de Modernización</h2>
+          <p>
+            Ofrecemos un análisis previo para decidir con datos: qué migrar, en qué orden y con qué
+            esfuerzo estimado — antes de iniciar la construcción.
+          </p>
+        </div>
+
+        <ul class="check-list reveal">
+          <li>Inventario de Forms, Reports, Libraries y módulos.</li>
+          <li>Dependencias entre módulos.</li>
+          <li>Complejidad de la lógica PL/SQL.</li>
+          <li>Integraciones existentes.</li>
+          <li>Uso de triggers, procedures, packages, jobs, etc.</li>
+          <li>Dependencias de versiones de Oracle.</li>
+          <li>Riesgos técnicos de una migración.</li>
+          <li>Qué componentes pueden reutilizarse.</li>
+          <li>Qué debería convertirse a API REST.</li>
+          <li>Qué debería pasar a frontend web.</li>
+          <li>Propuesta de arquitectura moderna.</li>
+          <li>Estrategia de migración incremental (sin “big bang”).</li>
+          <li>Estimación preliminar de esfuerzo y fases.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="entrega">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>Modelo de entrega y costo</h2>
+          <p>Transparente, medible y alineado a la realidad de cada Form.</p>
+        </div>
+        <div class="three">
+          <article class="tile reveal">
+            <div class="n">01</div>
+            <h3>Costo por complejidad</h3>
+            <p>
+              El valor se calcula según el nivel de complejidad de cada Form (pantallas simples,
+              flujos con PL/SQL denso, integraciones, reportes, etc.).
+            </p>
+          </article>
+          <article class="tile reveal">
+            <div class="n">02</div>
+            <h3>Entrega incremental</h3>
+            <p>
+              Liberamos avances por etapas para que su operación pruebe la migración real.
+            </p>
+          </article>
+          <article class="tile reveal">
+            <div class="n">03</div>
+            <h3>Código fuente incluido</h3>
+            <p>
+              Al cerrar cada entrega, usted recibe los fuentes de lo desarrollado:
+              frontend React/Vite y servicios Node.js / API REST correspondientes.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contacto">
+      <div class="wrap">
+        <div class="close-panel reveal">
+          <img src="legacy-to-modern.png" alt="" aria-hidden="true" />
+          <div class="close-inner">
+            <h2>¿Listo para una Evaluación de Modernización?</h2>
+            <p>
+              Analizamos su inventario Oracle Developer y le devolvemos una propuesta concreta:
+              arquitectura, fases, riesgos y estimación por complejidad — para que CastleXpert
+              ejecute la migración y le entregue los códigos fuente.
+            </p>
+            <a class="btn btn-primary no-print" href="/contacto">Solicitar evaluación</a>
+          </div>
+        </div>
+        <p class="note">CastleXpert · Migración Oracle Developer → web moderna</p>
+      </div>
+    </section>
+  </div>
+
+  
+<script>
+(function () {
+  const KEY = 'cx-lang';
+  const I18N = {
+    es: {
+      title: 'Evaluación y migración Oracle Developer → Web | CastleXpert',
+      pdf: 'Descargar PDF',
+      home: 'Volver a CastleXpert',
+      langBtn: 'EN',
+      eyebrow: 'Servicio propietario CastleXpert',
+      h1: 'Nosotros migramos su Oracle Developer <em>y entregamos el código fuente</em>',
+      lead: 'Ejecutamos la modernización de sistemas Oracle Forms 6i, 9i, 10g, 11g, 12c y 14c hacia una plataforma web responsive con React, Vite, Node.js y API REST — manteniendo Oracle Database cuando aplica. Es un servicio de migración entregado por nuestro equipo.',
+      p1: '<strong>CastleXpert realiza la migración</strong> de punta a punta.',
+      p2: '<strong>Se entregan los códigos fuente</strong> de lo desarrollado.',
+      p3: '<strong>Entrega incremental</strong> para que su equipo pruebe cada avance.',
+      p4: '<strong>Costo según complejidad de cada Form</strong> (no un precio genérico).',
+      ctaEval: 'Ver Evaluación de Modernización',
+      ctaArch: 'Ver arquitectura destino',
+      imgAlt: 'Antes y después: Oracle Forms en monitor legado frente a aplicación web moderna',
+      caption: 'De Oracle Forms a una experiencia web moderna: responsive, accesible y preparada para el futuro.',
+      flowTitle: 'El camino de la migración',
+      flowSub: 'Partimos del sistema actual, hacemos una evaluación técnica profunda y construimos la arquitectura moderna sobre su Oracle Database, con frontend y API separados.',
+      f1l: 'Sistema actual', f1t: 'Oracle Forms 6i–14c', f1s: 'Cliente pesado / Forms + Reports',
+      f2l: 'Base de datos', f2t: 'Oracle Database', f2s: 'Datos, PL/SQL, packages, jobs',
+      f3l: 'CastleXpert', f3t: 'Evaluación técnica', f3s: 'Inventario, riesgos, plan incremental',
+      f4l: 'Destino', f4t: 'Arquitectura moderna',
+      f5l: 'Frontend', f5t: 'React + Vite', f5s: 'Interfaz web responsive',
+      f6l: 'Backend', f6t: 'Node.js · API REST', f6s: 'Lógica de negocio expuesta',
+      f7l: 'Persistencia', f7t: 'Oracle Database', f7s: 'Se conserva y se conecta vía API',
+      flowNote: 'Evitamos el enfoque “big bang”: migramos por olas, con entregas que usted puede probar mientras el resto del sistema sigue operando.',
+      archTitle: 'Arquitectura moderna',
+      archSub: 'Alineación React + Node.js con flujo de API estructurado, contratos compartidos y herramientas comunes — adaptada a una migración desde Oracle Developer.',
+      archH3: 'Alineación React y Node.js en servicios',
+      archCap: 'Flujo de API estructurado + herramientas y contratos compartidos. En migraciones Oracle, la base puede permanecer en Oracle Database conectada por API REST.',
+      svgReact: 'Aplicación React',
+      svgGw: 'Puerta de enlace API (API Gateway)',
+      svgA: 'Servicio Node.js A', svgB: 'Servicio Node.js B', svgC: 'Servicio Node.js C',
+      svgRest: 'API REST', svgBiz: 'Lógica de negocio', svgDb: 'Base de datos',
+      svgEco: 'Ecosistema JavaScript compartido',
+      svgC1: 'Contratos API', svgC1s: '(OpenAPI / JSON)',
+      svgC2: 'Validación', svgC2s: '(Zod / Joi)',
+      svgC3: 'Herramientas', svgC3s: '(npm, CI/CD)',
+      svgC4: 'Pruebas', svgC4s: '(Jest, ESLint)',
+      evalTitle: 'Evaluación de Modernización',
+      evalSub: 'Ofrecemos un análisis previo para decidir con datos: qué migrar, en qué orden y con qué esfuerzo estimado — antes de iniciar la construcción.',
+      e1: 'Inventario de Forms, Reports, Libraries y módulos.',
+      e2: 'Dependencias entre módulos.',
+      e3: 'Complejidad de la lógica PL/SQL.',
+      e4: 'Integraciones existentes.',
+      e5: 'Uso de triggers, procedures, packages, jobs, etc.',
+      e6: 'Dependencias de versiones de Oracle.',
+      e7: 'Riesgos técnicos de una migración.',
+      e8: 'Qué componentes pueden reutilizarse.',
+      e9: 'Qué debería convertirse a API REST.',
+      e10: 'Qué debería pasar a frontend web.',
+      e11: 'Propuesta de arquitectura moderna.',
+      e12: 'Estrategia de migración incremental (sin “big bang”).',
+      e13: 'Estimación preliminar de esfuerzo y fases.',
+      delTitle: 'Modelo de entrega y costo',
+      delSub: 'Transparente, medible y alineado a la realidad de cada Form.',
+      d1t: 'Costo por complejidad',
+      d1d: 'El valor se calcula según el nivel de complejidad de cada Form (pantallas simples, flujos con PL/SQL denso, integraciones, reportes, etc.).',
+      d2t: 'Entrega incremental',
+      d2d: 'Liberamos avances por etapas para que su operación pruebe la migración real.',
+      d3t: 'Código fuente incluido',
+      d3d: 'Al cerrar cada entrega, usted recibe los fuentes de lo desarrollado: frontend React/Vite y servicios Node.js / API REST correspondientes.',
+      closeTitle: '¿Listo para una Evaluación de Modernización?',
+      closeText: 'Analizamos su inventario Oracle Developer y le devolvemos una propuesta concreta: arquitectura, fases, riesgos y estimación por complejidad — para que CastleXpert ejecute la migración y le entregue los códigos fuente.',
+      closeCta: 'Solicitar evaluación',
+      note: 'CastleXpert · Migración Oracle Developer → web moderna',
+      pdfBusy: 'Generando PDF…',
+      flowAria: 'Flujo de migración',
+    },
+    en: {
+      title: 'Oracle Developer assessment & migration to web | CastleXpert',
+      pdf: 'Download PDF',
+      home: 'Back to CastleXpert',
+      langBtn: 'ES',
+      eyebrow: 'CastleXpert proprietary service',
+      h1: 'We migrate your Oracle Developer system <em>and deliver the source code</em>',
+      lead: 'We modernize Oracle Forms 6i, 9i, 10g, 11g, 12c, and 14c into a responsive web platform with React, Vite, Node.js, and REST APIs — keeping Oracle Database when it applies. This is a migration service delivered by our team.',
+      p1: '<strong>CastleXpert runs the migration</strong> end to end.',
+      p2: '<strong>Source code is delivered</strong> for what we build.',
+      p3: '<strong>Incremental delivery</strong> so your team can test each advance.',
+      p4: '<strong>Pricing by each Form’s complexity</strong> (not a generic price).',
+      ctaEval: 'See Modernization Assessment',
+      ctaArch: 'See target architecture',
+      imgAlt: 'Before and after: legacy Oracle Forms monitor versus a modern web application',
+      caption: 'From Oracle Forms to a modern web experience: responsive, accessible, and built for the future.',
+      flowTitle: 'The migration path',
+      flowSub: 'We start from the current system, perform a deep technical assessment, and build the modern architecture on your Oracle Database, with separate frontend and API.',
+      f1l: 'Current system', f1t: 'Oracle Forms 6i–14c', f1s: 'Thick client / Forms + Reports',
+      f2l: 'Database', f2t: 'Oracle Database', f2s: 'Data, PL/SQL, packages, jobs',
+      f3l: 'CastleXpert', f3t: 'Technical assessment', f3s: 'Inventory, risks, incremental plan',
+      f4l: 'Target', f4t: 'Modern architecture',
+      f5l: 'Frontend', f5t: 'React + Vite', f5s: 'Responsive web interface',
+      f6l: 'Backend', f6t: 'Node.js · REST API', f6s: 'Business logic exposed',
+      f7l: 'Persistence', f7t: 'Oracle Database', f7s: 'Kept and connected via API',
+      flowNote: 'We avoid a “big bang” approach: we migrate in waves, with deliveries you can test while the rest of the system keeps running.',
+      archTitle: 'Modern architecture',
+      archSub: 'React + Node.js alignment with a structured API flow, shared contracts, and common tooling — adapted for an Oracle Developer migration.',
+      archH3: 'React and Node.js service alignment',
+      archCap: 'Structured API flow + shared tooling and contracts. In Oracle migrations, the database can remain Oracle Database connected through REST APIs.',
+      svgReact: 'React application',
+      svgGw: 'API Gateway',
+      svgA: 'Node.js service A', svgB: 'Node.js service B', svgC: 'Node.js service C',
+      svgRest: 'REST API', svgBiz: 'Business logic', svgDb: 'Database',
+      svgEco: 'Shared JavaScript ecosystem',
+      svgC1: 'API contracts', svgC1s: '(OpenAPI / JSON)',
+      svgC2: 'Validation', svgC2s: '(Zod / Joi)',
+      svgC3: 'Tooling', svgC3s: '(npm, CI/CD)',
+      svgC4: 'Testing', svgC4s: '(Jest, ESLint)',
+      evalTitle: 'Modernization Assessment',
+      evalSub: 'We offer a prior analysis so decisions are data-driven: what to migrate, in what order, and with what estimated effort — before construction begins.',
+      e1: 'Inventory of Forms, Reports, Libraries, and modules.',
+      e2: 'Dependencies between modules.',
+      e3: 'Complexity of PL/SQL logic.',
+      e4: 'Existing integrations.',
+      e5: 'Use of triggers, procedures, packages, jobs, etc.',
+      e6: 'Oracle version dependencies.',
+      e7: 'Technical risks of a migration.',
+      e8: 'Which components can be reused.',
+      e9: 'What should become a REST API.',
+      e10: 'What should move to the web frontend.',
+      e11: 'Modern architecture proposal.',
+      e12: 'Incremental migration strategy (no “big bang”).',
+      e13: 'Preliminary effort and phase estimate.',
+      delTitle: 'Delivery and pricing model',
+      delSub: 'Transparent, measurable, and aligned to each Form’s reality.',
+      d1t: 'Pricing by complexity',
+      d1d: 'Value is calculated by each Form’s complexity level (simple screens, dense PL/SQL flows, integrations, reports, etc.).',
+      d2t: 'Incremental delivery',
+      d2d: 'We release progress in stages so your operations can test the real migration.',
+      d3t: 'Source code included',
+      d3d: 'At each delivery close, you receive the sources we built: React/Vite frontend and corresponding Node.js / REST API services.',
+      closeTitle: 'Ready for a Modernization Assessment?',
+      closeText: 'We analyze your Oracle Developer inventory and return a concrete proposal: architecture, phases, risks, and complexity-based estimate — so CastleXpert can execute the migration and deliver the source code.',
+      closeCta: 'Request assessment',
+      note: 'CastleXpert · Oracle Developer migration → modern web',
+      pdfBusy: 'Generating PDF…',
+      flowAria: 'Migration flow',
+    },
+  };
+
+  function detectLang() {
+    const q = new URLSearchParams(location.search).get('lang');
+    if (q === 'en' || q === 'es') return q;
+    try {
+      const stored = localStorage.getItem(KEY);
+      if (stored === 'en' || stored === 'es') return stored;
+    } catch {}
+    return 'es';
+  }
+
+  function setText(sel, value, html) {
+    const el = document.querySelector(sel);
+    if (!el || value == null) return;
+    if (html) el.innerHTML = value;
+    else el.textContent = value;
+  }
+
+  function apply(lang) {
+    const t = I18N[lang] || I18N.es;
+    document.documentElement.lang = lang;
+    document.title = t.title;
+    try { localStorage.setItem(KEY, lang); } catch {}
+
+    setText('#btnPdf', t.pdf);
+    setText('#btnLang', t.langBtn);
+    setText('.cx-bar .home', t.home);
+    setText('.hero-copy .eyebrow', t.eyebrow);
+    setText('.hero-copy h1', t.h1, true);
+    setText('.hero-lead', t.lead);
+    const promises = document.querySelectorAll('.promise li');
+    [t.p1, t.p2, t.p3, t.p4].forEach((v, i) => { if (promises[i]) promises[i].innerHTML = v; });
+    const ctas = document.querySelectorAll('.cta-row .btn');
+    if (ctas[0]) ctas[0].textContent = t.ctaEval;
+    if (ctas[1]) ctas[1].textContent = t.ctaArch;
+    const img = document.querySelector('.hero-visual img');
+    if (img) img.alt = t.imgAlt;
+    setText('.hero-caption', t.caption);
+    setText('#flujo .section-head h2', t.flowTitle);
+    setText('#flujo .section-head p', t.flowSub);
+    const flow = document.querySelector('.flow');
+    if (flow) flow.setAttribute('aria-label', t.flowAria);
+    const nodes = document.querySelectorAll('.flow-node');
+    const map = [
+      [t.f1l, t.f1t, t.f1s],
+      [t.f2l, t.f2t, t.f2s],
+      [t.f3l, t.f3t, t.f3s],
+      [t.f4l, t.f4t, null],
+      [t.f5l, t.f5t, t.f5s],
+      [t.f6l, t.f6t, t.f6s],
+      [t.f7l, t.f7t, t.f7s],
+    ];
+    nodes.forEach((node, i) => {
+      const m = map[i];
+      if (!m) return;
+      const lbl = node.querySelector('.lbl');
+      const ttl = node.querySelector('.ttl');
+      const sub = node.querySelector('.sub');
+      if (lbl) lbl.textContent = m[0];
+      if (ttl) ttl.textContent = m[1];
+      if (sub && m[2]) sub.textContent = m[2];
+    });
+    setText('.flow-merge-note', t.flowNote);
+    setText('#arquitectura .section-head h2', t.archTitle);
+    setText('#arquitectura .section-head p', t.archSub);
+    setText('#arquitectura .arch h3', t.archH3);
+    setText('#arquitectura .arch-caption', t.archCap);
+
+    const svg = document.querySelector('#arquitectura svg');
+    if (svg) {
+      const texts = svg.querySelectorAll('text');
+      // Fixed order matching the SVG structure
+      const svgVals = [
+        t.svgReact, t.svgGw,
+        t.svgA, t.svgRest, t.svgBiz,
+        t.svgB, t.svgRest, t.svgBiz,
+        t.svgC, t.svgRest, t.svgBiz,
+        t.svgDb, t.svgDb, t.svgDb,
+        t.svgEco, t.svgC1, t.svgC1s, t.svgC2, t.svgC2s, t.svgC3, t.svgC3s, t.svgC4, t.svgC4s,
+      ];
+      texts.forEach((el, i) => { if (svgVals[i]) el.textContent = svgVals[i]; });
+    }
+
+    setText('#evaluacion .section-head h2', t.evalTitle);
+    setText('#evaluacion .section-head p', t.evalSub);
+    document.querySelectorAll('#evaluacion .check-list li').forEach((li, i) => {
+      const key = 'e' + (i + 1);
+      if (t[key]) li.textContent = t[key];
+    });
+    setText('#entrega .section-head h2', t.delTitle);
+    setText('#entrega .section-head p', t.delSub);
+    const tiles = document.querySelectorAll('#entrega .tile');
+    const dels = [[t.d1t, t.d1d], [t.d2t, t.d2d], [t.d3t, t.d3d]];
+    tiles.forEach((tile, i) => {
+      const h = tile.querySelector('h3');
+      const p = tile.querySelector('p');
+      if (h) h.textContent = dels[i][0];
+      if (p) p.textContent = dels[i][1];
+    });
+    setText('#contacto .close-inner h2', t.closeTitle);
+    setText('#contacto .close-inner p', t.closeText);
+    setText('#contacto .close-inner .btn', t.closeCta);
+    setText('#contacto .note', t.note);
+    window.__cxPdfBusy = t.pdfBusy;
+    window.__cxPdfLabel = t.pdf;
+  }
+
+  let lang = detectLang();
+  apply(lang);
+
+  document.getElementById('btnLang')?.addEventListener('click', () => {
+    lang = lang === 'es' ? 'en' : 'es';
+    const url = new URL(location.href);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
+    apply(lang);
+  });
+
+  const btn = document.getElementById('btnPdf');
+  btn?.addEventListener('click', async () => {
+    const root = document.getElementById('pdf-root');
+    if (!root || typeof html2pdf === 'undefined') {
+      window.print();
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = window.__cxPdfBusy || 'Generando PDF…';
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+    try {
+      await html2pdf()
+        .set({
+          margin: [10, 10, 12, 10],
+          filename: 'CastleXpert-Oracle-Migration.pdf',
+          image: { type: 'jpeg', quality: 0.95 },
+          html2canvas: { scale: 2, useCORS: true, logging: false },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['css', 'legacy'] },
+        })
+        .from(root)
+        .save();
+    } catch (err) {
+      console.error(err);
+      window.print();
+    } finally {
+      btn.disabled = false;
+      btn.textContent = window.__cxPdfLabel || 'Descargar PDF';
+    }
+  });
+})();
+</script>
+
+<script>
+    document.querySelectorAll('.reveal').forEach((el) => {
+      if (!('IntersectionObserver' in window)) { el.classList.add('in'); return; }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      io.observe(el);
+    });
+  </script>
+</body>
+</html>

@@ -15,16 +15,30 @@ import ContactPage from './pages/ContactPage';
 import DemoProductPage from './pages/DemoProductPage';
 import MockupsPage from './pages/MockupsPage';
 import { enableSiteAnalytics, trackPageView } from './lib/siteAnalytics';
+import { oracleMigrationUrl, readStoredLanguage, storeLanguage } from './lib/siteLanguage';
 
 function isContactCardPath(pathname: string) {
   const p = pathname.toLowerCase();
   return p === '/castlexpertcard' || p === '/castlexpert-card';
 }
 
+/** La ficha completa del servicio vive en HTML estático (diseño original). */
+function OracleMigrationRedirect() {
+  const language = readStoredLanguage();
+  useEffect(() => {
+    window.location.replace(oracleMigrationUrl(language));
+  }, [language]);
+  return (
+    <main className="mx-auto max-w-3xl px-4 py-16 text-zinc-700">
+      {language === 'en' ? 'Opening the service page…' : 'Abriendo la ficha del servicio…'}
+    </main>
+  );
+}
+
 function App() {
   const location = useLocation();
   const contactCardOnly = isContactCardPath(location.pathname);
-  const [language, setLanguage] = useState<Language>('es');
+  const [language, setLanguage] = useState<Language>(() => readStoredLanguage());
   const [cookiePolicyOpen, setCookiePolicyOpen] = useState(false);
   const [hasCookieConsent, setHasCookieConsent] = useState(() => hasStoredCookieConsent());
   const content = copy[language];
@@ -32,7 +46,16 @@ function App() {
 
   useEffect(() => {
     document.documentElement.lang = language;
+    storeLanguage(language);
   }, [language]);
+
+  function toggleLanguage() {
+    setLanguage((current) => {
+      const next = current === 'es' ? 'en' : 'es';
+      storeLanguage(next);
+      return next;
+    });
+  }
 
   useEffect(() => {
     if (!hasCookieConsent || contactCardOnly) return;
@@ -57,7 +80,8 @@ function App() {
           element={
             <HomePage
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              language={language}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -67,7 +91,8 @@ function App() {
           element={
             <SiteMapPage
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              language={language}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -77,7 +102,7 @@ function App() {
           element={
             <AboutPage
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -87,7 +112,7 @@ function App() {
           element={
             <ContactPage
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -97,7 +122,7 @@ function App() {
           element={
             <ContactPage
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -110,7 +135,7 @@ function App() {
             <DemoProductPage
               demoId="tracklogic"
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -121,7 +146,7 @@ function App() {
             <DemoProductPage
               demoId="foodly"
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -132,7 +157,7 @@ function App() {
             <DemoProductPage
               demoId="cmms"
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -143,7 +168,7 @@ function App() {
             <DemoProductPage
               demoId="pura-puntos"
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
@@ -153,10 +178,18 @@ function App() {
           element={
             <MockupsPage
               content={content}
-              onToggleLanguage={() => setLanguage((current) => (current === 'es' ? 'en' : 'es'))}
+              onToggleLanguage={toggleLanguage}
               onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
             />
           }
+        />
+        <Route
+          path="/servicios/migracion-oracle"
+          element={<OracleMigrationRedirect />}
+        />
+        <Route
+          path="/servicios/migracion-oracle/"
+          element={<OracleMigrationRedirect />}
         />
       </Routes>
       {!contactCardOnly && (

@@ -12,6 +12,7 @@ import {
   Globe,
   Monitor,
   ServerCog,
+  RefreshCw,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import type { AppCopy } from '../i18n';
@@ -31,7 +32,7 @@ const serviceIcons = [
   ServerCog,
 ];
 
-const mainServiceIcons = [Smartphone, Globe, Monitor];
+const mainServiceIcons = [Smartphone, Globe, Monitor, RefreshCw];
 
 type ServicesProps = {
   content: AppCopy['services'];
@@ -133,9 +134,9 @@ export default function Services({ content, variant }: ServicesProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-[#ece8df] via-[#f2efe8] to-[#e8e4db]" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="mb-12 text-center text-3xl font-bold text-black md:text-4xl">{content.mainTitle}</h2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
           {content.mainItems.map((service, index) => {
-            const Icon = mainServiceIcons[index];
+            const Icon = mainServiceIcons[index] ?? RefreshCw;
             const thumb = content.mainModals[index]?.images?.[0];
             return (
               <button

@@ -1,20 +1,25 @@
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import SimplePageHeader from '../components/SimplePageHeader';
-import type { AppCopy } from '../i18n';
+import type { AppCopy, Language } from '../i18n';
+import { oracleMigrationUrl } from '../lib/siteLanguage';
 
 type SiteMapPageProps = {
   content: AppCopy;
+  language: Language;
   onToggleLanguage: () => void;
   onOpenCookiePolicy: () => void;
 };
 
 export default function SiteMapPage({
   content,
+  language,
   onToggleLanguage,
   onOpenCookiePolicy,
 }: SiteMapPageProps) {
   const p = content.pages.siteMap;
+  const oracleUrl = oracleMigrationUrl(language);
+  const oracleLabel = language === 'en' ? 'Oracle Developer migration' : 'Migración Oracle Developer';
 
   const linkCls =
     'block rounded-xl border border-black/10 bg-white/25 px-4 py-3 text-zinc-800 transition hover:bg-white/45 hover:text-black';
@@ -93,6 +98,11 @@ export default function SiteMapPage({
               <Link className={linkCls} to="/#services">
                 Servicios
               </Link>
+            </li>
+            <li>
+              <a className={linkCls} href={oracleUrl}>
+                {oracleLabel}
+              </a>
             </li>
             <li>
               <Link className={linkCls} to="/#benefits">
