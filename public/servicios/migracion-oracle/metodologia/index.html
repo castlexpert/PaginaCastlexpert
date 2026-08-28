@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metodología de migración Oracle → Web | CastleXpert</title>
+  <meta name="description" content="Metodología CastleXpert para migrar Oracle Forms/Reports a React + Node.js: análisis, Forms2XML, rutas XML o captura, pruebas conjuntas y entrega." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+  <style>
+    :root {
+      --ink: #0c1a14;
+      --ink-soft: #3d4f46;
+      --muted: #6b7c72;
+      --paper: #f3efe6;
+      --brand: #0d4d38;
+      --brand-deep: #072a1f;
+      --brand-glow: #1a7a58;
+      --accent: #c4a35a;
+      --line: rgba(12, 26, 20, 0.12);
+      --shadow: 0 28px 60px -28px rgba(7, 42, 31, 0.45);
+      --radius: 20px;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Instrument Sans", "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -10%, rgba(13, 77, 56, 0.14), transparent 55%),
+        radial-gradient(700px 380px at 100% 8%, rgba(196, 163, 90, 0.14), transparent 50%),
+        linear-gradient(180deg, #f7f3ea 0%, var(--paper) 45%, #ebe5d6 100%);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.03em; line-height: 1.12; margin: 0; text-wrap: balance; }
+    p { margin: 0; }
+    ul { margin: 0; padding: 0; }
+
+    .cx-bar {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;
+      padding: 0.8rem 1.15rem;
+      background: rgba(13, 77, 56, 0.97);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+    }
+    .cx-bar .left { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; }
+    .cx-bar a, .cx-bar button {
+      font-family: inherit; cursor: pointer;
+      text-decoration: none; font-weight: 700; font-size: 0.9rem;
+      border-radius: 10px; padding: 0.48rem 0.9rem;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: transparent; color: #fff;
+    }
+    .cx-bar .home { background: #fff; color: var(--brand); border-color: #fff; }
+    .cx-bar .pdf {
+      background: var(--accent); color: var(--brand-deep); border-color: var(--accent);
+    }
+    .cx-bar .pdf:disabled { opacity: 0.65; cursor: wait; }
+    .cx-bar #btnLang { min-width: 2.6rem; letter-spacing: 0.04em; }
+
+    .wrap { width: min(1100px, calc(100% - 2.4rem)); margin: 0 auto; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--brand); margin-bottom: 0.85rem;
+    }
+    .eyebrow::before { content: ""; width: 1.5rem; height: 2px; background: var(--accent); border-radius: 99px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      border-radius: 12px; padding: 0.85rem 1.2rem;
+      font-weight: 700; font-size: 0.95rem; text-decoration: none; border: 0; cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--brand); color: #fff; box-shadow: 0 14px 28px -12px rgba(13,77,56,0.65); }
+    .btn-ghost { background: transparent; color: var(--brand-deep); border: 1px solid rgba(13,77,56,0.28); }
+
+    .hero { padding: clamp(2.2rem, 4.5vw, 3.2rem) 0 0.4rem; }
+    .hero-copy { max-width: 46rem; }
+    .hero h1 { font-size: clamp(2rem, 4.4vw, 2.85rem); color: var(--brand-deep); }
+    .hero-lead { margin-top: 1rem; font-size: 1.05rem; color: var(--ink-soft); max-width: 54ch; }
+    .cta-row { margin-top: 1.35rem; display: flex; flex-wrap: wrap; gap: 0.7rem; }
+
+    .section { padding: 0.6rem 0 3.2rem; }
+    .section-head { max-width: 42rem; margin-bottom: 0.4rem; }
+    .section-head h2 { font-size: clamp(1.7rem, 3.2vw, 2.35rem); color: var(--brand-deep); }
+    .section-head p { margin-top: 0.7rem; color: var(--ink-soft); font-size: 1.02rem; }
+
+    .note { margin-top: 1.1rem; text-align: center; font-size: 0.8rem; color: var(--muted); }
+
+    /* Methodology */
+    .method-block { margin-top: 1.75rem; }
+    .method-block + .method-block { margin-top: 2.2rem; }
+    .method-kicker {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--brand); margin-bottom: 0.35rem;
+    }
+    .method-block h3 {
+      font-size: clamp(1.15rem, 2.2vw, 1.4rem); color: var(--brand-deep); margin-bottom: 0.35rem;
+    }
+    .method-block > .sub {
+      color: var(--ink-soft); font-size: 0.98rem; margin-bottom: 1rem; max-width: 52rem;
+    }
+    .method-steps {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.7rem;
+    }
+    .method-step {
+      border-radius: 14px; padding: 0.95rem 0.9rem 1.05rem;
+      background: rgba(255,255,255,0.72); border: 1px solid var(--line);
+    }
+    .method-step.gate { border-color: rgba(196,163,90,0.55); background: rgba(196,163,90,0.12); }
+    .method-step.milestone {
+      background: linear-gradient(135deg, var(--brand), var(--brand-deep));
+      color: #fff; border: 0;
+    }
+    .method-step .num {
+      width: 1.7rem; height: 1.7rem; border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 0.75rem; font-weight: 800;
+      background: rgba(13,77,56,0.12); color: var(--brand); margin-bottom: 0.55rem;
+    }
+    .method-step.gate .num { background: rgba(196,163,90,0.35); color: var(--brand-deep); }
+    .method-step.milestone .num { background: rgba(255,255,255,0.2); color: #fff; }
+    .method-step h4 {
+      font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+      color: var(--brand-deep); margin: 0 0 0.35rem; line-height: 1.2;
+    }
+    .method-step.milestone h4 { color: #fff; }
+    .method-step p { font-size: 0.82rem; color: var(--muted); margin: 0; }
+    .method-step.milestone p { color: rgba(255,255,255,0.82); }
+
+    .method-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem;
+    }
+    @media (max-width: 800px) { .method-cards { grid-template-columns: 1fr; } }
+    .method-card {
+      border-radius: 18px; padding: 1.15rem 1.1rem 1.25rem;
+      background: rgba(255,255,255,0.72); border: 1px solid var(--line);
+    }
+    .method-card .n {
+      font-family: var(--font-display); font-size: 1.45rem; color: var(--accent); font-weight: 700;
+    }
+    .method-card h4 {
+      font-size: 1.05rem; color: var(--brand-deep); margin: 0.25rem 0 0.4rem;
+      font-family: var(--font-display); font-weight: 600;
+    }
+    .method-card p { font-size: 0.9rem; color: var(--muted); margin: 0; }
+
+    .sec-compare {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-top: 0.9rem;
+    }
+    @media (max-width: 720px) { .sec-compare { grid-template-columns: 1fr; } }
+    .sec-panel {
+      border-radius: 18px; overflow: hidden; border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+    }
+    .sec-panel .head {
+      padding: 0.85rem 1.1rem; font-weight: 700; font-size: 0.95rem; color: #fff;
+      background: var(--brand-deep);
+    }
+    .sec-panel.alt .head { background: var(--brand); }
+    .sec-panel .body { padding: 1rem 1.1rem 1.15rem; }
+    .sec-panel ul { list-style: none; display: grid; gap: 0.55rem; }
+    .sec-panel li {
+      font-size: 0.9rem; color: var(--ink-soft);
+      padding-left: 0.9rem; position: relative;
+    }
+    .sec-panel li::before {
+      content: ""; position: absolute; left: 0; top: 0.55rem;
+      width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--brand);
+    }
+    .sec-note {
+      margin-top: 0.9rem; border-radius: 14px; padding: 0.95rem 1.1rem;
+      background: rgba(196,163,90,0.16); border: 1px solid rgba(196,163,90,0.35);
+      font-size: 0.92rem; color: var(--ink-soft);
+    }
+
+    .branch-wrap {
+      border-radius: var(--radius); padding: 1.25rem 1.2rem 1.4rem;
+      background: rgba(255,255,255,0.62); border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .branch-source {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;
+    }
+    .branch-source .box {
+      border-radius: 12px; padding: 0.65rem 1rem;
+      background: rgba(13,77,56,0.1); border: 1px dashed rgba(13,77,56,0.35);
+      color: var(--brand-deep); font-weight: 700; font-size: 0.9rem;
+    }
+    .branch-source .down { color: var(--brand); font-weight: 800; font-size: 1.2rem; }
+    .branches { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    @media (max-width: 720px) { .branches { grid-template-columns: 1fr; } }
+    .branch {
+      border-radius: 16px; padding: 1.1rem 1.05rem 1.15rem; border: 1px solid var(--line);
+      background: #fff;
+    }
+    .branch.a { background: rgba(13,77,56,0.07); border-color: rgba(13,77,56,0.18); }
+    .branch.b { background: rgba(196,163,90,0.12); border-color: rgba(196,163,90,0.35); }
+    .branch .badge {
+      display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.22rem 0.55rem; border-radius: 999px; margin-bottom: 0.45rem;
+      background: var(--brand); color: #fff;
+    }
+    .branch.b .badge { background: var(--accent); color: var(--brand-deep); }
+    .branch h4 {
+      font-family: var(--font-display); font-size: 1.08rem; color: var(--brand-deep);
+      margin: 0 0 0.4rem; font-weight: 600;
+    }
+    .branch .lead { font-size: 0.9rem; color: var(--muted); margin: 0 0 0.55rem; }
+    .branch ul { list-style: none; display: grid; gap: 0.4rem; margin: 0; }
+    .branch li {
+      font-size: 0.88rem; color: var(--ink-soft); padding-left: 0.85rem; position: relative;
+    }
+    .branch li::before {
+      content: ""; position: absolute; left: 0; top: 0.5rem;
+      width: 0.35rem; height: 0.35rem; border-radius: 50%; background: var(--brand);
+    }
+    .branch .use-when {
+      margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed var(--line);
+      font-size: 0.82rem; color: var(--muted);
+    }
+    .converge {
+      margin-top: 1rem; text-align: center; font-size: 0.88rem; font-weight: 700;
+      color: var(--brand); letter-spacing: 0.02em;
+    }
+
+    .cycle {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.45rem;
+      padding: 1.1rem; border-radius: var(--radius);
+      background: rgba(255,255,255,0.62); border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .cycle-node {
+      width: 7.2rem; height: 7.2rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 0.6rem; font-size: 0.78rem; font-weight: 700; color: var(--brand-deep);
+      background: #fff; border: 2px solid var(--brand); line-height: 1.25;
+    }
+    .cycle-node.repo { border-color: var(--brand-glow); color: var(--brand); }
+    .cycle-node.client { border-color: var(--accent); color: #7a5a1e; }
+    .cycle-arrow { color: var(--brand); font-weight: 800; font-size: 1.1rem; }
+    .cycle-note {
+      margin-top: 0.85rem; text-align: center; font-size: 0.9rem; color: var(--muted); max-width: 46rem; margin-left: auto; margin-right: auto;
+    }
+
+    .timeline-wrap {
+      overflow-x: auto; border-radius: var(--radius);
+      background: rgba(255,255,255,0.72); border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    table.timeline {
+      width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 640px;
+    }
+    table.timeline th {
+      background: var(--brand-deep); color: #fff; text-align: left;
+      padding: 0.75rem 1rem; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    table.timeline td {
+      padding: 0.8rem 1rem; border-bottom: 1px solid var(--line); color: var(--ink-soft); vertical-align: top;
+    }
+    table.timeline tr:last-child td { border-bottom: 0; }
+    .phase-tag {
+      display: inline-block; padding: 0.2rem 0.65rem; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 800; color: #fff; background: var(--brand);
+    }
+    .phase-tag.amber { background: var(--accent); color: var(--brand-deep); }
+    .phase-tag.green { background: var(--brand-glow); }
+    .phase-tag.muted { background: var(--muted); }
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media print {
+      .cx-bar, .no-print { display: none !important; }
+      body { background: #fff; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cx-bar no-print">
+    <div class="left">
+      <button type="button" class="pdf" id="btnPdf">Descargar PDF</button>
+      <button type="button" id="btnLang">EN</button>
+    </div>
+    <div class="left" style="margin-left:auto">
+      <a class="home" id="backService" href="/servicios/migracion-oracle/">Volver al servicio</a>
+      <a href="/" id="backHome" style="margin-left:0.4rem">Inicio</a>
+    </div>
+  </div>
+
+  <div id="pdf-root">
+    <header class="hero">
+      <div class="wrap">
+        <div class="hero-copy reveal">
+          <p class="eyebrow" data-m="eyebrow">Metodología de servicio</p>
+          <h1 data-m="pageTitle">Metodología de migración</h1>
+          <p class="hero-lead" data-m="methLead">
+            Ruta de modernización open-source: del formulario legacy (.fmb / .mmx / .rdf) a una plataforma web moderna,
+            preservando la lógica de negocio original y con validación conjunta cliente–CastleXpert en cada etapa.
+          </p>
+          <div class="cta-row no-print">
+            <a class="btn btn-primary" id="ctaService" href="/servicios/migracion-oracle/">Ver servicio completo</a>
+            <a class="btn btn-ghost" href="/contacto" data-m="ctaContact">Solicitar evaluación</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" id="metodologia">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden" data-m="methTitle">Metodología de migración</h2>
+          
+        </div>
+
+        <div class="method-block reveal">
+          <p class="method-kicker" data-m="m1k">Proceso</p>
+          <h3 data-m="m1t">1. Flujo general del proceso</h3>
+          <p class="sub" data-m="m1s">Desde la entrega de los archivos originales hasta la puesta en producción de las pantallas migradas.</p>
+          <div class="method-steps" aria-label="Flujo de metodología">
+            <article class="method-step"><div class="num">1</div><h4 data-m="s1t">Entrega de archivos</h4><p data-m="s1d">Cliente entrega .FMB, .MMX y .RDF del sistema actual.</p></article>
+            <article class="method-step"><div class="num">2</div><h4 data-m="s2t">Análisis previo</h4><p data-m="s2d">Inventario de módulos/submódulos, prioridades y modelo de seguridad.</p></article>
+            <article class="method-step"><div class="num">3</div><h4 data-m="s3t">Conversión a XML</h4><p data-m="s3d">Forms2XML extrae bloques, triggers, LOVs y estructura de cada forma.</p></article>
+            <article class="method-step gate"><div class="num">4</div><h4 data-m="s4t">Cotización</h4><p data-m="s4d">Peso/costo de migración por complejidad, módulo y prioridad.</p></article>
+            <article class="method-step gate"><div class="num">5</div><h4 data-m="s5t">Visto bueno</h4><p data-m="s5d">Aprobación formal del cliente para iniciar la migración.</p></article>
+            <article class="method-step"><div class="num">6</div><h4 data-m="s6t">Migración con IA</h4><p data-m="s6d">Vía libre (desde XML) o guiada (desde print screen). Ver sección 3.</p></article>
+            <article class="method-step"><div class="num">7</div><h4 data-m="s7t">Repositorio compartido</h4><p data-m="s7d">Pantallas migradas se suben para acceso conjunto de ambas partes.</p></article>
+            <article class="method-step"><div class="num">8</div><h4 data-m="s8t">Ciclo de pruebas</h4><p data-m="s8d">Periodo prudencial de pruebas cliente ↔ CastleXpert. Ver sección 4.</p></article>
+            <article class="method-step milestone"><div class="num">9</div><h4 data-m="s9t">Ajustes y entrega</h4><p data-m="s9d">Correcciones finales y puesta en producción del módulo.</p></article>
+          </div>
+        </div>
+
+        <div class="method-block reveal">
+          <p class="method-kicker" data-m="m2k">Antes de cotizar</p>
+          <h3 data-m="m2t">2. Análisis previo — lo que se define antes de cotizar</h3>
+          <p class="sub" data-m="m2s">Estas decisiones se toman una sola vez, pero se heredan a lo largo de toda la migración.</p>
+          <div class="method-cards">
+            <article class="method-card"><div class="n">01</div><h4 data-m="c1t">Inventario de módulos y submódulos</h4><p data-m="c1d">Mapeo completo del sistema: qué formas pertenecen a qué dominio de negocio (facturación, inventario, RRHH, etc.) y sus relaciones entre sí.</p></article>
+            <article class="method-card"><div class="n">02</div><h4 data-m="c2t">Priorización de migración</h4><p data-m="c2d">Orden de migración según criticidad para el negocio, dependencias técnicas entre módulos, y valor rápido para el cliente.</p></article>
+            <article class="method-card"><div class="n">03</div><h4 data-m="c3t">Modelo de seguridad a heredar</h4><p data-m="c3d">Definición temprana de cómo se replica el control de acceso — decisión que impacta la arquitectura completa.</p></article>
+          </div>
+
+          <div class="sec-compare">
+            <div class="sec-panel">
+              <div class="head" data-m="sec1h">Seguridad basada en menús de Forms</div>
+              <div class="body">
+                <ul>
+                  <li data-m="sec1a">El acceso se controla mediante roles asociados a opciones de menú dentro de Forms.</li>
+                  <li data-m="sec1b">Migra hacia un sistema de rutas protegidas + roles en React (route guards) y middleware de autorización en Node.</li>
+                  <li data-m="sec1c">Requiere mapear cada opción de menú Forms a una ruta/permiso equivalente en la nueva plataforma.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sec-panel alt">
+              <div class="head" data-m="sec2h">Seguridad por sistema a medida</div>
+              <div class="body">
+                <ul>
+                  <li data-m="sec2a">El control de acceso vive en tablas propias del negocio (perfiles, permisos por pantalla/acción, etc.).</li>
+                  <li data-m="sec2b">Se preserva el modelo tal cual — se traduce la tabla de permisos existente a un servicio de autorización en Node (RBAC/ABAC según el caso).</li>
+                  <li data-m="sec2c">Menor riesgo de pérdida de reglas de negocio, porque la fuente de verdad ya está en base de datos.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="sec-note" data-m="secNote"><strong>Por qué se define primero:</strong> el modelo de seguridad no es una pantalla más — es una regla de negocio transversal. Cambiar de enfoque a mitad de la migración implica retrabajo en todos los módulos ya migrados.</div>
+        </div>
+
+        <div class="method-block reveal">
+          <p class="method-kicker" data-m="m3k">Diseño de pantallas</p>
+          <h3 data-m="m3t">3. Dos rutas para capturar el diseño de pantalla</h3>
+          <p class="sub" data-m="m3s">Ambas parten de la misma lógica de negocio migrada; lo que cambia es cómo se define la distribución visual de campos.</p>
+          <div class="branch-wrap">
+            <div class="branch-source">
+              <div class="box" data-m="branchSrc">XML del Forms (Forms2XML)</div>
+              <div class="down" aria-hidden="true">↓</div>
+            </div>
+            <div class="branches">
+              <div class="branch a">
+                <span class="badge" data-m="baBadge">Ruta A</span>
+                <h4 data-m="baTitle">Migración libre desde XML</h4>
+                <p class="lead" data-m="baLead">El agente interpreta directamente la estructura del XML (bloques, orden de items, agrupaciones) y propone la distribución de campos.</p>
+                <ul>
+                  <li data-m="ba1">Más rápida — no requiere insumos adicionales del cliente.</li>
+                  <li data-m="ba2">El resultado sigue la lógica interna de Forms, no necesariamente el “look” visual percibido por el usuario final.</li>
+                </ul>
+                <div class="use-when" data-m="baWhen">Ideal para: pantallas CRUD estándar, formularios internos, módulos donde el diseño exacto no es crítico.</div>
+              </div>
+              <div class="branch b">
+                <span class="badge" data-m="bbBadge">Ruta B</span>
+                <h4 data-m="bbTitle">Migración guiada por captura de pantalla</h4>
+                <p class="lead" data-m="bbLead">El cliente entrega un print screen del formulario en ejecución; el agente combina XML + imagen para replicar la distribución visual real de los campos.</p>
+                <ul>
+                  <li data-m="bb1">Mayor fidelidad visual al formulario que el usuario final ya conoce.</li>
+                  <li data-m="bb2">Reduce curva de adaptación del usuario final al nuevo sistema.</li>
+                </ul>
+                <div class="use-when" data-m="bbWhen">Ideal para: pantallas de alto uso diario, formularios con layout no estándar, módulos sensibles a la experiencia de usuario.</div>
+              </div>
+            </div>
+            <div class="converge" data-m="converge">Ambas rutas convergen en: componente React + endpoints Node.js</div>
+          </div>
+        </div>
+
+        <div class="method-block reveal">
+          <p class="method-kicker" data-m="m4k">Validación</p>
+          <h3 data-m="m4t">4. Ciclo de pruebas compartido</h3>
+          <p class="sub" data-m="m4s">Una vez migrado el lote, se habilita un espacio de validación conjunta antes de cerrar el módulo.</p>
+          <div class="cycle" aria-label="Ciclo de pruebas">
+            <div class="cycle-node repo" data-m="cy1">Repositorio compartido</div>
+            <div class="cycle-arrow" aria-hidden="true">→</div>
+            <div class="cycle-node client" data-m="cy2">Cliente prueba pantallas</div>
+            <div class="cycle-arrow" aria-hidden="true">→</div>
+            <div class="cycle-node" data-m="cy3">CastleXpert revisa hallazgos</div>
+            <div class="cycle-arrow" aria-hidden="true">→</div>
+            <div class="cycle-node" data-m="cy4">Ajustes puntuales</div>
+            <div class="cycle-arrow" aria-hidden="true">→</div>
+            <div class="cycle-node repo" data-m="cy5">Nueva versión en repositorio</div>
+          </div>
+          <p class="cycle-note" data-m="cyNote">Este ciclo se repite tantas veces como sea necesario dentro del tiempo prudencial acordado por módulo, antes de pasar a producción.</p>
+        </div>
+
+        <div class="method-block reveal">
+          <p class="method-kicker" data-m="m5k">Resumen</p>
+          <h3 data-m="m5t">5. Resumen de fases y responsables</h3>
+          <div class="timeline-wrap">
+            <table class="timeline">
+              <thead>
+                <tr>
+                  <th data-m="thPhase">Fase</th>
+                  <th data-m="thAct">Actividad</th>
+                  <th data-m="thOwn">Responsable</th>
+                  <th data-m="thDel">Entregable</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="phase-tag" data-m="ph1">Análisis</span></td>
+                  <td data-m="ph1a">Inventario, priorización y definición de modelo de seguridad</td>
+                  <td data-m="ph1o">CastleXpert + Cliente</td>
+                  <td data-m="ph1d">Documento de alcance y prioridades</td>
+                </tr>
+                <tr>
+                  <td><span class="phase-tag amber" data-m="ph2">Cotización</span></td>
+                  <td data-m="ph2a">Conversión a XML y estimación de costo por complejidad</td>
+                  <td data-m="ph2o">CastleXpert</td>
+                  <td data-m="ph2d">Propuesta económica</td>
+                </tr>
+                <tr>
+                  <td><span class="phase-tag" data-m="ph3">Migración</span></td>
+                  <td data-m="ph3a">Generación de pantallas (ruta libre o guiada por captura)</td>
+                  <td data-m="ph3o">CastleXpert (agentes IA + revisión)</td>
+                  <td data-m="ph3d">Componentes React + endpoints Node en repositorio</td>
+                </tr>
+                <tr>
+                  <td><span class="phase-tag green" data-m="ph4">Validación</span></td>
+                  <td data-m="ph4a">Pruebas conjuntas, hallazgos y ajustes</td>
+                  <td data-m="ph4o">Cliente + CastleXpert</td>
+                  <td data-m="ph4d">Módulo aprobado</td>
+                </tr>
+                <tr>
+                  <td><span class="phase-tag muted" data-m="ph5">Cierre</span></td>
+                  <td data-m="ph5a">Entrega final y paso a producción del módulo</td>
+                  <td data-m="ph5o">CastleXpert</td>
+                  <td data-m="ph5d">Módulo en producción</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <p class="note" data-m="note">CastleXpert · Metodología Oracle Developer → web moderna</p>
+    </div>
+  </div>
+
+<script>
+(function () {
+  const KEY = 'cx-lang';
+  const I18N = {
+    es: {
+      title: 'Metodología de migración Oracle → Web | CastleXpert',
+      pdf: 'Descargar PDF',
+      langBtn: 'EN',
+      backService: 'Volver al servicio',
+      backHome: 'Inicio',
+      ctaService: 'Ver servicio completo',
+      ctaContact: 'Solicitar evaluación',
+      eyebrow: 'Metodología de servicio',
+      pageTitle: 'Metodología de migración',
+      note: 'CastleXpert · Metodología Oracle Developer → web moderna',
+      pdfBusy: 'Generando PDF…',
+      methTitle: 'Metodología de migración',
+      methLead: 'Ruta de modernización open-source: del formulario legacy (.fmb / .mmx / .rdf) a una plataforma web moderna, preservando la lógica de negocio original y con validación conjunta cliente–CastleXpert en cada etapa.',
+      m1k: 'Proceso', m1t: '1. Flujo general del proyecto', m1s: 'Desde la entrega de los archivos originales hasta la puesta en producción de las pantallas migradas.',
+      s1t: 'Entrega de archivos', s1d: 'Cliente entrega .FMB, .MMX y .RDF del sistema actual.',
+      s2t: 'Análisis previo', s2d: 'Inventario de módulos/submódulos, prioridades y modelo de seguridad.',
+      s3t: 'Conversión a XML', s3d: 'Forms2XML extrae bloques, triggers, LOVs y estructura de cada forma.',
+      s4t: 'Cotización', s4d: 'Peso/costo de migración por complejidad, módulo y prioridad.',
+      s5t: 'Visto bueno', s5d: 'Aprobación formal del cliente para iniciar la migración.',
+      s6t: 'Migración con IA', s6d: 'Vía libre (desde XML) o guiada (desde print screen). Ver sección 3.',
+      s7t: 'Repositorio compartido', s7d: 'Pantallas migradas se suben para acceso conjunto de ambas partes.',
+      s8t: 'Ciclo de pruebas', s8d: 'Periodo prudencial de pruebas cliente ↔ CastleXpert. Ver sección 4.',
+      s9t: 'Ajustes y entrega', s9d: 'Correcciones finales y puesta en producción del módulo.',
+      m2k: 'Antes de cotizar', m2t: '2. Análisis previo — lo que se define antes de cotizar', m2s: 'Estas decisiones se toman una sola vez, pero se heredan a lo largo de toda la migración.',
+      c1t: 'Inventario de módulos y submódulos', c1d: 'Mapeo completo del sistema: qué formas pertenecen a qué dominio de negocio (facturación, inventario, RRHH, etc.) y sus relaciones entre sí.',
+      c2t: 'Priorización de migración', c2d: 'Orden de migración según criticidad para el negocio, dependencias técnicas entre módulos, y valor rápido para el cliente.',
+      c3t: 'Modelo de seguridad a heredar', c3d: 'Definición temprana de cómo se replica el control de acceso — decisión que impacta la arquitectura completa.',
+      sec1h: 'Seguridad basada en menús de Forms',
+      sec1a: 'El acceso se controla mediante roles asociados a opciones de menú dentro de Forms.',
+      sec1b: 'Migra hacia un sistema de rutas protegidas + roles en React (route guards) y middleware de autorización en Node.',
+      sec1c: 'Requiere mapear cada opción de menú Forms a una ruta/permiso equivalente en la nueva plataforma.',
+      sec2h: 'Seguridad por sistema a medida',
+      sec2a: 'El control de acceso vive en tablas propias del negocio (perfiles, permisos por pantalla/acción, etc.).',
+      sec2b: 'Se preserva el modelo tal cual — se traduce la tabla de permisos existente a un servicio de autorización en Node (RBAC/ABAC según el caso).',
+      sec2c: 'Menor riesgo de pérdida de reglas de negocio, porque la fuente de verdad ya está en base de datos.',
+      secNote: '<strong>Por qué se define primero:</strong> el modelo de seguridad no es una pantalla más — es una regla de negocio transversal. Cambiar de enfoque a mitad de la migración implica retrabajo en todos los módulos ya migrados.',
+      m3k: 'Diseño de pantallas', m3t: '3. Dos rutas para capturar el diseño de pantalla', m3s: 'Ambas parten de la misma lógica de negocio migrada; lo que cambia es cómo se define la distribución visual de campos.',
+      branchSrc: 'XML del Forms (Forms2XML)',
+      baBadge: 'Ruta A', baTitle: 'Migración libre desde XML',
+      baLead: 'El agente interpreta directamente la estructura del XML (bloques, orden de items, agrupaciones) y propone la distribución de campos.',
+      ba1: 'Más rápida — no requiere insumos adicionales del cliente.',
+      ba2: 'El resultado sigue la lógica interna de Forms, no necesariamente el “look” visual percibido por el usuario final.',
+      baWhen: 'Ideal para: pantallas CRUD estándar, formularios internos, módulos donde el diseño exacto no es crítico.',
+      bbBadge: 'Ruta B', bbTitle: 'Migración guiada por captura de pantalla',
+      bbLead: 'El cliente entrega un print screen del formulario en ejecución; el agente combina XML + imagen para replicar la distribución visual real de los campos.',
+      bb1: 'Mayor fidelidad visual al formulario que el usuario final ya conoce.',
+      bb2: 'Reduce curva de adaptación del usuario final al nuevo sistema.',
+      bbWhen: 'Ideal para: pantallas de alto uso diario, formularios con layout no estándar, módulos sensibles a la experiencia de usuario.',
+      converge: 'Ambas rutas convergen en: componente React + endpoints Node.js',
+      m4k: 'Validación', m4t: '4. Ciclo de pruebas compartido', m4s: 'Una vez migrado el lote, se habilita un espacio de validación conjunta antes de cerrar el módulo.',
+      cy1: 'Repositorio compartido', cy2: 'Cliente prueba pantallas', cy3: 'CastleXpert revisa hallazgos', cy4: 'Ajustes puntuales', cy5: 'Nueva versión en repositorio',
+      cyNote: 'Este ciclo se repite tantas veces como sea necesario dentro del tiempo prudencial acordado por módulo, antes de pasar a producción.',
+      m5k: 'Resumen', m5t: '5. Resumen de fases y responsables',
+      thPhase: 'Fase', thAct: 'Actividad', thOwn: 'Responsable', thDel: 'Entregable',
+      ph1: 'Análisis', ph1a: 'Inventario, priorización y definición de modelo de seguridad', ph1o: 'CastleXpert + Cliente', ph1d: 'Documento de alcance y prioridades',
+      ph2: 'Cotización', ph2a: 'Conversión a XML y estimación de costo por complejidad', ph2o: 'CastleXpert', ph2d: 'Propuesta económica',
+      ph3: 'Migración', ph3a: 'Generación de pantallas (ruta libre o guiada por captura)', ph3o: 'CastleXpert (agentes IA + revisión)', ph3d: 'Componentes React + endpoints Node en repositorio',
+      ph4: 'Validación', ph4a: 'Pruebas conjuntas, hallazgos y ajustes', ph4o: 'Cliente + CastleXpert', ph4d: 'Módulo aprobado',
+      ph5: 'Cierre', ph5a: 'Entrega final y paso a producción del módulo', ph5o: 'CastleXpert', ph5d: 'Módulo en producción'
+    },
+    en: {
+      title: 'Oracle migration methodology → Web | CastleXpert',
+      pdf: 'Download PDF',
+      langBtn: 'ES',
+      backService: 'Back to service',
+      backHome: 'Home',
+      ctaService: 'View full service',
+      ctaContact: 'Request assessment',
+      eyebrow: 'Service methodology',
+      pageTitle: 'Migration methodology',
+      note: 'CastleXpert · Oracle Developer methodology → modern web',
+      pdfBusy: 'Generating PDF…',
+      methTitle: 'Migration methodology',
+      methLead: 'Open-source modernization path: from legacy forms (.fmb / .mmx / .rdf) to a modern web platform, preserving original business logic and with joint client–CastleXpert validation at every stage.',
+      m1k: 'Process', m1t: '1. Overall project flow', m1s: 'From delivery of the original files to production of the migrated screens.',
+      s1t: 'File delivery', s1d: 'Client delivers .FMB, .MMX, and .RDF from the current system.',
+      s2t: 'Prior analysis', s2d: 'Inventory of modules/submodules, priorities, and security model.',
+      s3t: 'XML conversion', s3d: 'Forms2XML extracts blocks, triggers, LOVs, and structure from each form.',
+      s4t: 'Quote', s4d: 'Migration weight/cost by complexity, module, and priority.',
+      s5t: 'Go-ahead', s5d: 'Formal client approval to start the migration.',
+      s6t: 'AI-assisted migration', s6d: 'Free path (from XML) or guided (from screenshot). See section 3.',
+      s7t: 'Shared repository', s7d: 'Migrated screens are uploaded for joint access by both parties.',
+      s8t: 'Test cycle', s8d: 'Prudential client ↔ CastleXpert testing period. See section 4.',
+      s9t: 'Adjustments & delivery', s9d: 'Final fixes and production rollout of the module.',
+      m2k: 'Before quoting', m2t: '2. Prior analysis — what is defined before quoting', m2s: 'These decisions are made once, then inherited across the entire migration.',
+      c1t: 'Module and submodule inventory', c1d: 'Full system map: which forms belong to which business domain (billing, inventory, HR, etc.) and how they relate.',
+      c2t: 'Migration prioritization', c2d: 'Migration order by business criticality, technical dependencies, and quick value for the client.',
+      c3t: 'Security model to inherit', c3d: 'Early definition of how access control is replicated — a decision that shapes the full architecture.',
+      sec1h: 'Security based on Forms menus',
+      sec1a: 'Access is controlled via roles tied to menu options inside Forms.',
+      sec1b: 'Migrates to protected routes + roles in React (route guards) and authorization middleware in Node.',
+      sec1c: 'Requires mapping each Forms menu option to an equivalent route/permission on the new platform.',
+      sec2h: 'Custom security system',
+      sec2a: 'Access control lives in business tables (profiles, screen/action permissions, etc.).',
+      sec2b: 'The model is preserved as-is — existing permission tables become a Node authorization service (RBAC/ABAC as needed).',
+      sec2c: 'Lower risk of losing business rules, because the source of truth already lives in the database.',
+      secNote: '<strong>Why define it first:</strong> the security model is not just another screen — it is a cross-cutting business rule. Changing approach mid-migration means rework across every module already migrated.',
+      m3k: 'Screen design', m3t: '3. Two paths to capture screen layout', m3s: 'Both start from the same migrated business logic; what changes is how the visual field layout is defined.',
+      branchSrc: 'Forms XML (Forms2XML)',
+      baBadge: 'Path A', baTitle: 'Free migration from XML',
+      baLead: 'The agent reads the XML structure (blocks, item order, groupings) and proposes the field layout.',
+      ba1: 'Faster — no extra client inputs required.',
+      ba2: 'The result follows Forms internal logic, not necessarily the visual “look” end users perceive.',
+      baWhen: 'Ideal for: standard CRUD screens, internal forms, modules where pixel-perfect layout is not critical.',
+      bbBadge: 'Path B', bbTitle: 'Screenshot-guided migration',
+      bbLead: 'The client provides a running-form screenshot; the agent combines XML + image to replicate the real visual field layout.',
+      bb1: 'Higher visual fidelity to the form end users already know.',
+      bb2: 'Shortens the end-user adaptation curve to the new system.',
+      bbWhen: 'Ideal for: high daily-use screens, non-standard layouts, modules sensitive to user experience.',
+      converge: 'Both paths converge into: React component + Node.js endpoints',
+      m4k: 'Validation', m4t: '4. Shared test cycle', m4s: 'Once a batch is migrated, a joint validation space opens before closing the module.',
+      cy1: 'Shared repository', cy2: 'Client tests screens', cy3: 'CastleXpert reviews findings', cy4: 'Targeted fixes', cy5: 'New version in repository',
+      cyNote: 'This cycle repeats as needed within the agreed prudential window per module, before going to production.',
+      m5k: 'Summary', m5t: '5. Phase and ownership summary',
+      thPhase: 'Phase', thAct: 'Activity', thOwn: 'Owner', thDel: 'Deliverable',
+      ph1: 'Analysis', ph1a: 'Inventory, prioritization, and security-model definition', ph1o: 'CastleXpert + Client', ph1d: 'Scope and priorities document',
+      ph2: 'Quote', ph2a: 'XML conversion and complexity-based cost estimate', ph2o: 'CastleXpert', ph2d: 'Commercial proposal',
+      ph3: 'Migration', ph3a: 'Screen generation (free path or screenshot-guided)', ph3o: 'CastleXpert (AI agents + review)', ph3d: 'React components + Node endpoints in repository',
+      ph4: 'Validation', ph4a: 'Joint testing, findings, and adjustments', ph4o: 'Client + CastleXpert', ph4d: 'Approved module',
+      ph5: 'Close-out', ph5a: 'Final delivery and production rollout of the module', ph5o: 'CastleXpert', ph5d: 'Module in production'
+    },
+  };
+
+  function detectLang() {
+    const q = new URLSearchParams(location.search).get('lang');
+    if (q === 'en' || q === 'es') return q;
+    try {
+      const stored = localStorage.getItem(KEY);
+      if (stored === 'en' || stored === 'es') return stored;
+    } catch {}
+    return 'es';
+  }
+
+  function serviceUrl(lang) {
+    return lang === 'en' ? '/servicios/migracion-oracle/?lang=en' : '/servicios/migracion-oracle/';
+  }
+
+  function apply(lang) {
+    const t = I18N[lang] || I18N.es;
+    document.documentElement.lang = lang;
+    document.title = t.title;
+    try { localStorage.setItem(KEY, lang); } catch {}
+
+    document.getElementById('btnPdf').textContent = t.pdf;
+    document.getElementById('btnLang').textContent = t.langBtn;
+    document.getElementById('backService').textContent = t.backService;
+    document.getElementById('backService').href = serviceUrl(lang);
+    document.getElementById('backHome').textContent = t.backHome;
+    document.getElementById('ctaService').textContent = t.ctaService;
+    document.getElementById('ctaService').href = serviceUrl(lang);
+
+    document.querySelectorAll('[data-m]').forEach((el) => {
+      const key = el.getAttribute('data-m');
+      if (!key || t[key] == null) return;
+      if (key === 'secNote') el.innerHTML = t[key];
+      else el.textContent = t[key];
+    });
+
+    window.__cxPdfBusy = t.pdfBusy;
+    window.__cxPdfLabel = t.pdf;
+  }
+
+  let lang = detectLang();
+  apply(lang);
+
+  document.getElementById('btnLang')?.addEventListener('click', () => {
+    lang = lang === 'es' ? 'en' : 'es';
+    const url = new URL(location.href);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
+    apply(lang);
+  });
+
+  const btn = document.getElementById('btnPdf');
+  btn?.addEventListener('click', async () => {
+    const root = document.getElementById('pdf-root');
+    if (!root || typeof html2pdf === 'undefined') { window.print(); return; }
+    btn.disabled = true;
+    btn.textContent = window.__cxPdfBusy || 'Generando PDF…';
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+    try {
+      await html2pdf()
+        .set({
+          margin: [10, 10, 12, 10],
+          filename: 'CastleXpert-Oracle-Migration-Methodology.pdf',
+          image: { type: 'jpeg', quality: 0.95 },
+          html2canvas: { scale: 2, useCORS: true, logging: false },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['css', 'legacy'] },
+        })
+        .from(root)
+        .save();
+    } catch (err) {
+      console.error(err);
+      window.print();
+    } finally {
+      btn.disabled = false;
+      btn.textContent = window.__cxPdfLabel || 'Descargar PDF';
+    }
+  });
+
+  document.querySelectorAll('.reveal').forEach((el) => {
+    if (!('IntersectionObserver' in window)) { el.classList.add('in'); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
