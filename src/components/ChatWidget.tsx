@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { MessageCircle, Send, X } from 'lucide-react';
+import { Send, X } from 'lucide-react';
 import type { AppCopy, Language } from '../i18n';
 import { getExpressApiBaseUrl } from '../lib/publicApi';
+import ChatLauncherIcon from './ChatLauncherIcon';
 
 type ChatWidgetProps = {
   content: AppCopy['chat'];
@@ -192,18 +193,23 @@ export default function ChatWidget({ content, language, layoutCookieBanner }: Ch
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="cx-card cx-card-hover flex h-14 w-14 items-center justify-center"
+          className="cx-chat-launcher"
           aria-label={content.launcherLabel}
           title={content.launcherLabel}
         >
-          <MessageCircle className="h-6 w-6 text-zinc-900" />
+          <ChatLauncherIcon />
         </button>
       ) : (
         <div className="w-[min(92vw,420px)] overflow-hidden rounded-3xl cx-card shadow-2xl shadow-black/25">
           <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-white/10 px-4 py-3 backdrop-blur-2xl">
-            <div className="min-w-0">
-              <div className="truncate text-sm font-extrabold tracking-tight text-zinc-950">{content.title}</div>
-              <div className="truncate text-xs text-zinc-700">{content.subtitle}</div>
+            <div className="flex min-w-0 items-center gap-2.5">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0d4d38] text-[#f7f3ea] ring-1 ring-[#c4a35a]/40">
+                <ChatLauncherIcon compact className="[&_svg]:h-4 [&_svg]:w-4" />
+              </span>
+              <div className="min-w-0">
+                <div className="truncate text-sm font-extrabold tracking-tight text-zinc-950">{content.title}</div>
+                <div className="truncate text-xs text-zinc-700">{content.subtitle}</div>
+              </div>
             </div>
             <button
               type="button"
