@@ -217,8 +217,51 @@ body {
     transform: scale(1);
   }
   50% {
-    opacity: 0.82;
-    transform: scale(0.9);
+    opacity: 0.88;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes cx-ai-look {
+  0%,
+  12% {
+    transform: translate(0, 0);
+  }
+  22% {
+    transform: translate(2.2px, 0.35px);
+  }
+  34% {
+    transform: translate(2.2px, 0.35px);
+  }
+  46% {
+    transform: translate(-2px, 0.6px);
+  }
+  58% {
+    transform: translate(-2px, 0.6px);
+  }
+  68% {
+    transform: translate(0.7px, -1.1px);
+  }
+  78% {
+    transform: translate(0.7px, -1.1px);
+  }
+  88% {
+    transform: translate(0, 0.35px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes cx-ai-blink {
+  0%,
+  42%,
+  48%,
+  100% {
+    transform: scaleY(1);
+  }
+  45% {
+    transform: scaleY(0.12);
   }
 }
 
@@ -393,11 +436,49 @@ body {
 
 .cx-ai-core {
   transform-origin: 32px 32px;
-  animation: cx-ai-core-pulse 1.8s ease-in-out infinite;
+  animation: cx-ai-core-pulse 2.4s ease-in-out infinite;
 }
 
-.cx-ai-core-dot {
-  animation: cx-ai-node-blink 1.4s ease-in-out infinite;
+.cx-ai-eyes-badge {
+  position: absolute;
+  right: -0.35rem;
+  bottom: -0.2rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.85rem;
+  height: 1.55rem;
+  border-radius: 9999px;
+  padding: 0.12rem 0.28rem;
+  background: linear-gradient(145deg, #0f5a42 0%, #0d4d38 55%, #072a1f 100%);
+  border: 1.5px solid rgba(232, 215, 168, 0.75);
+  box-shadow:
+    0 8px 18px rgba(7, 42, 31, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+.cx-ai-eyes-svg {
+  width: 2.35rem;
+  height: 1.2rem;
+  overflow: visible;
+}
+
+.cx-ai-eye {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: cx-ai-blink 5.8s ease-in-out infinite;
+}
+
+.cx-ai-eye--right {
+  animation-delay: 0.08s;
+}
+
+.cx-ai-pupil {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cx-ai-look 7.2s ease-in-out infinite;
 }
 
 .cx-ai-node {
@@ -421,31 +502,11 @@ body {
 }
 
 .cx-ai-live {
-  position: absolute;
-  right: -0.15rem;
-  bottom: -0.05rem;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.22rem;
-  border-radius: 9999px;
-  padding: 0.18rem 0.42rem 0.18rem 0.28rem;
-  font-size: 0.58rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #072a1f;
-  background: linear-gradient(135deg, #f7f3ea, #e8d7a8);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 6px 14px rgba(7, 42, 31, 0.28);
-  pointer-events: none;
+  display: none;
 }
 
 .cx-ai-live-dot {
-  width: 0.38rem;
-  height: 0.38rem;
-  border-radius: 9999px;
-  background: #1a7a58;
-  animation: cx-ai-live-pulse 1.5s ease-out infinite;
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -460,7 +521,9 @@ body {
   .cx-ai-shimmer,
   .cx-ai-mesh,
   .cx-ai-core,
-  .cx-ai-core-dot,
+  .cx-ai-eye,
+  .cx-ai-eye--right,
+  .cx-ai-pupil,
   .cx-ai-node,
   .cx-ai-node--d1,
   .cx-ai-node--d2,
