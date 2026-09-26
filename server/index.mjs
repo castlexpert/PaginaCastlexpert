@@ -4,17 +4,13 @@ import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
 import express from 'express';
 import cors from 'cors';
-import { getPool, ensureSchema, ensureConversation, addMessage, getRecentMessages, searchKb } from './db.mjs';
-import { answerWithLlm, isOpenAiConfigured } from './llm.mjs';
-import { answerMockupPresentation } from './mockupIntents.mjs';
+import { getPool, ensureSchema, ensureConversation, addMessage, searchKb } from './db.mjs';
+import { isOpenAiConfigured } from './llm.mjs';
 import { notifyAdvisor } from './whatsapp.mjs';
 import { notifyContactFormSubmission } from './mail.mjs';
+import { answerChatMessage } from './chatAnswer.mjs';
 import {
   ensureSiteIndexSchema,
-  embedQueryText,
-  searchSitePagesByEmbedding,
-  formatSitePagesForContext,
-  formatSiteFallbackAnswer,
   countSitePages,
 } from './siteIndex.mjs';
 import {
@@ -23,6 +19,19 @@ import {
   getSitioFilesDir,
   SITIO_MEDIA_MOUNT,
 } from './siteImages.mjs';
+import {
+  ensureWhatsAppConfigSchema,
+  getWhatsAppConfig,
+  publicWhatsAppConfig,
+  updateWhatsAppConfig,
+  resumeChat,
+} from './whatsappConfig.mjs';
+import {
+  startBaileys,
+  logoutBaileys,
+  getBaileysStatus,
+  getQrDataUrl,
+} from './baileysWhatsApp.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,7 +64,22 @@ async function getDb() {
   pool = getPool();
   await ensureSchema(pool);
   await ensureSiteIndexSchema(pool);
+  await ensureWhatsAppConfigSchema(pool);
   return pool;
+}
+
+function requireAdminKey(req, res, next) {
+  const key = process.env.CASTLEXPERT_ADMIN_KEY?.trim();
+  if (!key) {
+    res.status(501).json({ error: 'CASTLEXPERT_ADMIN_KEY not configured on site API.' });
+    return;
+  }
+  const provided = String(req.header('x-admin-key') || '').trim();
+  if (!provided || provided !== key) {
+    res.status(401).json({ error: 'unauthorized' });
+    return;
+  }
+  next();
 }
 
 app.get('/api/health', async (_req, res) => {
@@ -124,81 +148,11 @@ app.post('/api/chat', async (req, res) => {
 
   try {
     const db = await getDb();
-    await ensureConversation(db, String(conversationId), String(language));
-    await addMessage(db, String(conversationId), 'user', String(message));
-
-    const history = await getRecentMessages(db, String(conversationId), 8);
-    const lang = String(language);
-    const msg = String(message);
-
-    const mockupAnswer = answerMockupPresentation(msg, lang);
-    if (mockupAnswer) {
-      await addMessage(db, String(conversationId), 'assistant', mockupAnswer);
-      res.json({ answer: mockupAnswer });
-      return;
-    }
-
-    let siteRows = [];
-    try {
-      const emb = await embedQueryText(msg);
-      if (emb) {
-        siteRows = await searchSitePagesByEmbedding(db, emb, 5);
-      }
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.warn('[chat] site index search failed:', err?.message || err);
-    }
-
-    let kbHits = [];
-    let context;
-    if (siteRows.length > 0) {
-      context = formatSitePagesForContext(siteRows, lang);
-    } else {
-      kbHits = await searchKb(db, lang, msg, 6);
-      context = kbHits.length
-        ? kbHits.map((d) => `- ${d.title}: ${d.content}`).join('\n')
-        : lang === 'es'
-          ? 'No hay contexto adicional disponible.'
-          : 'No additional context available.';
-    }
-
-    let llmAnswer = null;
-    try {
-      llmAnswer = await answerWithLlm({
-        language: lang,
-        question: msg,
-        context,
-        history,
-      });
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.warn('[chat] LLM failed, falling back to KB:', err?.message || err);
-    }
-
-    const siteFallback = siteRows.length > 0 ? formatSiteFallbackAnswer(siteRows, lang) : null;
-
-    const kbFallback =
-      !siteFallback && kbHits.length > 0
-        ? lang === 'es'
-          ? `Según nuestro sitio:\n${kbHits
-              .slice(0, 3)
-              .map((d) => `- ${d.title}: ${d.content}`)
-              .join('\n')}\n\nSi quieres, dime qué tipo de solución buscas y te recomiendo la mejor opción.`
-          : `Based on our website:\n${kbHits
-              .slice(0, 3)
-              .map((d) => `- ${d.title}: ${d.content}`)
-              .join('\n')}\n\nTell me what kind of solution you need and I’ll recommend the best option.`
-        : null;
-
-    const answer =
-      llmAnswer ||
-      siteFallback ||
-      kbFallback ||
-      (lang === 'es'
-        ? `Puedo ayudarte con temas de CastleXpert (servicios, proceso, demos y contacto). Cuéntame qué necesitas y te guío.`
-        : `I can help with CastleXpert topics (services, process, demos, and contact). Tell me what you need and I’ll guide you.`);
-
-    await addMessage(db, String(conversationId), 'assistant', answer);
+    const answer = await answerChatMessage(db, {
+      conversationId: String(conversationId),
+      language: String(language),
+      message: String(message),
+    });
     res.json({ answer });
   } catch (e) {
     res.status(500).json({ error: e?.message || 'error' });
@@ -224,7 +178,6 @@ app.post('/api/handoff', async (req, res) => {
             phone ? `WhatsApp del cliente: ${phone}` : `WhatsApp del cliente: (no indicado)`,
             '',
             'Transcripción:',
-            // El envío por WhatsApp se corta/segmenta en `notifyAdvisor` (límite Twilio 1600 chars por mensaje).
             String(transcript || '').slice(0, 8000),
           ].join('\n')
         : [
@@ -232,23 +185,21 @@ app.post('/api/handoff', async (req, res) => {
             phone ? `Customer WhatsApp: ${phone}` : `Customer WhatsApp: (not provided)`,
             '',
             'Transcript:',
-            // WhatsApp delivery is chunked in `notifyAdvisor` (Twilio 1600 chars per message).
             String(transcript || '').slice(0, 8000),
           ].join('\n');
 
-    await notifyAdvisor({ body });
+    await notifyAdvisor({ body, db });
 
     await addMessage(db, String(conversationId), 'assistant', '[handoff] advisor_notified');
     res.json({ ok: true });
   } catch (e) {
     const msg = e?.message || 'error';
     const code = e?.code;
-    if (code === 'NO_TWILIO' || code === 'NO_WHATSAPP_NUMBERS') {
+    if (code === 'NO_TWILIO' || code === 'NO_WHATSAPP_NUMBERS' || code === 'WA_NOT_CONNECTED') {
       res.status(501).json({ ok: false, error: msg });
       return;
     }
     if (code === 'TWILIO_REST_ERROR') {
-      // 503 (no 502) para no confundir con HTML 502 de proxies/CDN cuando Twilio falla.
       res.status(503).json({
         ok: false,
         error: msg,
@@ -258,6 +209,79 @@ app.post('/api/handoff', async (req, res) => {
       return;
     }
     res.status(500).json({ ok: false, error: msg });
+  }
+});
+
+// --- WhatsApp bot admin (proxied from WAdministrativo) ---
+app.get('/api/whatsapp/status', requireAdminKey, async (_req, res) => {
+  try {
+    const db = await getDb();
+    const cfg = publicWhatsAppConfig(await getWhatsAppConfig(db));
+    res.json({ ok: true, connection: getBaileysStatus(), config: cfg });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.get('/api/whatsapp/qr', requireAdminKey, async (_req, res) => {
+  try {
+    const dataUrl = await getQrDataUrl();
+    const st = getBaileysStatus();
+    res.json({ ok: true, qrDataUrl: dataUrl, connection: st });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.post('/api/whatsapp/start', requireAdminKey, async (_req, res) => {
+  try {
+    const connection = await startBaileys({ getDbFn: getDb });
+    res.json({ ok: true, connection });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.post('/api/whatsapp/logout', requireAdminKey, async (_req, res) => {
+  try {
+    await logoutBaileys();
+    res.json({ ok: true, connection: getBaileysStatus() });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.get('/api/whatsapp/config', requireAdminKey, async (_req, res) => {
+  try {
+    const db = await getDb();
+    res.json({ ok: true, config: publicWhatsAppConfig(await getWhatsAppConfig(db)) });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.put('/api/whatsapp/config', requireAdminKey, async (req, res) => {
+  try {
+    const db = await getDb();
+    const updated = await updateWhatsAppConfig(db, req.body || {});
+    res.json({ ok: true, config: publicWhatsAppConfig(updated) });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.post('/api/whatsapp/resume', requireAdminKey, async (req, res) => {
+  try {
+    const remoteJid = String(req.body?.remoteJid || '').trim();
+    if (!remoteJid) {
+      res.status(400).json({ error: 'Missing remoteJid' });
+      return;
+    }
+    const db = await getDb();
+    await resumeChat(db, remoteJid);
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
   }
 });
 
@@ -341,6 +365,12 @@ async function start() {
   app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`[server] listening on :${port}`);
+  });
+
+  // WhatsApp Baileys (non-blocking; QR available in WAdministrativo)
+  startBaileys({ getDbFn: getDb }).catch((e) => {
+    // eslint-disable-next-line no-console
+    console.error('[wa] auto-start failed:', e?.message || e);
   });
 }
 

@@ -1,4 +1,6 @@
 import twilio from 'twilio';
+import { getWhatsAppConfig } from './whatsappConfig.mjs';
+import { notifyAdvisorViaBaileys } from './baileysWhatsApp.mjs';
 
 function cleanEnv(value) {
   if (!value) return '';
@@ -12,6 +14,7 @@ function normalizeWhatsAppAddress(raw) {
   if (/^whatsapp:/i.test(s)) return s;
   const digits = s.replace(/\s/g, '');
   if (/^\+\d{10,15}$/.test(digits)) return `whatsapp:${digits}`;
+  if (/^\d{10,15}$/.test(digits)) return `whatsapp:+${digits}`;
   return s;
 }
 
@@ -34,7 +37,6 @@ function splitWhatsAppBody(text) {
       break;
     }
 
-    // Prefer splitting at a newline close to the limit.
     const window = rest.slice(0, WHATSAPP_MAX_BODY + 1);
     const nl = window.lastIndexOf('\n');
     const cut = nl > Math.floor(WHATSAPP_MAX_BODY * 0.6) ? nl : WHATSAPP_MAX_BODY;
@@ -44,37 +46,33 @@ function splitWhatsAppBody(text) {
   return chunks.filter(Boolean);
 }
 
-function getTwilioClient() {
-  const sid = cleanEnv(process.env.TWILIO_ACCOUNT_SID);
-  const token = cleanEnv(process.env.TWILIO_AUTH_TOKEN);
-  if (!sid || !token) return null;
-  return twilio(sid, token);
-}
-
-export async function notifyAdvisor({ body }) {
-  const client = getTwilioClient();
-  if (!client) {
-    const err = new Error('Missing Twilio credentials.');
+async function notifyViaTwilio({ body, config }) {
+  const sid = cleanEnv(config.twilio_account_sid) || cleanEnv(process.env.TWILIO_ACCOUNT_SID);
+  const token = cleanEnv(config.twilio_auth_token) || cleanEnv(process.env.TWILIO_AUTH_TOKEN);
+  if (!sid || !token) {
+    const err = new Error('Missing Twilio credentials (configure in WAdministrativo or env).');
     err.code = 'NO_TWILIO';
     throw err;
   }
 
-  const from = normalizeWhatsAppAddress(process.env.TWILIO_WHATSAPP_FROM); // e.g. "whatsapp:+14155238886"
-  const to = normalizeWhatsAppAddress(process.env.ADVISOR_WHATSAPP_TO); // e.g. "whatsapp:+50685070818"
+  const from = normalizeWhatsAppAddress(
+    config.twilio_whatsapp_from || process.env.TWILIO_WHATSAPP_FROM
+  );
+  const to = normalizeWhatsAppAddress(config.advisor_phone || process.env.ADVISOR_WHATSAPP_TO);
   if (!from || !to) {
-    const err = new Error('Missing TWILIO_WHATSAPP_FROM or ADVISOR_WHATSAPP_TO.');
+    const err = new Error('Missing Twilio from/to WhatsApp numbers.');
     err.code = 'NO_WHATSAPP_NUMBERS';
     throw err;
   }
   if (!isValidWhatsAppAddress(from) || !isValidWhatsAppAddress(to)) {
     const err = new Error(
-      'Invalid WhatsApp sender/recipient. Expected "whatsapp:+E164". ' +
-        'Example: TWILIO_WHATSAPP_FROM="whatsapp:+14155238886", ADVISOR_WHATSAPP_TO="whatsapp:+50685070818".'
+      'Invalid WhatsApp sender/recipient. Expected "whatsapp:+E164".'
     );
     err.code = 'NO_WHATSAPP_NUMBERS';
     throw err;
   }
 
+  const client = twilio(sid, token);
   const parts = splitWhatsAppBody(body);
 
   try {
@@ -97,6 +95,37 @@ export async function notifyAdvisor({ body }) {
     err.code = 'TWILIO_REST_ERROR';
     err.twilioCode = twilioCode;
     err.twilioStatus = twilioStatus;
+    throw err;
+  }
+}
+
+/**
+ * Notify advisor about a chatbot handoff.
+ * Default channel: Baileys (connected business WhatsApp).
+ * Optional: Twilio if handoff_channel === 'twilio' in config.
+ */
+export async function notifyAdvisor({ body, db }) {
+  const config = db ? await getWhatsAppConfig(db) : null;
+  const channel = config?.handoff_channel || process.env.WA_HANDOFF_CHANNEL || 'baileys';
+
+  if (channel === 'twilio') {
+    return notifyViaTwilio({ body, config: config || {} });
+  }
+
+  if (!db) {
+    const err = new Error('Database required for Baileys handoff.');
+    err.code = 'WA_NOT_CONNECTED';
+    throw err;
+  }
+
+  try {
+    return await notifyAdvisorViaBaileys(db, { body });
+  } catch (e) {
+    if (e?.code === 'WA_NOT_CONNECTED' || e?.code === 'WA_BAD_RECIPIENT') {
+      throw e;
+    }
+    const err = new Error(e?.message || 'Baileys handoff failed');
+    err.code = e?.code || 'WA_SEND_ERROR';
     throw err;
   }
 }

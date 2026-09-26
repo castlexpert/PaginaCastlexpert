@@ -639,7 +639,7 @@ export const copy: Record<Language, AppCopy> = {
       phoneLabel: 'Tu WhatsApp (opcional)',
       phonePlaceholder: '+506 85070818',
       advisorSent: 'Listo. Un asesor fue notificado por WhatsApp.',
-      advisorError: 'No se pudo contactar al asesor. Intenta de nuevo.',
+      advisorError: 'No se pudo contactar al asesor. Revisa que WhatsApp esté conectado en el panel admin, o intenta de nuevo.',
       assistantName: 'Asistente',
       welcome:
         'Hola, soy el asistente de CastleXpert. Puedo explicarte TrackLogic, Foodly y CMMS (con link a su guía), además de servicios y el proceso. ¿Qué te gustaría saber?',
@@ -1312,7 +1312,7 @@ export const copy: Record<Language, AppCopy> = {
       phoneLabel: 'Your WhatsApp (optional)',
       phonePlaceholder: '+506 85070818',
       advisorSent: 'Done. An advisor was notified via WhatsApp.',
-      advisorError: 'Could not reach the advisor. Please try again.',
+      advisorError: 'Could not reach the advisor. Check that WhatsApp is connected in the admin panel, or try again.',
       assistantName: 'Assistant',
       welcome:
         "Hi, I'm CastleXpert's assistant. I can explain TrackLogic, Foodly, and CMMS (with links to each guide), plus services and our process. What would you like to know?",
