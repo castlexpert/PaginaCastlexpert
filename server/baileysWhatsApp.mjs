@@ -13,7 +13,9 @@ import {
   getWhatsAppConfig,
   isChatPaused,
   pauseChat,
+  samePhone,
 } from './whatsappConfig.mjs';
+import { handleOwnerMessage } from './ownerAssistant.mjs';
 
 const logger = pino({ level: process.env.WA_LOG_LEVEL || 'silent' });
 
@@ -43,6 +45,10 @@ export function getBaileysStatus() {
     connectedPhone: connectedPhone || null,
     authDir: authDir(),
   };
+}
+
+export function isBaileysConnected() {
+  return Boolean(sock) && connectionStatus === 'open';
 }
 
 export async function getQrDataUrl() {
@@ -133,10 +139,23 @@ export async function notifyAdvisorViaBaileys(db, { body }) {
   return sendTextMessage(to, body);
 }
 
-async function handleInboundText(remoteJid, text) {
+async function handleInboundText(remoteJid, text, senderPhone) {
   if (!getDb) return;
   const db = await getDb();
   const cfg = await getWhatsAppConfig(db);
+
+  // Owner mode runs before bot_enabled / pause / handoff so it keeps working when the client bot is off.
+  if (cfg.owner_phone && samePhone(senderPhone, cfg.owner_phone)) {
+    const reply = await handleOwnerMessage(db, {
+      text,
+      jid: remoteJid,
+      phone: senderPhone,
+      sendText: sendTextMessage,
+      getConnection: getBaileysStatus,
+    });
+    await sendTextMessage(remoteJid, reply);
+    return;
+  }
 
   if (!cfg.bot_enabled) return;
   if (await isChatPaused(db, remoteJid)) return;
@@ -181,6 +200,18 @@ async function handleInboundText(remoteJid, text) {
   await sendTextMessage(remoteJid, answer);
 }
 
+/** WhatsApp may address chats by LID (`...@lid`); the real number then comes in `senderPn`. */
+function resolveSenderPhone(key = {}) {
+  for (const candidate of [key.senderPn, key.remoteJid]) {
+    if (candidate && /@s\.whatsapp\.net$/.test(candidate)) return jidToPhone(candidate);
+  }
+  if (String(key.remoteJid || '').endsWith('@lid')) {
+    // eslint-disable-next-line no-console
+    console.warn('[wa] inbound from LID without senderPn:', key.remoteJid);
+  }
+  return '';
+}
+
 function shouldRateLimit(remoteJid) {
   const now = Date.now();
   const last = recentInbound.get(remoteJid) || 0;
@@ -216,8 +247,9 @@ async function onMessagesUpsert(upsert) {
         continue;
       }
 
+      const senderPhone = resolveSenderPhone(msg.key);
       // eslint-disable-next-line no-await-in-loop
-      await handleInboundText(remoteJid, String(text).trim());
+      await handleInboundText(remoteJid, String(text).trim(), senderPhone);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('[wa] inbound handler error:', e?.message || e);

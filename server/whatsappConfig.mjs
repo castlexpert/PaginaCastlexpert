@@ -28,6 +28,10 @@ export async function ensureWhatsAppConfigSchema(pool) {
   `);
 
   await pool.query(`
+    alter table whatsapp_bot_config add column if not exists owner_phone text not null default '';
+  `);
+
+  await pool.query(`
     create table if not exists whatsapp_bot_pauses (
       remote_jid text primary key,
       paused_until timestamptz,
@@ -66,6 +70,7 @@ export async function getWhatsAppConfig(pool) {
     bot_enabled: row.bot_enabled ?? DEFAULTS.bot_enabled,
     handoff_channel: row.handoff_channel || DEFAULTS.handoff_channel,
     advisor_phone: row.advisor_phone || DEFAULTS.advisor_phone,
+    owner_phone: row.owner_phone || '',
     twilio_account_sid: row.twilio_account_sid || '',
     twilio_auth_token: row.twilio_auth_token || '',
     twilio_whatsapp_from: row.twilio_whatsapp_from || '',
@@ -81,6 +86,7 @@ export function publicWhatsAppConfig(cfg) {
     bot_enabled: Boolean(cfg.bot_enabled),
     handoff_channel: cfg.handoff_channel === 'twilio' ? 'twilio' : 'baileys',
     advisor_phone: cfg.advisor_phone || '',
+    owner_phone: cfg.owner_phone || '',
     twilio_configured: Boolean(cfg.twilio_account_sid && cfg.twilio_auth_token && cfg.twilio_whatsapp_from),
     twilio_whatsapp_from: cfg.twilio_whatsapp_from || '',
     has_twilio_sid: Boolean(cfg.twilio_account_sid),
@@ -101,6 +107,8 @@ export async function updateWhatsAppConfig(pool, patch = {}) {
         : current.handoff_channel,
     advisor_phone:
       patch.advisor_phone !== undefined ? String(patch.advisor_phone).trim() : current.advisor_phone,
+    owner_phone:
+      patch.owner_phone !== undefined ? String(patch.owner_phone).trim() : current.owner_phone,
     twilio_account_sid:
       patch.twilio_account_sid !== undefined
         ? String(patch.twilio_account_sid).trim()
@@ -135,6 +143,7 @@ export async function updateWhatsAppConfig(pool, patch = {}) {
       twilio_whatsapp_from = $6,
       welcome_message_es = $7,
       welcome_message_en = $8,
+      owner_phone = $9,
       updated_at = now()
      where id = 1`,
     [
@@ -146,6 +155,7 @@ export async function updateWhatsAppConfig(pool, patch = {}) {
       next.twilio_whatsapp_from,
       next.welcome_message_es,
       next.welcome_message_en,
+      next.owner_phone,
     ]
   );
 
@@ -177,4 +187,25 @@ export async function pauseChat(pool, remoteJid, hours = 24, reason = 'handoff')
 
 export async function resumeChat(pool, remoteJid) {
   await pool.query(`delete from whatsapp_bot_pauses where remote_jid = $1`, [remoteJid]);
+}
+
+export async function listPausedChats(pool) {
+  const { rows } = await pool.query(
+    `select remote_jid, paused_until, reason
+     from whatsapp_bot_pauses
+     where paused_until > now()
+     order by paused_until desc
+     limit 50`
+  );
+  return rows;
+}
+
+/** Compares phone numbers by digits; tolerates a missing country code (min 8 digits). */
+export function samePhone(a, b) {
+  const da = String(a || '').replace(/\D/g, '');
+  const db = String(b || '').replace(/\D/g, '');
+  if (!da || !db) return false;
+  if (da === db) return true;
+  const [short, long] = da.length < db.length ? [da, db] : [db, da];
+  return short.length >= 8 && long.endsWith(short);
 }

@@ -31,7 +31,22 @@ import {
   logoutBaileys,
   getBaileysStatus,
   getQrDataUrl,
+  sendTextMessage,
+  isBaileysConnected,
 } from './baileysWhatsApp.mjs';
+import { ensureOwnerSchema } from './ownerStore.mjs';
+import { formatAgentResult } from './ownerAssistant.mjs';
+import { startOwnerReminders } from './ownerReminders.mjs';
+import {
+  ensureAgentSchema,
+  attachAgentHub,
+  setAgentResultListener,
+  listAgents,
+  createAgent,
+  deleteAgent,
+  queueAgentCommand,
+  listRecentCommands,
+} from './agentHub.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -65,6 +80,8 @@ async function getDb() {
   await ensureSchema(pool);
   await ensureSiteIndexSchema(pool);
   await ensureWhatsAppConfigSchema(pool);
+  await ensureOwnerSchema(pool);
+  await ensureAgentSchema(pool);
   return pool;
 }
 
@@ -285,6 +302,72 @@ app.post('/api/whatsapp/resume', requireAdminKey, async (req, res) => {
   }
 });
 
+// --- PC agents (proxied from WAdministrativo) ---
+app.get('/api/agents', requireAdminKey, async (_req, res) => {
+  try {
+    const db = await getDb();
+    res.json({ ok: true, agents: await listAgents(db) });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.post('/api/agents', requireAdminKey, async (req, res) => {
+  try {
+    const db = await getDb();
+    const created = await createAgent(db, req.body?.name);
+    res.json({ ok: true, ...created });
+  } catch (e) {
+    const status = /duplicate key/i.test(e?.message || '') ? 409 : 400;
+    res.status(status).json({ ok: false, error: status === 409 ? 'Ya existe un dispositivo con ese nombre.' : e?.message || 'error' });
+  }
+});
+
+app.delete('/api/agents/:id', requireAdminKey, async (req, res) => {
+  try {
+    const db = await getDb();
+    await deleteAgent(db, req.params.id);
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.post('/api/agents/:id/command', requireAdminKey, async (req, res) => {
+  const { type, text, action } = req.body || {};
+  let payload;
+  if (type === 'speak') {
+    const t = String(text || '').trim().slice(0, 500);
+    if (!t) return res.status(400).json({ ok: false, error: 'Texto vacío.' });
+    payload = { text: t };
+  } else if (type === 'run') {
+    const a = String(action || '').trim();
+    if (!a) return res.status(400).json({ ok: false, error: 'Acción requerida.' });
+    payload = { action: a };
+  } else if (type === 'lock') {
+    payload = {};
+  } else {
+    return res.status(400).json({ ok: false, error: 'Tipo de comando inválido.' });
+  }
+
+  try {
+    const db = await getDb();
+    const queued = await queueAgentCommand(db, { agent: req.params.id, type, payload, source: 'admin' });
+    res.json({ ok: true, ...queued });
+  } catch (e) {
+    res.status(e?.code === 'NO_AGENT' ? 404 : 500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
+app.get('/api/agents/commands', requireAdminKey, async (req, res) => {
+  try {
+    const db = await getDb();
+    res.json({ ok: true, commands: await listRecentCommands(db, req.query?.limit) });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || 'error' });
+  }
+});
+
 app.get('/api/site-images', async (_req, res) => {
   try {
     const db = await getDb();
@@ -362,10 +445,24 @@ async function start() {
 
   syncSitioSeedFiles();
 
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`[server] listening on :${port}`);
   });
+
+  attachAgentHub(server, getDb);
+  setAgentResultListener(async (command, result) => {
+    if (!command.notify_jid || !isBaileysConnected()) return;
+    await sendTextMessage(command.notify_jid, formatAgentResult(command, result));
+  });
+
+  startOwnerReminders({ getDb, sendText: sendTextMessage, isConnected: isBaileysConnected });
+
+  if (process.env.WA_DISABLED === '1') {
+    // eslint-disable-next-line no-console
+    console.log('[wa] disabled via WA_DISABLED=1');
+    return;
+  }
 
   // WhatsApp Baileys (non-blocking; QR available in WAdministrativo)
   startBaileys({ getDbFn: getDb }).catch((e) => {
