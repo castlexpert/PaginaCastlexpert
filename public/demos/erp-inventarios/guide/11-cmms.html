@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>11 · API CMMS | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>11 API CMMS</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip api">Integración</span><span class="chip portal">Portal · Administrador</span></div>
+        <h1>API para CMMS</h1>
+        <p class="lede">El CMMS consulta stock en este inventario y registra consumos (salidas) contra el ledger.</p>
+      </header>
+      <figure class="page-thumb">
+        <img src="assets/prints/screen-11-cmms.png" alt="Estado, clave API y endpoints disponibles" loading="lazy" />
+        <figcaption>Estado, clave API y endpoints disponibles</figcaption>
+      </figure>
+      <section class="panel">
+        <h2>Explicación de campos</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Estado</td><td>activo / inactivo.</td><td>Se activa al generar la clave.</td></tr>
+              <tr><td>Clave</td><td>Vista abreviada de la API key o “aún no generada”.</td><td>La clave completa solo se muestra una vez; en esta guía aparece como <code>inv_********</code>.</td></tr>
+              <tr><td>Generar API key / Regenerar API key</td><td>Crea o reemplaza la clave.</td><td>Cópiela al momento. Regenerar invalida la anterior.</td></tr>
+              <tr><td>X-Api-Key</td><td>Encabezado que envía el CMMS.</td><td>También acepta <code>Authorization: Bearer inv_********</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Endpoints</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Método y ruta</th><th>Uso</th></tr></thead>
+          <tbody>
+            <tr><td><code>GET /api/v1/cmms/salud</code></td><td>Prueba de conexión.</td></tr>
+            <tr><td><code>GET /api/v1/cmms/articulos</code></td><td>Catálogo (admite <code>?q=</code> para buscar).</td></tr>
+            <tr><td><code>GET /api/v1/cmms/stock?codigo=ART-001</code></td><td>Stock por código (admite <code>&amp;bodega=</code>).</td></tr>
+            <tr><td><code>GET /api/v1/cmms/stock/ART-001</code></td><td>Stock por código en la ruta.</td></tr>
+            <tr><td><code>POST /api/v1/cmms/consumo</code></td><td>Registra una salida en el ledger.</td></tr>
+          </tbody>
+        </table></div>
+        <pre>{
+  "uuid": "550e8400-e29b-41d4-a716-446655440000",
+  "articuloCodigo": "ART-001",
+  "cantidad": 2,
+  "bodegaCodigo": "BOD-01",
+  "centroCostoCodigo": "CC-220",
+  "ordenTrabajo": "OT-8891"
+}</pre><div class="callout tip"><span class="icon">✓</span><div><strong>Consumo</strong><code>uuid</code>, <code>articuloCodigo</code> y <code>cantidad</code> son la base. Si no envía <code>bodegaCodigo</code>, se usa la primera bodega activa. Opcionales: <code>ubicacionCodigo</code> y <code>notas</code>.</div></div>
+      </section>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>

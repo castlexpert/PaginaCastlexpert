@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>07 · Tomas físicas | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>07 Tomas físicas</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip portal">Portal</span><span class="chip app">App Flutter</span></div>
+        <h1>Tomas físicas</h1>
+        <p class="lede">El conteo se hace en la app de bodega. Aquí se abren las tomas, se controla el avance y se aprueban o rechazan los ajustes antes de que toquen el ledger.</p>
+      </header>
+      <figure class="page-thumb">
+        <img src="assets/prints/screen-07-tomas-fisicas.png" alt="Abrir toma, lista de tomas y detalle con Sistema / Contado / Diferencia" loading="lazy" />
+        <figcaption>Abrir toma, lista de tomas y detalle con Sistema / Contado / Diferencia</figcaption>
+      </figure>
+      <section class="panel">
+        <h2>Flujo de una toma</h2>
+        <div class="flow">
+          <div class="flow-node">Borrador<small>Abrir toma</small></div>
+          <div class="flow-node">En proceso<small>Conteo en la app</small></div>
+          <div class="flow-node">Pendiente de aprobación<small>Cerrar</small></div>
+          <div class="flow-node">Aprobada<small>Ajustes al ledger</small></div>
+        </div><div class="callout info"><span class="icon">i</span><div><strong>Sin diferencias</strong>Si al cerrar no hay diferencias, la toma queda <strong>Cerrada (sin diferencias)</strong> y no pasa por aprobación.</div></div>
+      </section>
+      <section class="panel">
+        <h2>Campos · Abrir toma</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Bodega<span class="tag req">Obligatorio</span></td><td>Bodega a contar.</td><td>—</td></tr>
+              <tr><td>Tipo</td><td>Cíclico, Total o Por ubicación.</td><td>Total es el predeterminado.</td></tr>
+              <tr><td>Notas (opcional)<span class="tag opt">Opcional</span></td><td>Motivo o instrucciones.</td><td>Se ven en el detalle.</td></tr>
+              <tr><td>Precargar líneas desde saldos actuales</td><td>Crea las líneas esperadas con el saldo del sistema.</td><td>Recomendado (marcado por defecto).</td></tr>
+              <tr><td>Disponible para conteo ahora</td><td>La pone En proceso de inmediato.</td><td>Desmarcado = queda en Borrador.</td></tr>
+              <tr><td>Abrir toma</td><td>Crea la toma.</td><td>Visible para Administrador, Gerente y Operador de bodega.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Lista y detalle</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Código / Bodega / Tipo / Estado</td><td>Identificación y estado de la toma.</td><td>Toque la fila para ver el detalle.</td></tr>
+              <tr><td>Avance</td><td>Líneas contadas / total (ej. 0/5).</td><td>Se actualiza con la app.</td></tr>
+              <tr><td>Difs.</td><td>Líneas con diferencia.</td><td>—</td></tr>
+              <tr><td>Iniciar</td><td>Pasa de Borrador a En proceso.</td><td>—</td></tr>
+              <tr><td>Cerrar / Cerrar (no contadas = 0)</td><td>Envía a aprobación. La segunda opción cuenta en cero las líneas pendientes.</td><td>“Cerrar” exige todas las líneas contadas.</td></tr>
+              <tr><td>Nota de resolución · Aprobar ajustes / Rechazar</td><td>Decisión de oficina.</td><td>Aprobar genera los ajustes en el ledger.</td></tr>
+              <tr><td>Ubicación / Artículo / Sistema / Contado / Diferencia</td><td>Detalle por línea.</td><td>Diferencia positiva en verde (+N), negativa en rojo.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>

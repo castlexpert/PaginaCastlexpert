@@ -174,6 +174,28 @@ function App() {
           }
         />
         <Route
+          path="/demos/erp-inventarios"
+          element={
+            <DemoProductPage
+              demoId="erp-inventarios"
+              content={content}
+              onToggleLanguage={toggleLanguage}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
+        <Route
+          path="/demos/crm-ia"
+          element={
+            <DemoProductPage
+              demoId="crm-ia"
+              content={content}
+              onToggleLanguage={toggleLanguage}
+              onOpenCookiePolicy={() => setCookiePolicyOpen(true)}
+            />
+          }
+        />
+        <Route
           path="/mockups"
           element={
             <MockupsPage

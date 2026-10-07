@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>08 · App de bodega | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>08 App de bodega</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip app">Android / PWA</span></div>
+        <h1>App de bodega (Flutter)</h1>
+        <p class="lede">Conteo en piso con plano de bodega, escaneo a demanda y modo offline. El stock solo cambia cuando oficina aprueba la toma.</p>
+      </header>
+      <div class="phone-row">
+        <figure class="page-thumb phone">
+        <img src="assets/prints/screen-08-app-tomas.png" alt="1 · Lista de tomas" loading="lazy" />
+        <figcaption>1 · Lista de tomas</figcaption>
+      </figure>
+        <figure class="page-thumb phone">
+        <img src="assets/prints/screen-08-app-bodega.png" alt="2 · Plano de la bodega" loading="lazy" />
+        <figcaption>2 · Plano de la bodega</figcaption>
+      </figure>
+        <figure class="page-thumb phone">
+        <img src="assets/prints/screen-08-app-frente.png" alt="3 · Frente del rack" loading="lazy" />
+        <figcaption>3 · Frente del rack</figcaption>
+      </figure>
+        <figure class="page-thumb phone">
+        <img src="assets/prints/screen-08-app-ubicacion.png" alt="4 · USTED ESTÁ AQUÍ" loading="lazy" />
+        <figcaption>4 · USTED ESTÁ AQUÍ</figcaption>
+      </figure>
+        <figure class="page-thumb phone">
+        <img src="assets/prints/screen-08-app-conteo.png" alt="5 · Modo conteo" loading="lazy" />
+        <figcaption>5 · Modo conteo</figcaption>
+      </figure>
+        <figure class="page-thumb phone">
+        <img src="assets/prints/screen-08-app-escaner.png" alt="6 · Escanear código" loading="lazy" />
+        <figcaption>6 · Escanear código</figcaption>
+      </figure>
+        <figure class="page-thumb phone">
+        <img src="assets/prints/screen-08-app-sonido.png" alt="7 · Sonido de escaneo" loading="lazy" />
+        <figcaption>7 · Sonido de escaneo</figcaption>
+      </figure>
+      </div>
+      <section class="panel">
+        <h2>Recorrido en piso</h2>
+        <ol class="steps">
+          <li><span>Ingrese con <strong>Empresa (slug)</strong>, <strong>Correo</strong> y <strong>Contraseña</strong> (ver <a href="00-inicio.html">Acceso</a>).</span></li>
+          <li><span>En <strong>Tomas físicas</strong> toque la toma (ej. <em>TF-DEMO-001 · Bodega Principal</em>).</span></li>
+          <li><span>En <strong>Conteo de Inventario</strong> toque un rack del plano; se llenan <strong>Pasillo</strong> y <strong>Rack</strong>.</span></li>
+          <li><span>En el frente del rack elija <strong>Nivel</strong> y <strong>Pos.</strong>; aparece el pin <strong>USTED ESTÁ AQUÍ</strong>.</span></li>
+          <li><span>Toque la tarjeta de ubicación (“Toque para contar en esta posición”) o <strong>Escanear</strong> la etiqueta del rack.</span></li>
+          <li><span>Digite lo contado y pulse <strong>OK</strong>, o registre un hallazgo. Al terminar: <strong>Cerrar toma (enviar a aprobación)</strong>.</span></li>
+        </ol>
+      </section>
+      <section class="panel">
+        <h2>Lista de tomas</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Icono wifi</td><td>Conexión con la API (verde = en línea).</td><td>Sin conexión, los conteos se guardan offline.</td></tr>
+              <tr><td>Chip “N pend.”</td><td>Conteos offline por sincronizar.</td><td>Se envían al recuperar conexión.</td></tr>
+              <tr><td>Refrescar / Sonido de escaneo / Salir</td><td>Recargar lista, abrir ajustes de beep y cerrar sesión.</td><td>—</td></tr>
+              <tr><td>Tarjeta de toma</td><td>“COD · Bodega” y “ESTADO · contadas/total líneas · TIPO”.</td><td>Muestra tomas en Borrador y En proceso.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Conteo de Inventario · plano</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Pasillo / Rack / Nivel / Pos.</td><td>Selectores de la ubicación actual.</td><td>Se llenan al tocar el plano o al escanear.</td></tr>
+              <tr><td>Activar cámara</td><td>Abre la pantalla <strong>Escanear código</strong>.</td><td>La cámara no queda encendida en segundo plano.</td></tr>
+              <tr><td>Plano</td><td>Racks coloreados por pasillo; ✓ cuando un rack está completo.</td><td>Solo módulos dinámicos de la bodega.</td></tr>
+              <tr><td>Recentrar / + / −</td><td>Controles del mapa.</td><td>—</td></tr>
+              <tr><td>Frente del rack</td><td>“Nivel NN” (el más alto arriba) × “Pos. NN”, con contadas/total o “vacío”.</td><td>Toque la celda a contar.</td></tr>
+              <tr><td>Tarjeta de ubicación</td><td>“Pasillo A / Rack R02 / Nivel 01 / Pos. 01”.</td><td>Tóquela para entrar al modo conteo.</td></tr>
+              <tr><td>Escanear</td><td>Lee etiqueta de rack/posición o de artículo.</td><td>Una etiqueta de posición entra directo al conteo.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Modo conteo</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>USTED ESTÁ AQUÍ</td><td>Posición actual y su etiqueta.</td><td>Confirme que está frente al hueco correcto.</td></tr>
+              <tr><td>Volver al plano / Activar cámara / escanear</td><td>Navegación y lectura.</td><td>—</td></tr>
+              <tr><td>contadas/total líneas · conteo ciego</td><td>Avance de la toma. El contador no ve el saldo del sistema.</td><td>—</td></tr>
+              <tr><td>Contado (UND) + OK<span class="tag req">Obligatorio</span></td><td>Cantidad física de cada artículo previsto.</td><td>Guarda la línea (“Conteo guardado”).</td></tr>
+              <tr><td>Hallazgo / etiqueta leída</td><td><strong>Artículo</strong> (escanear o seleccionar) y <strong>Cantidad contada</strong>.</td><td><strong>Registrar hallazgo en esta posición</strong> para mercancía no esperada.</td></tr>
+              <tr><td>Cerrar toma (enviar a aprobación)</td><td>Termina el conteo.</td><td>Administrador, Gerente u Operador de bodega.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Escanear código y sonido</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Pistola, teclado o pegar código</td><td>Entrada sin cámara.</td><td>La pistola USB envía Enter al final.</td></tr>
+              <tr><td>Activar cámara / Apagar cámara</td><td>Lector a demanda.</td><td>Se apaga al leer, al salir o al minimizar la app.</td></tr>
+              <tr><td>Beep al leer un código</td><td>Sonido al escanear con cámara o pistola.</td><td>Funciona aunque la cámara esté apagada.</td></tr>
+              <tr><td>Volumen (NN %)</td><td>Intensidad del beep (70 % por defecto).</td><td>—</td></tr>
+              <tr><td>Estilo: Corto / Medio / Doble</td><td>Tipo de beep.</td><td><strong>Probar sonido</strong> para escucharlo. Preferencia del dispositivo.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>00 · Acceso | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>00 Acceso</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip portal">Portal</span><span class="chip app">App Flutter</span></div>
+        <h1>Acceso al portal y a la app</h1>
+        <p class="lede">Identifica la empresa (tenant) y el usuario. Todo el inventario queda aislado por empresa; la sesión dura 8 horas.</p>
+      </header>
+      <div class="print-duo">
+        <figure class="page-thumb">
+        <img src="assets/prints/screen-00-inicio.png" alt="Portal de oficina · ERP Inventarios (las contraseñas se muestran como ********)" loading="lazy" />
+        <figcaption>Portal de oficina · <strong>ERP Inventarios</strong> (las contraseñas se muestran como ********)</figcaption>
+      </figure>
+        <figure class="page-thumb phone">
+        <img src="assets/prints/screen-08-app-login.png" alt="App de bodega · Tomas físicas" loading="lazy" />
+        <figcaption>App de bodega · <strong>Tomas físicas</strong></figcaption>
+      </figure>
+      </div>
+      <section class="panel">
+        <h2>Explicación de campos</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Empresa (tenant)<span class="tag req">Obligatorio</span></td><td>Slug corto de la empresa (no el nombre comercial). En la app se llama <strong>Empresa (slug)</strong>.</td><td>Escriba <code>demo</code> o el slug asignado. El super admin entra con <code>plataforma</code> y llega directo a <strong>Empresas</strong>.</td></tr>
+              <tr><td>Correo<span class="tag req">Obligatorio</span></td><td>Usuario registrado dentro de esa empresa.</td><td>Debe existir en el tenant. Demo: <code>admin@demo.com</code>.</td></tr>
+              <tr><td>Contraseña<span class="tag req">Obligatorio</span></td><td>Clave personal del usuario (login JWT propio, sin Firebase).</td><td>Se escribe oculta. En esta guía cualquier clave aparece como <span class="secret">********</span>; pida la suya al administrador.</td></tr>
+              <tr><td>Ingresar</td><td>Valida empresa, usuario y estado de la demo.</td><td>Mientras valida muestra <strong>Ingresando...</strong>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Mensajes que puede ver</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Mensaje</th><th>Qué significa</th></tr></thead>
+          <tbody>
+            <tr><td>Empresa no encontrada</td><td>El slug no existe. Revise mayúsculas y guiones.</td></tr>
+            <tr><td>Empresa inactiva</td><td>La empresa fue desactivada por la plataforma.</td></tr>
+            <tr><td>El período de demostración ha vencido…</td><td>La demo expiró; el super admin puede extenderla o pasarla a Producción.</td></tr>
+            <tr><td>Credenciales inválidas</td><td>Correo o contraseña incorrectos.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>

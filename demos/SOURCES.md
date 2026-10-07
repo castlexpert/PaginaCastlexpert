@@ -12,6 +12,23 @@ npm run demos:sync
 | `foodly` | `public/demos/foodly/guide/` | `C:\Proyectos\DEMO_fastfood\guide` |
 | `cmms` | `public/demos/cmms/guide/` | `C:\Proyectos\MANTE_PREVENTIVO\guide` (solo `index.html` + `images/`; sin `node_modules` ni `mockups`) |
 | `pura-puntos` | `public/demos/pura-puntos/guide/` | `C:\Proyectos\LOYALTY\loyalty-platform\guide` (`pura-puntos-guia.html` → `index.html` + `assets/`) |
+| `erp-inventarios` | `public/demos/erp-inventarios/guide/` | `C:\Proyectos\ERP Inventarios\guide` (guía multipágina: barra CastleXpert en todas las `.html`; se ocultan los puertos de desarrollo del índice) |
+
+| `crm-ia` | `public/demos/crm-ia/live/` | `C:\Proyectos\CRM IA\web` (SPA React: se **compila** con `vite build --base /demos/crm-ia/live/`; no es copia de guía) |
+
+### CastleXpert CRM IA — ficha y demo en vivo
+
+| Ruta | Contenido |
+|------|-----------|
+| `/demos/crm-ia` | Página de producto en CastleXpert |
+| `/demos/crm-ia/live/` | Ficha técnica / publicidad (Landing del CRM con caja, funciones, planes y testimonios) |
+| `/demos/crm-ia/live/app` | Demo navegable con datos ficticios (panel, clientes 360, pipeline, cotizaciones, WhatsApp, Bot Studio…) |
+
+`server/index.mjs` devuelve `public/demos/crm-ia/live/index.html` para cualquier subruta de `/demos/crm-ia/live/*` (el CRM usa `BrowserRouter` con `basename = BASE_URL`). Para actualizar: `npm run demos:sync -- --only=crm-ia`.
+
+### ERP Inventarios — integración con CMMS
+
+El CMMS (MANTE Preventivo) consulta stock y registra consumos por API (`/api/v1/cmms/*`, encabezado `X-Api-Key`). Ver `11-cmms.html` de la guía. El sistema aún no tiene URL pública: el demo es página explicativa + guía visual.
 
 ### Pura Puntos — nombres públicos
 

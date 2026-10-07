@@ -130,6 +130,39 @@ function buildDocuments(c: AppCopy, lang: 'es' | 'en', base: string): IndexDoc[]
     });
   });
 
+  const fd = c.functionalDemos;
+  docs.push({
+    url: `${base}/#demos`,
+    titulo: `${fd.eyebrow} — ${fd.sectionTitle}`,
+    descripcion: fd.sectionSubtitle,
+    secciones: fd.items.map((i) => ({ titulo: i.title, descripcion: `${i.cardDescription} ${base}/demos/${i.id}` })),
+  });
+
+  fd.items.forEach((item) => {
+    docs.push({
+      url: `${base}/demos/${item.id}${L === 'en' ? '?lang=en' : ''}`,
+      titulo: `${L === 'es' ? 'Demo funcional' : 'Functional demo'}: ${item.title}`,
+      descripcion: [
+        item.tagline,
+        item.description,
+        `${L === 'es' ? 'Página del demo' : 'Demo page'}: ${base}/demos/${item.id}`,
+        item.guideHint,
+      ].join('\n'),
+      secciones: highlightsToSecciones(item.highlights, L),
+    });
+  });
+
+  const mk = c.mockups;
+  docs.push({
+    url: `${base}/mockups${L === 'en' ? '?lang=en' : ''}`,
+    titulo: `${mk.eyebrow} — ${mk.title}`,
+    descripcion: mk.subtitle,
+    secciones: mk.items.map((i) => ({
+      titulo: i.title,
+      descripcion: `${i.description} ${base}/mockups/${i.id}/`,
+    })),
+  });
+
   docs.push({
     url: hash(`beneficios`),
     titulo: c.benefits.title,

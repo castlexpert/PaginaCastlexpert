@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>03 · Bodegas | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>03 Bodegas</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip portal">Portal</span></div>
+        <h1>Plano y ubicaciones</h1>
+        <p class="lede">Plano visual de la bodega: seleccione un rack, luego una posición. Cada cifra tiene nombre y unidad. Solo se dibujan los módulos que usted crea (el plano es 100 % dinámico).</p>
+      </header>
+      <figure class="page-thumb">
+        <img src="assets/prints/screen-03-bodegas.png" alt="Pestaña Plano y ubicaciones: tarjetas de bodega, cuadrícula A–D × 01–06, leyenda y panel Posición seleccionada" loading="lazy" />
+        <figcaption>Pestaña <strong>Plano y ubicaciones</strong>: tarjetas de bodega, cuadrícula A–D × 01–06, leyenda y panel <strong>Posición seleccionada</strong></figcaption>
+      </figure>
+      <div class="print-stack">
+        <figure class="page-thumb">
+        <img src="assets/prints/screen-03-bodegas-tipos.png" alt="Pestaña Tipos de estantería" loading="lazy" />
+        <figcaption>Pestaña <strong>Tipos de estantería</strong></figcaption>
+      </figure>
+        <figure class="page-thumb">
+        <img src="assets/prints/screen-03-bodegas-datos.png" alt="Pestaña Datos de bodega" loading="lazy" />
+        <figcaption>Pestaña <strong>Datos de bodega</strong></figcaption>
+      </figure>
+      </div>
+      <section class="panel">
+        <h2>Cómo se usa el plano</h2>
+        <ol class="steps">
+          <li><span>Elija la bodega en el selector junto al título (o toque su tarjeta).</span></li>
+          <li><span>Toque un rack en la cuadrícula: abajo aparece <strong>Frente · Pasillo X · Rack Y</strong> con niveles (altura) y posiciones (izquierda → derecha).</span></li>
+          <li><span>Toque una celda del frente: el panel <strong>Posición seleccionada</strong> muestra la etiqueta de escaneo y el detalle. Use <strong>Copiar</strong> para imprimir etiquetas.</span></li>
+          <li><span>Edite el módulo en el formulario lateral y pulse <strong>Guardar cambios</strong> (arriba a la derecha) o el botón del formulario.</span></li>
+        </ol>
+        <div class="legend-dots">
+          <span><i></i>Disponible</span>
+          <span><i style="background:#f59e0b"></i>Reservada / alta ocupación</span>
+          <span><i style="background:#475569"></i>No disponible / llena</span>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Encabezado, plano y panel lateral</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Selector de bodega</td><td>Bodega que se muestra.</td><td>Cambia plano, tipos y datos.</td></tr>
+              <tr><td>Acciones</td><td>Abre la pestaña de datos de la bodega.</td><td>Para editar o crear bodegas.</td></tr>
+              <tr><td>Guardar cambios</td><td>Envía el formulario de la pestaña activa.</td><td>Equivale al botón verde del formulario.</td></tr>
+              <tr><td>Tarjeta de bodega</td><td>Tipo, nombre, “COD · N módulos · plano F×C” y barra <strong>Ocupación X % · a/b posiciones</strong>.</td><td>Vista rápida de llenado.</td></tr>
+              <tr><td>Todas las ubicaciones / Filtros</td><td>Filtro visual del plano.</td><td>Todas, Con ocupación o Disponibles.</td></tr>
+              <tr><td>− / % / + / Reset</td><td>Zoom del plano.</td><td>Reset vuelve a 100 %.</td></tr>
+              <tr><td>Filas A, B… / Columnas 01, 02…</td><td>Coordenadas de la cuadrícula.</td><td>Ubique el rack como en el piso real.</td></tr>
+              <tr><td>Etiqueta de escaneo</td><td>Texto legible de la posición, ej. <em>Pasillo A · Rack R02 · Nivel 04 · Posición 01</em>.</td><td><strong>Copiar</strong> lo deja en el portapapeles.</td></tr>
+              <tr><td>Detalle</td><td>Código (<code>A-R02-04-01</code>), Rack, Fila, Columna, Nivel, Tipo de estantería, Capacidad máxima y Estado.</td><td>El <strong>Código</strong> es lo que lee la app o la pistola.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Campos · Módulo de estantería (rack)</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Tipo de estantería<span class="tag req">Obligatorio</span></td><td>Plantilla física del rack.</td><td>Primero cree el tipo en su pestaña.</td></tr>
+              <tr><td>Pasillo<span class="tag req">Obligatorio</span></td><td>Letra o número del corredor (ej. <code>A</code>).</td><td>Forma parte del código de cada posición.</td></tr>
+              <tr><td>Código del rack<span class="tag req">Obligatorio</span></td><td>Etiqueta del módulo (ej. <code>R07</code>).</td><td>Se usa en el código de barras de cada posición.</td></tr>
+              <tr><td>Niveles de altura (pisos)</td><td>Cuántos pisos tiene (1–20). El nivel 01 es el más bajo.</td><td>Al guardar se regeneran las posiciones.</td></tr>
+              <tr><td>Posiciones por nivel (huecos)</td><td>Huecos de izquierda a derecha en cada piso.</td><td>Cara de picking.</td></tr>
+              <tr><td>Fila en el plano / Columna en el plano</td><td>Casilla del mapa (contando desde 0).</td><td>0 = primera hilera arriba / primer módulo a la izquierda.</td></tr>
+              <tr><td>Capacidad de este módulo (kg)<span class="tag opt">Opcional</span></td><td>Carga total del módulo.</td><td>Vacío = usa la carga del tipo de estantería.</td></tr>
+              <tr><td>Generar posiciones / Guardar módulo y posiciones</td><td>Crea o actualiza el rack y sus ubicaciones.</td><td>Muestra “N ubicaciones en este módulo”.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Campos · Tipo de estantería</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Código interno<span class="tag req">Obligatorio</span></td><td>Ej. SEL, PLT, CAN. No es el código de barras del rack.</td><td>Corto y único.</td></tr>
+              <tr><td>Nombre visible<span class="tag req">Obligatorio</span></td><td>Nombre que se muestra (ej. Selectivo).</td><td>—</td></tr>
+              <tr><td>Estilo / silueta</td><td>Define cómo se dibuja el rack en el plano.</td><td>Selectivo, Pallet rack, Cantilever, Liviano, Drive-in, Push-back, Flow rack, Mezzanine, Piso, Patio.</td></tr>
+              <tr><td>Apto para<span class="tag opt">Opcional</span></td><td>Qué mercancía cabe: pallets, tubos, cajas, patio…</td><td>Ayuda al acomodo.</td></tr>
+              <tr><td>Notas<span class="tag opt">Opcional</span></td><td>Observaciones.</td><td>—</td></tr>
+              <tr><td>Color en el plano</td><td>Color del módulo en la cuadrícula.</td><td>Distinga tipos a simple vista.</td></tr>
+              <tr><td>Carga máxima por nivel (kg)</td><td>Peso que aguanta un nivel, no el rack completo.</td><td>Parametrización física.</td></tr>
+              <tr><td>Altura máxima del módulo / Profundidad / Ancho del módulo (cm)</td><td>Medidas del módulo.</td><td>Documentación del rack.</td></tr>
+              <tr><td>Registrar tipo / Guardar tipo</td><td>Guarda la plantilla.</td><td>“Nuevo” limpia el formulario.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Campos · Datos de bodega</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Código interno<span class="tag req">Obligatorio</span></td><td>ID corto (ej. <code>BOD-01</code>).</td><td>Se usa en reportes y en la API CMMS.</td></tr>
+              <tr><td>Nombre<span class="tag req">Obligatorio</span></td><td>Nombre operativo (ej. Bodega Principal).</td><td>—</td></tr>
+              <tr><td>Tipo de bodega</td><td>Principal, Satélite, Patio, Sótano, Consigna, Tránsito, Producción.</td><td>Clasificación operativa.</td></tr>
+              <tr><td>Descripción / Dirección / edificio / Responsable<span class="tag opt">Opcional</span></td><td>Datos de referencia.</td><td>Útiles para auditoría.</td></tr>
+              <tr><td>Área de piso (m²)<span class="tag opt">Opcional</span></td><td>Área del recinto.</td><td>No es la suma de niveles.</td></tr>
+              <tr><td>Filas del plano (hileras)</td><td>Hileras de adelante hacia atrás (1–20).</td><td>Define el alto de la cuadrícula.</td></tr>
+              <tr><td>Columnas del plano (módulos)</td><td>Módulos de izquierda a derecha (1–20).</td><td>Define el ancho de la cuadrícula.</td></tr>
+              <tr><td>Crear bodega / Guardar cambios</td><td>Guarda la bodega.</td><td>“Crear otra” limpia el formulario.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>

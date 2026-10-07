@@ -70,6 +70,21 @@ export default function SiteMapPage({
               </Link>
             </li>
             <li>
+              <Link className={linkCls} to="/demos/erp-inventarios">
+                Demo ERP Inventarios
+              </Link>
+            </li>
+            <li>
+              <Link className={linkCls} to="/demos/crm-ia">
+                CastleXpert CRM IA
+              </Link>
+            </li>
+            <li>
+              <a className={linkCls} href="/demos/crm-ia/live/">
+                CRM IA: ficha técnica y demo en vivo
+              </a>
+            </li>
+            <li>
               <Link className={linkCls} to="/mockups">
                 Repositorio de mockups
               </Link>

@@ -1,5 +1,5 @@
 /** Catálogo de demos funcionales publicados en CastleXpert. */
-export type FunctionalDemoId = 'tracklogic' | 'foodly' | 'cmms' | 'pura-puntos';
+export type FunctionalDemoId = 'tracklogic' | 'foodly' | 'cmms' | 'pura-puntos' | 'erp-inventarios' | 'crm-ia';
 
 export type FunctionalDemo = {
   id: FunctionalDemoId;
@@ -11,6 +11,8 @@ export type FunctionalDemo = {
   image: string;
   /** Slug en WAdministrativo apk_systems_master (si aplica) */
   apkSlug?: string;
+  /** Demo navegable con datos ficticios (ej. CRM IA) */
+  liveDemoPath?: string;
   /** Video promocional / acceso (ej. CMMS MANTE) */
   video?: { src: string; poster?: string };
   /** Ruta original de la guía (para re-sync) */
@@ -54,6 +56,21 @@ export const functionalDemos: FunctionalDemo[] = [
       poster: '/demos/pura-puntos/guide/assets/cliente-demo.png',
     },
     sourceGuidePath: 'C:\\Proyectos\\LOYALTY\\loyalty-platform\\guide',
+  },
+  {
+    id: 'erp-inventarios',
+    pagePath: '/demos/erp-inventarios',
+    guidePath: '/demos/erp-inventarios/guide/',
+    image: '/demos/erp-inventarios/guide/assets/prints/screen-03-bodegas.png',
+    sourceGuidePath: 'C:\\Proyectos\\ERP Inventarios\\guide',
+  },
+  {
+    id: 'crm-ia',
+    pagePath: '/demos/crm-ia',
+    guidePath: '/demos/crm-ia/live/',
+    liveDemoPath: '/demos/crm-ia/live/app',
+    image: '/demos/crm-ia/live/castlexpert-box.jpg',
+    sourceGuidePath: 'C:\\Proyectos\\CRM IA\\web',
   },
 ];
 

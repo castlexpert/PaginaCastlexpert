@@ -159,6 +159,38 @@ const seoDemoById: Record<string, Record<Language, PageSeo>> = {
       keywords: 'Pura Puntos, loyalty, Pura Puntos Cash, Pura Puntos Manager, CastleXpert, Costa Rica',
     },
   },
+  'erp-inventarios': {
+    es: {
+      title: 'Demo ERP Inventarios con integración CMMS | CastleXpert',
+      description:
+        'Demo ERP Inventarios: bodegas con plano visual, centros de costo, ledger de movimientos, tomas físicas con app de bodega y API para el CMMS de mantenimiento.',
+      keywords:
+        'ERP inventarios, control de inventario, bodegas, centros de costo, toma física, app de bodega, CMMS, repuestos mantenimiento, CastleXpert, Costa Rica',
+    },
+    en: {
+      title: 'ERP Inventory Demo with CMMS integration | CastleXpert',
+      description:
+        'ERP Inventory demo: visual warehouse layouts, cost centers, movement ledger, physical counts with a warehouse app, and an API for the maintenance CMMS.',
+      keywords:
+        'ERP inventory, inventory control, warehouses, cost centers, physical count, warehouse app, CMMS, maintenance spare parts, CastleXpert, Costa Rica',
+    },
+  },
+  'crm-ia': {
+    es: {
+      title: 'CastleXpert CRM IA: CRM con inteligencia artificial y WhatsApp | CastleXpert',
+      description:
+        'CRM con IA hecho en Costa Rica: WhatsApp con bot, historial 360 por cédula, copiloto Xpert, cotizaciones con IVA, gestiones con SLA y tableros. Demo en vivo con datos ficticios.',
+      keywords:
+        'CRM, CRM con IA, CRM Costa Rica, CRM WhatsApp, bot WhatsApp, inteligencia artificial, cotizaciones IVA, historial de clientes, CastleXpert CRM IA',
+    },
+    en: {
+      title: 'CastleXpert CRM IA: AI-powered CRM with WhatsApp | CastleXpert',
+      description:
+        'AI CRM made in Costa Rica: WhatsApp with a bot, 360° customer history by ID, Xpert copilot, quotes with VAT, SLA service requests, and dashboards. Live demo with fictional data.',
+      keywords:
+        'CRM, AI CRM, Costa Rica CRM, WhatsApp CRM, WhatsApp bot, artificial intelligence, quotes, customer history, CastleXpert CRM IA',
+    },
+  },
 };
 
 export const seoOracleMigrationByLang: Record<Language, PageSeo> = {
@@ -183,7 +215,7 @@ export function seoForPath(pathname: string, language: Language): PageSeo {
   if (p === '/contacto' || p === '/contact') return seoContactByLang[language];
   if (p === '/castlexpertcard' || p === '/castlexpert-card') return seoContactCardByLang[language];
   if (p === '/servicios/migracion-oracle') return seoOracleMigrationByLang[language];
-  const demoMatch = p.match(/^\/demos\/(tracklogic|foodly|cmms|pura-puntos)\/?$/);
+  const demoMatch = p.match(/^\/demos\/(tracklogic|foodly|cmms|pura-puntos|erp-inventarios|crm-ia)\/?$/);
   if (demoMatch) return seoDemoById[demoMatch[1]][language];
   if (p === '/mockups' || p.startsWith('/mockups/')) return seoMockupsByLang[language];
   return seoByLang[language];

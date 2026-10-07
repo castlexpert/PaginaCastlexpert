@@ -79,13 +79,27 @@ export default function DemoProductPage({
             <h1 className="mt-3 max-w-2xl font-display text-4xl tracking-tight text-white sm:text-5xl">{item.title}</h1>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/90">{item.tagline}</p>
             <div className="mt-8 flex flex-wrap gap-3">
+              {demo.liveDemoPath ? (
+                <a
+                  href={demo.liveDemoPath}
+                  className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-[#0d4d38] shadow-lg transition hover:bg-white/95"
+                  onClick={() => trackEvent('demo_live_open', { demo: demo.id })}
+                >
+                  <Play className="h-4 w-4" />
+                  {copy.openLiveDemo}
+                </a>
+              ) : null}
               <a
                 href={demo.guidePath}
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-[#0d4d38] shadow-lg transition hover:bg-white/95"
+                className={
+                  demo.liveDemoPath
+                    ? 'inline-flex items-center gap-2 rounded-xl border border-white/35 bg-white/10 px-5 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20'
+                    : 'inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-[#0d4d38] shadow-lg transition hover:bg-white/95'
+                }
                 onClick={() => trackEvent('demo_guide_open', { demo: demo.id })}
               >
                 <ExternalLink className="h-4 w-4" />
-                {copy.openGuide}
+                {item.guideLabel ?? copy.openGuide}
               </a>
               {demo.video ? (
                 <button
@@ -143,12 +157,26 @@ export default function DemoProductPage({
 
             <aside className="rounded-2xl border border-black/10 bg-[#0d4d38] p-6 text-white shadow-xl shadow-[#0d4d38]/15 sm:p-8">
               <h3 className="text-xl font-bold">{copy.tryTitle}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/85">{copy.tryDescription}</p>
+              <p className="mt-3 text-sm leading-relaxed text-white/85">{item.tryDescription ?? copy.tryDescription}</p>
+              {demo.liveDemoPath ? (
+                <a
+                  href={demo.liveDemoPath}
+                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-3.5 text-sm font-bold text-[#0d4d38] transition hover:bg-zinc-100"
+                  onClick={() => trackEvent('demo_live_open', { demo: demo.id, source: 'aside' })}
+                >
+                  <Play className="h-4 w-4" />
+                  {copy.openLiveDemo}
+                </a>
+              ) : null}
               <a
                 href={demo.guidePath}
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-3.5 text-sm font-bold text-[#0d4d38] transition hover:bg-zinc-100"
+                className={
+                  demo.liveDemoPath
+                    ? 'mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-3.5 text-sm font-bold text-white transition hover:bg-white/20'
+                    : 'mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-3.5 text-sm font-bold text-[#0d4d38] transition hover:bg-zinc-100'
+                }
               >
-                {copy.openGuide}
+                {item.guideLabel ?? copy.openGuide}
               </a>
               {demo.video ? (
                 <button

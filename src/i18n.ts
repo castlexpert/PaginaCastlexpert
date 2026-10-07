@@ -27,6 +27,7 @@ export type AppCopy = {
       description: string;
       highlights: string[];
       images: string[];
+      links?: Array<{ label: string; url: string; kind?: 'link' | 'video'; poster?: string }>;
     }>;
     mainTitle: string;
     mainItems: Array<{ title: string; description: string }>;
@@ -181,14 +182,17 @@ export type AppCopy = {
     backHome: string;
     backDemos: string;
     ctaLabel: string;
+    openLiveDemo: string;
     items: Array<{
-      id: 'tracklogic' | 'foodly' | 'cmms' | 'pura-puntos';
+      id: 'tracklogic' | 'foodly' | 'cmms' | 'pura-puntos' | 'erp-inventarios' | 'crm-ia';
       title: string;
       cardDescription: string;
       tagline: string;
       description: string;
       highlights: string[];
       guideHint: string;
+      guideLabel?: string;
+      tryDescription?: string;
     }>;
   };
   whatsapp: {
@@ -310,6 +314,11 @@ export const copy: Record<Language, AppCopy> = {
             '/services/inventory/inventory-3.webp',
             '/services/inventory/inventory-4.webp',
           ],
+          links: [
+            { label: 'Demo ERP Inventarios', url: '/demos/erp-inventarios' },
+            { label: 'Guía visual del ERP', url: '/demos/erp-inventarios/guide/' },
+            { label: 'Integración con el CMMS', url: '/demos/erp-inventarios/guide/11-cmms.html' },
+          ],
         },
         {
           title: 'Control de órdenes',
@@ -328,6 +337,10 @@ export const copy: Record<Language, AppCopy> = {
             '/services/orders/orders-3.webp',
             '/services/orders/orders-4.webp',
           ],
+          links: [
+            { label: 'CastleXpert CRM IA (nuevo)', url: '/demos/crm-ia' },
+            { label: 'Demo en vivo del CRM IA', url: '/demos/crm-ia/live/app' },
+          ],
         },
         {
           title: 'Órdenes de trabajo',
@@ -341,6 +354,10 @@ export const copy: Record<Language, AppCopy> = {
             'Historial por cliente, equipo o ubicación.',
           ],
           images: ['/services/workorders/workorders-1.webp'],
+          links: [
+            { label: 'Demo CMMS · MANTE Preventivo', url: '/demos/cmms' },
+            { label: 'Repuestos desde ERP Inventarios', url: '/demos/erp-inventarios' },
+          ],
         },
         {
           title: 'Control de empleados',
@@ -406,6 +423,7 @@ export const copy: Record<Language, AppCopy> = {
             'Reportes pensados para acción, no solo números.',
           ],
           images: ['/services/reports/reports-1.webp'],
+          links: [{ label: 'Tableros del CRM IA (demo en vivo)', url: '/demos/crm-ia/live/app' }],
         },
         {
           title: 'Arquitectura web escalable',
@@ -642,7 +660,7 @@ export const copy: Record<Language, AppCopy> = {
       advisorError: 'No se pudo contactar al asesor. Revisa que WhatsApp esté conectado en el panel admin, o intenta de nuevo.',
       assistantName: 'Asistente',
       welcome:
-        'Hola, soy el asistente de CastleXpert. Puedo explicarte TrackLogic, Foodly y CMMS (con link a su guía), además de servicios y el proceso. ¿Qué te gustaría saber?',
+        'Hola, soy el asistente de CastleXpert. Puedo explicarte nuestro nuevo CastleXpert CRM IA, TrackLogic, Foodly, CMMS, Pura Puntos y ERP Inventarios (con link a su demo o guía), además de servicios y el proceso. ¿Qué te gustaría saber?',
     },
     benefits: {
       title: 'Beneficios',
@@ -740,6 +758,7 @@ export const copy: Record<Language, AppCopy> = {
       backHome: 'Volver al inicio',
       backDemos: 'Volver a demos',
       ctaLabel: 'Ver demo',
+      openLiveDemo: 'Entrar al demo en vivo',
       items: [
         {
           id: 'foodly',
@@ -802,6 +821,44 @@ export const copy: Record<Language, AppCopy> = {
             'Red de coalición entre comercios y video demo listo para ver.',
           ],
           guideHint: 'Instrucciones: https://castlexpert.com/demos/pura-puntos/guide/',
+        },
+        {
+          id: 'erp-inventarios',
+          title: 'ERP Inventarios',
+          cardDescription:
+            'Bodegas con plano visual, centros de costo, tomas físicas con app y API para el CMMS de mantenimiento.',
+          tagline: 'El inventario que alimenta su mantenimiento: cada repuesto, en su lugar y con su costo.',
+          description:
+            'ERP Inventarios es el sistema de inventarios multi-empresa de CastleXpert. Tiene un portal de oficina (dashboard tipo BI, catálogo, bodegas, centros de costo, movimientos, saldos y tomas físicas) y una app de bodega para Android que cuenta en piso con plano, escáner y modo sin conexión. Todo se registra en un ledger inmutable con costo promedio, y se conecta con el CMMS CastleXpert (MANTE Preventivo) por API: el CMMS consulta el stock de repuestos y registra el consumo de cada orden de trabajo contra la bodega y el centro de costo.',
+          highlights: [
+            'Plano de bodega 100 % dinámico: racks, niveles y posiciones con etiqueta de escaneo.',
+            'Centros de costo jerárquicos con presupuesto, traslados con aprobación y avisos por correo.',
+            'Tomas físicas con conteo ciego en la app de bodega, escáner, beep y modo sin conexión.',
+            'API para el CMMS: stock por artículo y bodega, y consumo de repuestos por orden de trabajo.',
+            'Multi-empresa con roles, 5 temas visuales y empresas en modo demo o producción.',
+          ],
+          guideHint: 'Instrucciones: https://castlexpert.com/demos/erp-inventarios/guide/',
+        },
+        {
+          id: 'crm-ia',
+          title: 'CastleXpert CRM IA',
+          cardDescription:
+            'Nuevo: el CRM que conversa, recuerda y vende por usted. WhatsApp con bot, historial 360 por cédula y copiloto con IA.',
+          tagline: 'El CRM que conversa, recuerda y vende por usted.',
+          description:
+            'CastleXpert CRM IA reúne ventas, cotizaciones, negociaciones, gestiones y el WhatsApp de su empresa en un solo lugar. Su copiloto con inteligencia artificial, Xpert, conoce el historial de cada cliente, atiende por WhatsApp y por el sitio web, y le da seguimiento por usted. Hecho en Costa Rica: colones, IVA 13 %, tipo de cambio BCCR y Ley 8968 de protección de datos.',
+          highlights: [
+            'Historial 360 por cédula, teléfono o correo: toda la línea de tiempo del cliente en un segundo.',
+            'WhatsApp general de la empresa con bot IA que atiende, cotiza, agenda y crea gestiones.',
+            'Copiloto Xpert: pregúntele a sus datos en español y delegue seguimientos.',
+            'Tableros tipo Tableau con mapa por provincia y pronóstico de ventas con IA.',
+            'Cotizaciones con IVA 13 %, colones o dólares (BCCR) y gestiones con SLA y escalamiento.',
+            'API abierta para ERP Inventarios, su sitio web o Power BI. Paquetes desde ₡29.900 al mes (hasta 3 usuarios), sin cobro por usuario.',
+          ],
+          guideHint: 'Ficha técnica y demo en vivo: https://castlexpert.com/demos/crm-ia/live/',
+          guideLabel: 'Ver ficha técnica y planes',
+          tryDescription:
+            'Entre al demo en vivo con datos ficticios de una empresa costarricense: panel ejecutivo, clientes 360, negociaciones, cotizaciones, WhatsApp, Bot Studio y más. Hable con el copiloto Xpert desde el botón de ojos.',
         },
       ],
     },
@@ -983,6 +1040,11 @@ export const copy: Record<Language, AppCopy> = {
             '/services/inventory/inventory-3.webp',
             '/services/inventory/inventory-4.webp',
           ],
+          links: [
+            { label: 'ERP Inventory demo', url: '/demos/erp-inventarios' },
+            { label: 'ERP visual guide (Spanish)', url: '/demos/erp-inventarios/guide/' },
+            { label: 'CMMS integration', url: '/demos/erp-inventarios/guide/11-cmms.html' },
+          ],
         },
         {
           title: 'Order management',
@@ -1001,6 +1063,10 @@ export const copy: Record<Language, AppCopy> = {
             '/services/orders/orders-3.webp',
             '/services/orders/orders-4.webp',
           ],
+          links: [
+            { label: 'CastleXpert CRM IA (new)', url: '/demos/crm-ia' },
+            { label: 'CRM IA live demo', url: '/demos/crm-ia/live/app' },
+          ],
         },
         {
           title: 'Work orders',
@@ -1014,6 +1080,10 @@ export const copy: Record<Language, AppCopy> = {
             'History by customer, asset, or location.',
           ],
           images: ['/services/workorders/workorders-1.webp'],
+          links: [
+            { label: 'CMMS · MANTE Preventive demo', url: '/demos/cmms' },
+            { label: 'Spare parts from ERP Inventory', url: '/demos/erp-inventarios' },
+          ],
         },
         {
           title: 'Employee control',
@@ -1079,6 +1149,7 @@ export const copy: Record<Language, AppCopy> = {
             'Reports designed for action—not just numbers.',
           ],
           images: ['/services/reports/reports-1.webp'],
+          links: [{ label: 'CRM IA dashboards (live demo)', url: '/demos/crm-ia/live/app' }],
         },
         {
           title: 'Scalable web architecture',
@@ -1315,7 +1386,7 @@ export const copy: Record<Language, AppCopy> = {
       advisorError: 'Could not reach the advisor. Check that WhatsApp is connected in the admin panel, or try again.',
       assistantName: 'Assistant',
       welcome:
-        "Hi, I'm CastleXpert's assistant. I can explain TrackLogic, Foodly, and CMMS (with links to each guide), plus services and our process. What would you like to know?",
+        "Hi, I'm CastleXpert's assistant. I can explain our new CastleXpert CRM IA, TrackLogic, Foodly, CMMS, Pura Puntos, and ERP Inventory (with links to each demo or guide), plus services and our process. What would you like to know?",
     },
     benefits: {
       title: 'Benefits',
@@ -1413,6 +1484,7 @@ export const copy: Record<Language, AppCopy> = {
       backHome: 'Back to homepage',
       backDemos: 'Back to demos',
       ctaLabel: 'View demo',
+      openLiveDemo: 'Open the live demo',
       items: [
         {
           id: 'foodly',
@@ -1475,6 +1547,44 @@ export const copy: Record<Language, AppCopy> = {
             'Coalition network across merchants, plus a ready-to-watch demo video.',
           ],
           guideHint: 'Instructions: https://castlexpert.com/demos/pura-puntos/guide/',
+        },
+        {
+          id: 'erp-inventarios',
+          title: 'ERP Inventory',
+          cardDescription:
+            'Visual warehouse layouts, cost centers, physical counts with an app, and an API for the maintenance CMMS.',
+          tagline: 'The inventory that powers your maintenance: every spare part in its place, with its cost.',
+          description:
+            'ERP Inventory (ERP Inventarios) is CastleXpert’s multi-company inventory system. It has an office portal (BI-style dashboard, catalog, warehouses, cost centers, movements, balances, and physical counts) and an Android warehouse app that counts on the floor with a layout map, scanner, and offline mode. Everything is recorded in an immutable ledger with average cost, and it connects to the CastleXpert CMMS (MANTE Preventive) through an API: the CMMS checks spare-part stock and records each work order’s consumption against the warehouse and cost center.',
+          highlights: [
+            'Fully dynamic warehouse layout: racks, levels, and positions with scan labels.',
+            'Hierarchical cost centers with budgets, approved transfers, and email alerts.',
+            'Physical counts with blind counting in the warehouse app, scanner, beep, and offline mode.',
+            'CMMS API: stock by item and warehouse, and spare-part consumption per work order.',
+            'Multi-company with roles, 5 visual themes, and demo or production companies.',
+          ],
+          guideHint: 'Instructions (Spanish): https://castlexpert.com/demos/erp-inventarios/guide/',
+        },
+        {
+          id: 'crm-ia',
+          title: 'CastleXpert CRM IA',
+          cardDescription:
+            'New: the CRM that talks, remembers, and sells for you. WhatsApp with a bot, 360° history by ID, and an AI copilot.',
+          tagline: 'The CRM that talks, remembers, and sells for you.',
+          description:
+            'CastleXpert CRM IA brings sales, quotes, deals, service requests, and your company’s WhatsApp together in one place. Its AI copilot, Xpert, knows each customer’s history, answers on WhatsApp and on your website, and follows up for you. Made in Costa Rica: colones, 13% VAT, BCCR exchange rate, and compliance with data protection Law 8968.',
+          highlights: [
+            '360° history by national ID, phone, or email: the customer’s full timeline in one second.',
+            'Company-wide WhatsApp with an AI bot that answers, quotes, schedules, and opens service requests.',
+            'Xpert copilot: ask your data questions in plain language and delegate follow-ups.',
+            'Tableau-style dashboards with a map by province and AI sales forecasting.',
+            'Quotes with 13% VAT in colones or dollars (BCCR) and service requests with SLAs and escalation.',
+            'Open API for ERP Inventory, your website, or Power BI. Packages from ₡29,900 per month (up to 3 users), with no per-user fees.',
+          ],
+          guideHint: 'Spec sheet and live demo (Spanish): https://castlexpert.com/demos/crm-ia/live/',
+          guideLabel: 'View spec sheet and plans',
+          tryDescription:
+            'Open the live demo with fictional data from a Costa Rican company: executive dashboard, 360° customers, deals, quotes, WhatsApp, Bot Studio, and more. Talk to the Xpert copilot from the eyes button.',
         },
       ],
     },

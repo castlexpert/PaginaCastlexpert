@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>06 · Saldos | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>06 Saldos</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip portal">Portal</span></div>
+        <h1>Saldos de inventario</h1>
+        <p class="lede">Proyección calculada desde el ledger de movimientos. Solo lectura: se actualiza sola con cada movimiento.</p>
+      </header>
+      <figure class="page-thumb">
+        <img src="assets/prints/screen-06-saldos.png" alt="Saldos por artículo, bodega y ubicación con costo promedio y valor" loading="lazy" />
+        <figcaption>Saldos por artículo, bodega y ubicación con costo promedio y valor</figcaption>
+      </figure>
+      <section class="panel">
+        <h2>Columnas</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Artículo</td><td>Código y nombre.</td><td>—</td></tr>
+              <tr><td>Bodega</td><td>Dónde está el stock.</td><td>—</td></tr>
+              <tr><td>Ubicación</td><td>Código de la posición (ej. <code>A-R01-01-01</code>).</td><td>Vacío = sin ubicación específica.</td></tr>
+              <tr><td>Cantidad</td><td>Existencia con su unidad.</td><td>Solo se listan saldos mayores a cero.</td></tr>
+              <tr><td>Costo prom.</td><td>Costo promedio ponderado.</td><td>Se recalcula con cada entrada.</td></tr>
+              <tr><td>Valor</td><td>Cantidad × costo promedio (₡).</td><td>Suma = Valor inventario del dashboard.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>

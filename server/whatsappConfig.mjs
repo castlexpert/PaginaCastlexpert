@@ -6,9 +6,9 @@ const DEFAULTS = {
   twilio_auth_token: '',
   twilio_whatsapp_from: '',
   welcome_message_es:
-    'Hola, soy el asistente de CastleXpert. Puedo explicarte TrackLogic, Foodly, CMMS, migración Oracle y nuestros servicios. ¿En qué te ayudo?',
+    'Hola, soy el asistente de CastleXpert. Puedo explicarte nuestro nuevo CastleXpert CRM IA, TrackLogic, Foodly, CMMS, Pura Puntos, ERP Inventarios, migración Oracle y nuestros servicios. ¿En qué te ayudo?',
   welcome_message_en:
-    "Hi, I'm CastleXpert's assistant. I can explain TrackLogic, Foodly, CMMS, Oracle migration, and our services. How can I help?",
+    "Hi, I'm CastleXpert's assistant. I can explain our new CastleXpert CRM IA, TrackLogic, Foodly, CMMS, Pura Puntos, ERP Inventory, Oracle migration, and our services. How can I help?",
 };
 
 export async function ensureWhatsAppConfigSchema(pool) {

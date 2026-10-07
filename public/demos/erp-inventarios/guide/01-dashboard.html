@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>01 · Dashboard | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>01 Dashboard</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip portal">Portal</span></div>
+        <h1>Dashboard</h1>
+        <p class="lede">KPIs de valorización, concentración por bodega y actividad del ledger — vista analítica tipo BI. Los colores siguen el tema elegido.</p>
+      </header>
+      <figure class="page-thumb">
+        <img src="assets/prints/screen-01-dashboard.png" alt="Dashboard con el tema Nocturno (predeterminado)" loading="lazy" />
+        <figcaption>Dashboard con el tema <strong>Nocturno</strong> (predeterminado)</figcaption>
+      </figure>
+      <div class="print-stack">
+        <figure class="page-thumb">
+        <img src="assets/prints/screen-01-dashboard-aurora.png" alt="El mismo dashboard con el tema Aurora (claro ejecutivo)" loading="lazy" />
+        <figcaption>El mismo dashboard con el tema <strong>Aurora</strong> (claro ejecutivo)</figcaption>
+      </figure>
+      </div>
+      <section class="panel">
+        <h2>Tarjetas KPI</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Valor inventario</td><td>Suma de saldos valorizados (₡).</td><td>Indicador principal de capital en inventario.</td></tr>
+              <tr><td>SKUs con stock</td><td>Artículos distintos con saldo mayor a cero.</td><td>Detecte catálogo sin existencias.</td></tr>
+              <tr><td>Unidades en piso</td><td>Cantidad total en todas las bodegas.</td><td>Volumen físico, sin importar el costo.</td></tr>
+              <tr><td>Bodegas con stock</td><td>Bodegas con valor positivo.</td><td>Cuántos recintos tienen mercancía.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Gráficos y tabla</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Valor por bodega</td><td>Barras: comparativo de inversión en inventario.</td><td>Compare bodegas de un vistazo.</td></tr>
+              <tr><td>Participación</td><td>Dona: % del valor total por bodega.</td><td>Detecte concentración de capital.</td></tr>
+              <tr><td>Actividad del ledger (14 días)</td><td>Líneas: cantidades movidas por tipo (ENTRADA, SALIDA, AJUSTE, TRASLADO) y fecha.</td><td>Picos = recepciones o despachos fuertes.</td></tr>
+              <tr><td>Mix de movimientos</td><td>Conteo por tipo en el historial reciente.</td><td>Equilibrio entre entradas y salidas.</td></tr>
+              <tr><td>Top SKU por valor</td><td>Los 8 artículos con más capital inmovilizado.</td><td>Priorice conteos cíclicos sobre estos.</td></tr>
+              <tr><td>Detalle por bodega</td><td>Tabla: Bodega, Artículos, Cantidad, % valor, Valor.</td><td>Base para reportes a gerencia.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <div class="callout info"><span class="icon">i</span><div><strong>Sin datos todavía</strong>Si aparece <em>“Sin datos de inventario. Registre movimientos para ver valorización.”</em>, registre entradas en <a href="05-movimientos.html">Movimientos</a>.</div></div>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>

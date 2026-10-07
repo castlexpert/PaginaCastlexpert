@@ -422,6 +422,11 @@ if (fs.existsSync(indexHtml)) {
       },
     }),
   );
+  const crmIaIndex = path.join(distDir, 'demos', 'crm-ia', 'live', 'index.html');
+  app.get('/demos/crm-ia/live/*', (req, res, next) => {
+    if (path.extname(req.path) || !fs.existsSync(crmIaIndex)) return next();
+    res.sendFile(crmIaIndex);
+  });
   app.get('*', (req, res) => {
     // Evitar devolver index.html para rutas que parecen archivos estáticos (404 real si falta el asset).
     if (/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2?|css|js|map|txt|xml|vcf|mp4|webm)$/i.test(req.path)) {

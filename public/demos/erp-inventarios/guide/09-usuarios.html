@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>09 · Usuarios | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>09 Usuarios</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip portal">Portal · Administrador</span></div>
+        <h1>Usuarios y roles</h1>
+        <p class="lede">Administración de accesos de esta empresa. Login JWT propio, sin Firebase. Solo el rol Administrador ve este menú.</p>
+      </header>
+      <figure class="page-thumb">
+        <img src="assets/prints/screen-09-usuarios.png" alt="Tema de la plataforma, tabla de usuarios y formulario Nuevo usuario" loading="lazy" />
+        <figcaption>Tema de la plataforma, tabla de usuarios y formulario <strong>Nuevo usuario</strong></figcaption>
+      </figure>
+      <section class="panel">
+        <h2>Explicación de campos</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Tema de la plataforma</td><td>Cinco temas de color del portal.</td><td>Ver <a href="10-empresas.html">Empresas y temas</a>. Se guarda en este navegador.</td></tr>
+              <tr><td>Nombre<span class="tag req">Obligatorio</span></td><td>Nombre de la persona.</td><td>—</td></tr>
+              <tr><td>Correo<span class="tag req">Obligatorio</span></td><td>Usuario de acceso.</td><td>Único dentro de la empresa.</td></tr>
+              <tr><td>Contraseña<span class="tag req">Obligatorio</span></td><td>Clave inicial (mínimo 6 caracteres).</td><td>Se escribe oculta (<span class="secret">********</span>). Entréguela por un canal seguro.</td></tr>
+              <tr><td>Rol<span class="tag req">Obligatorio</span></td><td>Administrador, Gerente, Operador de bodega, Operador, Solo lectura.</td><td>Define menús y permisos.</td></tr>
+              <tr><td>Crear</td><td>Registra el usuario.</td><td>Confirma con “Usuario creado”.</td></tr>
+              <tr><td>Estado (Activo / Inactivo)</td><td>Clic en la tabla para alternar.</td><td>Inactivo no puede iniciar sesión.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Roles</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Administrador</td><td>Todo, incluye Usuarios y API CMMS.</td><td>—</td></tr>
+              <tr><td>Gerente</td><td>Operación completa y aprobación de tomas.</td><td>—</td></tr>
+              <tr><td>Operador de bodega</td><td>Abre y cierra tomas; cuenta en la app.</td><td>—</td></tr>
+              <tr><td>Operador</td><td>Registro operativo.</td><td>—</td></tr>
+              <tr><td>Solo lectura</td><td>Consulta.</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>

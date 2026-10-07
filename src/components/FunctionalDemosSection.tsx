@@ -18,7 +18,7 @@ export default function FunctionalDemosSection({ content }: FunctionalDemosSecti
           <p className="mx-auto mt-3 max-w-2xl text-lg text-zinc-600">{content.sectionSubtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="flex flex-wrap justify-center gap-6">
           {functionalDemos.map((demo) => {
             const item = content.items.find((i) => i.id === demo.id);
             if (!item) return null;
@@ -26,7 +26,7 @@ export default function FunctionalDemosSection({ content }: FunctionalDemosSecti
               <Link
                 key={demo.id}
                 to={demo.pagePath}
-                className="group relative flex min-h-[420px] flex-col overflow-hidden rounded-2xl border border-black/10 bg-zinc-900 text-left shadow-xl ring-1 ring-black/10 transition hover:-translate-y-1"
+                className="group relative flex min-h-[420px] w-full flex-col overflow-hidden sm:w-[calc(50%-0.75rem)] xl:w-[calc((100%-3rem)/3)] rounded-2xl border border-black/10 bg-zinc-900 text-left shadow-xl ring-1 ring-black/10 transition hover:-translate-y-1"
                 aria-label={`${item.title}. ${content.ctaLabel}`}
               >
                 <span className="absolute inset-0 block overflow-hidden">

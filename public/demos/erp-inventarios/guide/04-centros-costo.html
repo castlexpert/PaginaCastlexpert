@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>04 · Centros de costo | Guía ERP Inventarios</title>
+  <link rel="stylesheet" href="assets/guide.css" />
+</head>
+<body>
+<!-- cx-guide-nav -->
+<style id="cx-guide-nav-style">
+  .cx-guide-back {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(13, 77, 56, 0.98);
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  }
+  .cx-guide-back a {
+    color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    border-radius: 10px; padding: 0.5rem 0.95rem;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 0.15s ease;
+  }
+  .cx-guide-back a:hover { background: rgba(255,255,255,0.14); }
+  .cx-guide-back__home { background: #fff; color: #0d4d38 !important; border-color: #fff !important; }
+  .cx-guide-back__home:hover { background: #f3f4f6 !important; }
+  body { padding-top: 4.25rem !important; }
+  .theme-toggle { top: calc(18px + 4.25rem) !important; }
+  .nav { top: 4.25rem !important; height: calc(100vh - 4.25rem) !important; }
+</style>
+<nav class="cx-guide-back" aria-label="Navegación CastleXpert">
+  <a class="cx-guide-back__prev" href="/demos/erp-inventarios">← Anterior</a>
+  <a class="cx-guide-back__home" href="/">Volver a CastleXpert</a>
+</nav>
+<!-- /cx-guide-nav -->
+
+  <div class="overlay" id="nav-overlay"></div>
+  <div class="shell">
+    <aside class="nav" id="guide-nav" aria-label="Módulos"></aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb"><a href="index.html">Guía</a><span>/</span><strong>04 Centros de costo</strong></div>
+        <button class="menu-btn" id="menu-btn" type="button">Menú</button>
+      </div>
+      <header class="page-head">
+        <div class="channels"><span class="chip portal">Portal</span></div>
+        <h1>Centros de costo</h1>
+        <p class="lede">Maestro jerárquico, presupuesto, imputación a inventario y traslados con aprobación. Tres pestañas: Maestro, Traslados y Notificaciones.</p>
+      </header>
+      <figure class="page-thumb">
+        <img src="assets/prints/screen-04-centros-costo.png" alt="Pestaña Maestro: árbol de estructura, tabla, ficha del centro y formulario Nuevo centro" loading="lazy" />
+        <figcaption>Pestaña <strong>Maestro</strong>: árbol de estructura, tabla, ficha del centro y formulario <strong>Nuevo centro</strong></figcaption>
+      </figure>
+      <div class="print-stack">
+        <figure class="page-thumb">
+        <img src="assets/prints/screen-04-centros-costo-traslados.png" alt="Pestaña Traslados" loading="lazy" />
+        <figcaption>Pestaña <strong>Traslados</strong></figcaption>
+      </figure>
+        <figure class="page-thumb">
+        <img src="assets/prints/screen-04-centros-costo-notificaciones.png" alt="Pestaña Notificaciones" loading="lazy" />
+        <figcaption>Pestaña <strong>Notificaciones</strong></figcaption>
+      </figure>
+      </div>
+      <section class="panel">
+        <h2>Maestro · filtros, tabla y ficha</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Buscar código, nombre, responsable…</td><td>Búsqueda libre.</td><td>También busca por departamento.</td></tr>
+              <tr><td>Todos los tipos</td><td>Filtro por tipo de centro.</td><td>—</td></tr>
+              <tr><td>Estructura</td><td>Árbol padre → hijos.</td><td>Toque un centro para ver su ficha.</td></tr>
+              <tr><td>Tabla</td><td>Código, Nombre, Tipo, Presupuesto, Movs., Estado.</td><td>Movs. = movimientos imputados.</td></tr>
+              <tr><td>Ficha</td><td>Depto., Resp., Correo, Cuenta y si requiere aprobación.</td><td><strong>Desactivar</strong> / <strong>Reactivar</strong> el centro.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Campos · Nuevo centro</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Código / Nombre<span class="tag req">Obligatorio</span></td><td>Identificación del centro (ej. <code>CC-220</code> Mantenimiento).</td><td>—</td></tr>
+              <tr><td>Tipo</td><td>Operativo, Administrativo, Producción, Mantenimiento, Comercial, Proyecto, Logística, Inversión.</td><td>Clasificación funcional.</td></tr>
+              <tr><td>Naturaleza</td><td>Gasto, Inversión o Ingreso.</td><td>Tratamiento contable.</td></tr>
+              <tr><td>Padre<span class="tag opt">Opcional</span></td><td>Centro superior. “Sin padre (nivel 1)” = raíz.</td><td>Arma la jerarquía.</td></tr>
+              <tr><td>Departamento / Responsable / Correo del responsable<span class="tag opt">Opcional</span></td><td>Dueño del centro.</td><td>El correo recibe los avisos.</td></tr>
+              <tr><td>Cuenta contable<span class="tag opt">Opcional</span></td><td>Cuenta del ERP contable.</td><td>Para conciliar.</td></tr>
+              <tr><td>Presupuesto anual<span class="tag opt">Opcional</span></td><td>Monto en ₡.</td><td>Control de consumo.</td></tr>
+              <tr><td>Color / Requiere aprobación</td><td>Color en el árbol y si los traslados hacia él necesitan aprobación.</td><td>Sin aprobación, el traslado se aprueba solo.</td></tr>
+              <tr><td>Crear</td><td>Guarda el centro.</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Traslados</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Solicitar reclasificación</td><td>Origen…, Destino…, Monto, Motivo de reclasificación.</td><td>El motivo es obligatorio. Pulse <strong>Enviar</strong>.</td></tr>
+              <tr><td>Tabla</td><td>Fecha, De, A, Monto, Estado (PENDIENTE / APROBADO / RECHAZADO).</td><td>Las pendientes muestran <strong>Aprobar</strong> y <strong>Rechazar</strong>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Notificaciones</h2>
+        <div class="table-wrap">
+          <table class="fields">
+            <thead><tr><th>Campo / control</th><th>Qué es</th><th>Cómo usarlo</th></tr></thead>
+            <tbody>
+              <tr><td>Activar notificaciones</td><td>Habilita los correos de resumen.</td><td>Envío por Resend.</td></tr>
+              <tr><td>Un solo correo para todos los centros</td><td>Envía todo a una dirección.</td><td>Si no, cada responsable recibe lo suyo.</td></tr>
+              <tr><td>Correo único / copia<span class="tag opt">Opcional</span></td><td>Dirección de destino o copia.</td><td>—</td></tr>
+              <tr><td>Frecuencia</td><td>Diaria, Semanal, Quincenal o Mensual.</td><td>—</td></tr>
+              <tr><td>Formato</td><td>Resumen tabular o KPI / gráficos.</td><td>—</td></tr>
+              <tr><td>Guardar / Enviar ahora</td><td>Guarda la configuración o dispara un envío inmediato.</td><td>El resultado queda en la <strong>Bitácora</strong>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <nav class="pager" id="guide-pager" aria-label="Paginación"></nav>
+    </main>
+  </div>
+  <script src="assets/guide.js"></script>
+</body>
+</html>
