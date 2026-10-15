@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { DEFAULT_OPENAI_MODEL, reasoningParams } from '../../server/openaiModel.mjs';
 
 const SYSTEM = `Eres un asistente que extrae información estructurada de páginas web.
 Devuelve un JSON con:
@@ -31,15 +32,16 @@ export function parseAndValidateJson(text) {
   return obj;
 }
 
-export async function extractStructuredPage({ cleanText, model = 'gpt-4o-mini' }) {
+export async function extractStructuredPage({ cleanText, model = DEFAULT_OPENAI_MODEL }) {
   const key = process.env.OPENAI_API_KEY?.trim();
   if (!key) throw new Error('OPENAI_API_KEY no configurada');
 
   const client = new OpenAI({ apiKey: key });
   const completion = await client.chat.completions.create({
     model,
+    ...reasoningParams(model),
     temperature: 0.2,
-    max_tokens: 1200,
+    max_completion_tokens: 1200,
     messages: [
       { role: 'system', content: SYSTEM },
       {

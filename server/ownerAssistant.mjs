@@ -16,11 +16,15 @@ import {
   resumeChat,
 } from './whatsappConfig.mjs';
 import { listAgents, queueAgentCommand, findAgentAction } from './agentHub.mjs';
+import { chatModel, reasoningParams } from './openaiModel.mjs';
 
 const TIME_ZONE = 'America/Costa_Rica';
 const PENDING_TTL_MS = 10 * 60 * 1000;
 const YES_RE = /^\s*(s[ií]+|dale|confirmo|confirmado|hazlo|de una|ok(ay)?|yes|correcto)\b/i;
 const NO_RE = /^\s*(no|cancela(r)?|olv[ií]dalo|mejor no)\b/i;
+/** pc_speak only runs when the owner's message itself asks for speech; the model alone tends to "greet" through the PC. */
+const PC_SPEAK_RE =
+  /(^|[^a-záéíóúñ])(d[ií]|dile|d[ií]ga|dec[ií]|decir|habl[aeé]\w*|reproduc\w*|en voz alta|voz|pc|compu\w*|localbot|salom[eé]|parlante|bocina|anunci[ae]\w*)(?=$|[^a-záéíóúñ])/i;
 
 /** Sensitive actions awaiting a "sí" from the owner, keyed by chat jid. */
 const pendingByJid = new Map();
@@ -146,7 +150,8 @@ const TOOLS = [
   },
   {
     name: 'pc_speak',
-    description: 'Hace que la computadora del jefe diga un texto en voz alta.',
+    description:
+      'Hace que la computadora del jefe diga un texto en voz alta. Úsala SOLO si el jefe pide explícitamente que la PC hable, diga o reproduzca algo. Nunca para saludar ni para responder sus mensajes.',
     parameters: {
       type: 'object',
       properties: { text: { type: 'string' }, device: { type: 'string', description: 'Opcional' } },
@@ -176,6 +181,7 @@ function systemPrompt() {
     'Llámalo siempre "Jefe". Tono servicial, breve y con energía: "Sí, jefe", "Ok, jefe", "Listo, jefe", "A la orden, jefe".',
     'Si el mensaje es un saludo, empieza con "Hola Jefe!!!".',
     'Usa las herramientas para pendientes, notas, recordatorios, control del bot de clientes, mensajes a clientes y su computadora.',
+    'Responde siempre por WhatsApp. Solo usa pc_speak cuando el jefe pida explícitamente que la computadora diga o reproduzca algo; un saludo o una pregunta normal NO es una orden para la PC.',
     'Nunca inventes resultados: si una herramienta falla, díselo al jefe.',
     'Para recordatorios, calcula due_at en ISO 8601 con offset -06:00 a partir de la fecha y hora actual.',
     'Si una herramienta devuelve needs_confirmation, pregunta al jefe si confirma y explica exactamente qué se hará.',
@@ -266,6 +272,9 @@ async function runTool(db, name, args, ctx) {
       };
     }
     case 'pc_speak': {
+      if (!PC_SPEAK_RE.test(String(ctx.text || ''))) {
+        return { ok: false, error: 'El jefe no pidió que la PC hable. No uses pc_speak; responde solo por WhatsApp.' };
+      }
       const text = String(args.text || '').trim().slice(0, 500);
       if (!text) return { ok: false, error: 'Texto vacío.' };
       const q = await queueAgentCommand(db, { agent: args.device, type: 'speak', payload: { text }, source: 'whatsapp' });
@@ -372,7 +381,7 @@ export async function handleOwnerMessage(db, ctx) {
     { role: 'user', content: text },
   ];
 
-  const model = process.env.OPENAI_MODEL?.trim() || 'gpt-4o-mini';
+  const model = chatModel();
   let answer = '';
 
   for (let step = 0; step < 5; step += 1) {
@@ -381,8 +390,9 @@ export async function handleOwnerMessage(db, ctx) {
       model,
       messages,
       tools: TOOLS.map((t) => ({ type: 'function', function: t })),
+      ...reasoningParams(model),
       temperature: 0.3,
-      max_tokens: 500,
+      max_completion_tokens: 500,
     });
     const choice = response.choices?.[0]?.message;
     if (!choice) break;

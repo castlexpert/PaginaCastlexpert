@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { chatModel, reasoningParams } from './openaiModel.mjs';
 
 function getClient() {
   const key = process.env.OPENAI_API_KEY?.trim();
@@ -14,7 +15,7 @@ export async function answerWithLlm({ language, question, context, history }) {
   const client = getClient();
   if (!client) return null;
 
-  const model = process.env.OPENAI_MODEL?.trim() || 'gpt-4o-mini';
+  const model = chatModel();
 
   const system =
     language === 'es'
@@ -74,8 +75,9 @@ export async function answerWithLlm({ language, question, context, history }) {
     const response = await client.chat.completions.create({
       model,
       messages: input,
+      ...reasoningParams(model),
       temperature: 0.4,
-      max_tokens: 350,
+      max_completion_tokens: 350,
     });
 
     return response.choices?.[0]?.message?.content?.trim() || null;
