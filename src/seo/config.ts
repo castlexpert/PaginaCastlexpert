@@ -18,14 +18,14 @@ export const seoByLang: Record<Language, PageSeo> = {
     description:
       'Diseño de aplicaciones móviles, sistemas a medida y automatización para empresas en Costa Rica. Proceso claro, entrega ágil y soporte CastleXpert.',
     keywords:
-      'CastleXpert, desarrollo de apps, apps Costa Rica, software a medida, automatización, arquitectura digital, aplicaciones móviles, sistemas empresariales',
+      'CastleXpert, desarrollo de apps, apps Costa Rica, software a medida, automatización, arquitectura digital, aplicaciones móviles, sistemas empresariales, Smart Circuit HIIT, herramientas gratis',
   },
   en: {
     title: 'CastleXpert | Mobile apps & digital architecture for your business',
     description:
       'Custom mobile apps, tailored systems, and automation for businesses. Clear process, agile delivery, and ongoing support from CastleXpert, Costa Rica.',
     keywords:
-      'CastleXpert, mobile app development, custom software, business automation, digital architecture, Costa Rica, mobile solutions',
+      'CastleXpert, mobile app development, custom software, business automation, digital architecture, Costa Rica, mobile solutions, Smart Circuit HIIT, free tools',
   },
 };
 

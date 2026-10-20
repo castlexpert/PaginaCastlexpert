@@ -50,6 +50,21 @@ export default function SiteMapPage({
               </Link>
             </li>
             <li>
+              <Link className={linkCls} to="/#herramientas-gratis">
+                {content.footer.freeToolsLink}
+              </Link>
+            </li>
+            <li>
+              <a
+                className={linkCls}
+                href="https://smarthiit.castlexpert.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Smart Circuit HIIT (gratis)
+              </a>
+            </li>
+            <li>
               <Link className={linkCls} to="/demos/tracklogic">
                 Demo TrackLogic
               </Link>

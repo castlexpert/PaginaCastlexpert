@@ -35,6 +35,13 @@ export const KB_DOCS = [
       'En castlexpert.com ofrecemos demos funcionales listos para explorar: CastleXpert CRM IA (nuevo: CRM con IA y WhatsApp, con demo en vivo), Foodly (restaurantes), CMMS / MANTE Preventivo (mantenimiento), TrackLogic (paquetería), Pura Puntos (lealtad multi-comercio) y ERP Inventarios (inventarios y bodegas, integrado con el CMMS). Cada demo tiene una página de explicación y una guía de instrucciones o demo en vivo. Lista: https://castlexpert.com/#demos',
   },
   {
+    id: 'free-tools-es',
+    language: 'es',
+    title: 'Herramientas gratis (Smart Circuit HIIT)',
+    content:
+      'CastleXpert ofrece herramientas de uso gratuito (no son demos de venta). Smart Circuit HIIT es una PWA para rutinas HIIT y Tabata repetitivas: temporiza rounds, descansos y avisos para llevar el entrenamiento. Se abre y se usa sin costo: https://smarthiit.castlexpert.com/ — También aparece en la sección Herramientas gratis del sitio: https://castlexpert.com/#herramientas-gratis',
+  },
+  {
     id: 'demo-crm-ia-es',
     language: 'es',
     title: 'CastleXpert CRM IA (CRM con inteligencia artificial y WhatsApp)',
@@ -159,6 +166,13 @@ export const KB_DOCS = [
     title: 'Functional demos (overview)',
     content:
       'On castlexpert.com we offer functional demos: CastleXpert CRM IA (new: AI CRM with WhatsApp, with a live demo), Foodly (restaurants), CMMS / MANTE Preventive (maintenance), TrackLogic (parcel tracking), Pura Puntos (multi-merchant loyalty), and ERP Inventory (inventory and warehouses, integrated with the CMMS). Each demo has an explanation page and an instructions guide or live demo. List: https://castlexpert.com/#demos',
+  },
+  {
+    id: 'free-tools-en',
+    language: 'en',
+    title: 'Free tools (Smart Circuit HIIT)',
+    content:
+      'CastleXpert offers free-to-use tools (not sales demos). Smart Circuit HIIT is a PWA for repetitive HIIT and Tabata routines: it times rounds, rests, and alerts so you stay on track. Open and use it at no cost: https://smarthiit.castlexpert.com/ — Also listed under Free tools on the site: https://castlexpert.com/#herramientas-gratis',
   },
   {
     id: 'demo-crm-ia-en',

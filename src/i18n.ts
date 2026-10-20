@@ -135,6 +135,7 @@ export type AppCopy = {
     servicesLink: string;
     contactLink: string;
     mockupsLink: string;
+    freeToolsLink: string;
     followUs: string;
     paymentsTitle: string;
     rights: string;
@@ -193,6 +194,18 @@ export type AppCopy = {
       guideHint: string;
       guideLabel?: string;
       tryDescription?: string;
+    }>;
+  };
+  freeTools: {
+    eyebrow: string;
+    sectionTitle: string;
+    sectionSubtitle: string;
+    badge: string;
+    ctaLabel: string;
+    items: Array<{
+      id: 'smart-hiit';
+      title: string;
+      cardDescription: string;
     }>;
   };
   whatsapp: {
@@ -707,6 +720,7 @@ export const copy: Record<Language, AppCopy> = {
       servicesLink: 'Servicios',
       contactLink: 'Contacto',
       mockupsLink: 'Mockups',
+      freeToolsLink: 'Herramientas gratis',
       followUs: 'Síguenos',
       paymentsTitle: 'Métodos de pago',
       rights: 'Todos los derechos reservados.',
@@ -859,6 +873,22 @@ export const copy: Record<Language, AppCopy> = {
           guideLabel: 'Ver ficha técnica y planes',
           tryDescription:
             'Entre al demo en vivo con datos ficticios de una empresa costarricense: panel ejecutivo, clientes 360, negociaciones, cotizaciones, WhatsApp, Bot Studio y más. Hable con el copiloto Xpert desde el botón de ojos.',
+        },
+      ],
+    },
+    freeTools: {
+      eyebrow: 'Uso gratuito',
+      sectionTitle: 'HERRAMIENTAS GRATIS',
+      sectionSubtitle:
+        'Apps listas para usar sin costo. Ábrelas, entrénate o lleva el control; no son demos de venta.',
+      badge: 'Gratis',
+      ctaLabel: 'Abrir app',
+      items: [
+        {
+          id: 'smart-hiit',
+          title: 'Smart Circuit HIIT',
+          cardDescription:
+            'PWA para rutinas HIIT y Tabata repetitivas: temporiza rounds, descansos y avisos para llevar el entrenamiento.',
         },
       ],
     },
@@ -1430,6 +1460,7 @@ export const copy: Record<Language, AppCopy> = {
       aboutLink: 'About',
       siteMapLink: 'Site map',
       mockupsLink: 'Mockups',
+      freeToolsLink: 'Free tools',
       cookiePolicyLink: 'Cookie policy',
       servicesLink: 'Services',
       contactLink: 'Contact',
@@ -1585,6 +1616,22 @@ export const copy: Record<Language, AppCopy> = {
           guideLabel: 'View spec sheet and plans',
           tryDescription:
             'Open the live demo with fictional data from a Costa Rican company: executive dashboard, 360° customers, deals, quotes, WhatsApp, Bot Studio, and more. Talk to the Xpert copilot from the eyes button.',
+        },
+      ],
+    },
+    freeTools: {
+      eyebrow: 'Free to use',
+      sectionTitle: 'FREE TOOLS',
+      sectionSubtitle:
+        'Apps ready to use at no cost. Open them, train, and stay on track — these are not sales demos.',
+      badge: 'Free',
+      ctaLabel: 'Open app',
+      items: [
+        {
+          id: 'smart-hiit',
+          title: 'Smart Circuit HIIT',
+          cardDescription:
+            'PWA for repetitive HIIT and Tabata routines: time rounds, rests, and alerts so you stay on track.',
         },
       ],
     },

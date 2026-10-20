@@ -3,6 +3,7 @@ import TrustBar from '../components/TrustBar';
 import Services from '../components/Services';
 import HowItWorks from '../components/HowItWorks';
 import FunctionalDemosSection from '../components/FunctionalDemosSection';
+import FreeToolsSection from '../components/FreeToolsSection';
 import Benefits from '../components/Benefits';
 import Footer from '../components/Footer';
 import OracleMigrationSection from '../components/OracleMigrationSection';
@@ -26,6 +27,7 @@ export default function HomePage({ content, language, onToggleLanguage, onOpenCo
       <Services content={content.services} variant="solutions" />
       <Services content={content.services} variant="main" />
       <Benefits content={content.benefits} />
+      <FreeToolsSection content={content.freeTools} />
       <Footer content={content.footer} onOpenCookiePolicy={onOpenCookiePolicy} />
     </main>
   );

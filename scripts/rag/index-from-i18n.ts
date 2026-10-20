@@ -5,6 +5,7 @@
 import 'dotenv/config';
 import type { AppCopy } from '../../src/i18n.ts';
 import { copy } from '../../src/i18n.ts';
+import { freeTools } from '../../src/data/freeTools.ts';
 import { embedDocumentsBatch, embeddingInput } from './embeddings.mjs';
 import { ensureRagSchema, getPool, upsertPage } from './db-rag.mjs';
 
@@ -150,6 +151,20 @@ function buildDocuments(c: AppCopy, lang: 'es' | 'en', base: string): IndexDoc[]
       ].join('\n'),
       secciones: highlightsToSecciones(item.highlights, L),
     });
+  });
+
+  const ft = c.freeTools;
+  docs.push({
+    url: `${base}/#herramientas-gratis`,
+    titulo: `${ft.eyebrow} — ${ft.sectionTitle}`,
+    descripcion: ft.sectionSubtitle,
+    secciones: ft.items.map((i) => {
+      const tool = freeTools.find((t) => t.id === i.id);
+      return {
+        titulo: i.title,
+        descripcion: `${i.cardDescription} ${tool?.url || ''}`.trim(),
+      };
+    }),
   });
 
   const mk = c.mockups;
