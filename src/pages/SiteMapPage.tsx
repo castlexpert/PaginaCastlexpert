@@ -65,6 +65,16 @@ export default function SiteMapPage({
               </a>
             </li>
             <li>
+              <a
+                className={linkCls}
+                href="https://tipocambio.castlexpert.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Tipo de Cambio CR (gratis)
+              </a>
+            </li>
+            <li>
               <Link className={linkCls} to="/demos/tracklogic">
                 Demo TrackLogic
               </Link>

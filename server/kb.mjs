@@ -37,9 +37,9 @@ export const KB_DOCS = [
   {
     id: 'free-tools-es',
     language: 'es',
-    title: 'Herramientas gratis (Smart Circuit HIIT)',
+    title: 'Herramientas gratis (Smart Circuit HIIT y Tipo de Cambio CR)',
     content:
-      'CastleXpert ofrece herramientas de uso gratuito (no son demos de venta). Smart Circuit HIIT es una PWA para rutinas HIIT y Tabata repetitivas: temporiza rounds, descansos y avisos para llevar el entrenamiento. Se abre y se usa sin costo: https://smarthiit.castlexpert.com/ — También aparece en la sección Herramientas gratis del sitio: https://castlexpert.com/#herramientas-gratis',
+      'CastleXpert ofrece herramientas de uso gratuito (no son demos de venta). 1) Smart Circuit HIIT: PWA para rutinas HIIT y Tabata repetitivas; temporiza rounds, descansos y avisos. https://smarthiit.castlexpert.com/ 2) Tipo de Cambio CR: consulta gratuita de tipo de cambio en Costa Rica con datos BCCR — mejores precios de compra del día, resto de entidades autorizadas e indicadores (tasa básica, inflación, euro, S&P 500). https://tipocambio.castlexpert.com/ — Sección del sitio: https://castlexpert.com/#herramientas-gratis',
   },
   {
     id: 'demo-crm-ia-es',
@@ -170,9 +170,9 @@ export const KB_DOCS = [
   {
     id: 'free-tools-en',
     language: 'en',
-    title: 'Free tools (Smart Circuit HIIT)',
+    title: 'Free tools (Smart Circuit HIIT and Tipo de Cambio CR)',
     content:
-      'CastleXpert offers free-to-use tools (not sales demos). Smart Circuit HIIT is a PWA for repetitive HIIT and Tabata routines: it times rounds, rests, and alerts so you stay on track. Open and use it at no cost: https://smarthiit.castlexpert.com/ — Also listed under Free tools on the site: https://castlexpert.com/#herramientas-gratis',
+      'CastleXpert offers free-to-use tools (not sales demos). 1) Smart Circuit HIIT: PWA for repetitive HIIT and Tabata routines; times rounds, rests, and alerts. https://smarthiit.castlexpert.com/ 2) Tipo de Cambio CR: free Costa Rica exchange rates with BCCR data — best buy prices of the day, authorized entities, and indicators (basic rate, inflation, euro, S&P 500). https://tipocambio.castlexpert.com/ — Site section: https://castlexpert.com/#herramientas-gratis',
   },
   {
     id: 'demo-crm-ia-en',

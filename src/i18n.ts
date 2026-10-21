@@ -203,7 +203,7 @@ export type AppCopy = {
     badge: string;
     ctaLabel: string;
     items: Array<{
-      id: 'smart-hiit';
+      id: 'smart-hiit' | 'tipo-cambio';
       title: string;
       cardDescription: string;
     }>;
@@ -889,6 +889,12 @@ export const copy: Record<Language, AppCopy> = {
           title: 'Smart Circuit HIIT',
           cardDescription:
             'PWA para rutinas HIIT y Tabata repetitivas: temporiza rounds, descansos y avisos para llevar el entrenamiento.',
+        },
+        {
+          id: 'tipo-cambio',
+          title: 'Tipo de Cambio CR',
+          cardDescription:
+            'Consulta gratuita de tipo de cambio en Costa Rica (BCCR): mejores precios de compra, entidades autorizadas e indicadores del día.',
         },
       ],
     },
@@ -1632,6 +1638,12 @@ export const copy: Record<Language, AppCopy> = {
           title: 'Smart Circuit HIIT',
           cardDescription:
             'PWA for repetitive HIIT and Tabata routines: time rounds, rests, and alerts so you stay on track.',
+        },
+        {
+          id: 'tipo-cambio',
+          title: 'Tipo de Cambio CR',
+          cardDescription:
+            'Free Costa Rica exchange rates (BCCR): best buy prices, authorized entities, and daily indicators.',
         },
       ],
     },

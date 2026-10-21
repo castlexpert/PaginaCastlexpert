@@ -34,7 +34,9 @@ export default function FreeToolsSection({ content }: FreeToolsSectionProps) {
                   <img
                     src={tool.image}
                     alt=""
-                    className="h-full w-full object-contain p-6 transition duration-700 ease-out group-hover:scale-[1.03] sm:p-8"
+                    className={`h-full w-full transition duration-700 ease-out group-hover:scale-[1.03] ${
+                      tool.id === 'smart-hiit' ? 'object-contain p-6 sm:p-8' : 'object-cover object-top'
+                    }`}
                     loading="lazy"
                     decoding="async"
                   />
