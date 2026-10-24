@@ -35,12 +35,14 @@ import {
   isBaileysConnected,
 } from './baileysWhatsApp.mjs';
 import { ensureOwnerSchema } from './ownerStore.mjs';
-import { formatAgentResult } from './ownerAssistant.mjs';
+import { formatAgentResult, handleOwnerMessage } from './ownerAssistant.mjs';
+import { textHasWakeWord, transcribeVoiceAudio } from './voiceTranscribe.mjs';
 import { startOwnerReminders } from './ownerReminders.mjs';
 import {
   ensureAgentSchema,
   attachAgentHub,
   setAgentResultListener,
+  setVoiceQueryHandler,
   listAgents,
   createAgent,
   deleteAgent,
@@ -459,6 +461,43 @@ async function start() {
   setAgentResultListener(async (command, result) => {
     if (!command.notify_jid || !isBaileysConnected()) return;
     await sendTextMessage(command.notify_jid, formatAgentResult(command, result));
+  });
+  setVoiceQueryHandler(async (agentId, msg) => {
+    if (msg.mode === 'wake') {
+      const text = await transcribeVoiceAudio(msg.audio, msg.mime, { mode: 'wake' });
+      const wake = textHasWakeWord(text);
+      // eslint-disable-next-line no-console
+      console.log(`[agent] wake check: wake=${wake} text="${text.slice(0, 80)}"`);
+      return { wake, text };
+    }
+
+    const db = await getDb();
+    const cfg = await getWhatsAppConfig(db);
+    const phone = String(cfg.owner_phone || '').trim();
+    if (!phone) {
+      return 'Jefe, configure su teléfono de dueño en WhatsApp del panel para que Cleo use el mismo asistente.';
+    }
+
+    let text = String(msg.text || '').trim();
+    if (!text && msg.audio) {
+      // eslint-disable-next-line no-console
+      console.log(`[agent] whisper audio from ${agentId}…`);
+      text = await transcribeVoiceAudio(msg.audio, msg.mime);
+      // eslint-disable-next-line no-console
+      console.log(`[agent] whisper: ${text.slice(0, 120)}`);
+    }
+    if (!text) {
+      return 'Jefe, no le entendí. Digame Cleo y repítalo, por favor.';
+    }
+
+    return handleOwnerMessage(db, {
+      text,
+      jid: `pc-voice:${agentId}`,
+      phone,
+      source: 'pc-voice',
+      sendText: async () => {},
+      getConnection: getBaileysStatus,
+    });
   });
 
   startOwnerReminders({ getDb, sendText: sendTextMessage, isConnected: isBaileysConnected });

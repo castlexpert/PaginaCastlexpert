@@ -175,17 +175,26 @@ const TOOLS = [
   },
 ];
 
-function systemPrompt() {
+function systemPrompt(source = 'whatsapp') {
+  const voice = source === 'pc-voice';
   return [
-    'Eres el asistente personal del dueño de CastleXpert. Le hablas por WhatsApp.',
+    voice
+      ? 'Eres el asistente personal del dueño de CastleXpert. Te habla por voz desde su PC (LocalBot / Cleo). Responde para ser leída en voz alta: frases cortas, sin markdown, sin listas largas ni enlaces.'
+      : 'Eres el asistente personal del dueño de CastleXpert. Le hablas por WhatsApp.',
     'Llámalo siempre "Jefe". Tono servicial, breve y con energía: "Sí, jefe", "Ok, jefe", "Listo, jefe", "A la orden, jefe".',
-    'Si el mensaje es un saludo, empieza con "Hola Jefe!!!".',
+    voice
+      ? 'Si el mensaje es un saludo, responde breve: "Hola jefe".'
+      : 'Si el mensaje es un saludo, empieza con "Hola Jefe!!!".',
     'Usa las herramientas para pendientes, notas, recordatorios, control del bot de clientes, mensajes a clientes y su computadora.',
-    'Responde siempre por WhatsApp. Solo usa pc_speak cuando el jefe pida explícitamente que la computadora diga o reproduzca algo; un saludo o una pregunta normal NO es una orden para la PC.',
+    voice
+      ? 'NO uses pc_speak: tu respuesta ya se reproduce en la PC. Nunca digas que vas a hacer hablar a la computadora.'
+      : 'Responde siempre por WhatsApp. Solo usa pc_speak cuando el jefe pida explícitamente que la computadora diga o reproduzca algo; un saludo o una pregunta normal NO es una orden para la PC.',
     'Nunca inventes resultados: si una herramienta falla, díselo al jefe.',
     'Para recordatorios, calcula due_at en ISO 8601 con offset -06:00 a partir de la fecha y hora actual.',
     'Si una herramienta devuelve needs_confirmation, pregunta al jefe si confirma y explica exactamente qué se hará.',
-    'Al listar, usa listas cortas con el id entre corchetes, por ejemplo "[3] Llamar a Juan".',
+    voice
+      ? 'Al listar, di como máximo 5 ítems en frases cortas, mencionando el id.'
+      : 'Al listar, usa listas cortas con el id entre corchetes, por ejemplo "[3] Llamar a Juan".',
     `Fecha y hora actual: ${nowInCostaRica()}.`,
   ].join(' ');
 }
@@ -272,6 +281,9 @@ async function runTool(db, name, args, ctx) {
       };
     }
     case 'pc_speak': {
+      if (ctx.source === 'pc-voice') {
+        return { ok: false, error: 'El jefe ya habla por voz en la PC. No uses pc_speak; responde en texto oral.' };
+      }
       if (!PC_SPEAK_RE.test(String(ctx.text || ''))) {
         return { ok: false, error: 'El jefe no pidió que la PC hable. No uses pc_speak; responde solo por WhatsApp.' };
       }
@@ -297,13 +309,17 @@ async function runTool(db, name, args, ctx) {
         agent: agent.name,
         type: 'run',
         payload: { action: action.id },
-        source: 'whatsapp',
-        notifyJid: ctx.jid,
+        source: ctx.source === 'pc-voice' ? 'pc-voice' : 'whatsapp',
+        notifyJid: ctx.source === 'pc-voice' ? ctx.phone : ctx.jid,
       });
       return { ok: true, device: q.agent.name, online: q.online, note: 'Te aviso cuando termine.' };
     }
     case 'pc_lock': {
-      const q = await queueAgentCommand(db, { agent: args.device, type: 'lock', source: 'whatsapp' });
+      const q = await queueAgentCommand(db, {
+        agent: args.device,
+        type: 'lock',
+        source: ctx.source === 'pc-voice' ? 'pc-voice' : 'whatsapp',
+      });
       return { ok: true, device: q.agent.name, online: q.online };
     }
     default:
@@ -321,8 +337,8 @@ async function executePending(db, pending, ctx) {
       agent: pending.payload.agent,
       type: 'run',
       payload: { action: pending.payload.actionId },
-      source: 'whatsapp',
-      notifyJid: ctx.jid,
+      source: ctx.source === 'pc-voice' ? 'pc-voice' : 'whatsapp',
+      notifyJid: ctx.source === 'pc-voice' ? ctx.phone : ctx.jid,
     });
     return q.online
       ? `Listo, jefe. Ejecutando "${pending.payload.actionId}" en ${q.agent.name}; le aviso cuando termine.`
@@ -340,13 +356,14 @@ function getClient() {
 }
 
 /**
- * Handles a WhatsApp message from the owner's personal number.
+ * Handles a message from the owner's WhatsApp or PC voice (LocalBot / Cleo).
  * @param {*} db
- * @param {{ text: string, jid: string, phone: string, sendText: Function, getConnection: Function }} ctx
+ * @param {{ text: string, jid: string, phone: string, sendText: Function, getConnection: Function, source?: 'whatsapp'|'pc-voice' }} ctx
  * @returns {Promise<string>}
  */
 export async function handleOwnerMessage(db, ctx) {
   const text = String(ctx.text || '').trim();
+  const source = ctx.source === 'pc-voice' ? 'pc-voice' : 'whatsapp';
   const conversationId = `owner:${digits(ctx.phone) || ctx.jid}`;
 
   const pending = pendingByJid.get(ctx.jid);
@@ -368,7 +385,9 @@ export async function handleOwnerMessage(db, ctx) {
 
   const openai = getClient();
   if (!openai) {
-    return 'Hola Jefe!!! No tengo OpenAI configurado en el servidor, así que por ahora no puedo ayudarle con tareas.';
+    return source === 'pc-voice'
+      ? 'Jefe, no tengo OpenAI configurado en el servidor, así que por ahora no puedo ayudarle.'
+      : 'Hola Jefe!!! No tengo OpenAI configurado en el servidor, así que por ahora no puedo ayudarle con tareas.';
   }
 
   await ensureConversation(db, conversationId, 'es');
@@ -376,13 +395,14 @@ export async function handleOwnerMessage(db, ctx) {
   await addMessage(db, conversationId, 'user', text);
 
   const messages = [
-    { role: 'system', content: systemPrompt() },
+    { role: 'system', content: systemPrompt(source) },
     ...history.map((m) => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content })),
     { role: 'user', content: text },
   ];
 
   const model = chatModel();
   let answer = '';
+  const maxTokens = source === 'pc-voice' ? 280 : 500;
 
   for (let step = 0; step < 5; step += 1) {
     // eslint-disable-next-line no-await-in-loop
@@ -392,7 +412,7 @@ export async function handleOwnerMessage(db, ctx) {
       tools: TOOLS.map((t) => ({ type: 'function', function: t })),
       ...reasoningParams(model),
       temperature: 0.3,
-      max_completion_tokens: 500,
+      max_completion_tokens: maxTokens,
     });
     const choice = response.choices?.[0]?.message;
     if (!choice) break;

@@ -8,6 +8,8 @@ const PING_INTERVAL_MS = 30 * 1000;
 /** @type {Map<string, import('ws').WebSocket>} agentId -> socket */
 const sockets = new Map();
 let resultListener = null;
+/** @type {null | ((agentId: string, msg: { id: string, text?: string, audio?: string, mime?: string }) => Promise<string>)} */
+let voiceQueryHandler = null;
 let getDb = null;
 
 function hashToken(token) {
@@ -49,6 +51,14 @@ export async function ensureAgentSchema(pool) {
 /** Called with (command row, result payload) whenever an agent reports a result. */
 export function setAgentResultListener(fn) {
   resultListener = fn;
+}
+
+/**
+ * Handles LocalBot voice (text or Whisper audio). Must return plain text for TTS.
+ * @param {(agentId: string, msg: { id: string, text?: string, audio?: string, mime?: string }) => Promise<string>} fn
+ */
+export function setVoiceQueryHandler(fn) {
+  voiceQueryHandler = fn;
 }
 
 export function isAgentOnline(agentId) {
@@ -204,6 +214,91 @@ async function handleAgentMessage(agentId, ws, raw) {
     return;
   }
 
+  if (msg.type === 'voice_wake' && msg.id) {
+    const ws = sockets.get(String(agentId));
+    const replyId = String(msg.id).slice(0, 80);
+    const sendWake = (wake, text = '', error = null) => {
+      if (!ws || ws.readyState !== ws.OPEN) return;
+      ws.send(
+        JSON.stringify({
+          type: 'voice_wake_result',
+          id: replyId,
+          wake: Boolean(wake),
+          text: String(text || '').slice(0, 500),
+          ...(error ? { error: String(error).slice(0, 300) } : {}),
+        })
+      );
+    };
+    if (!voiceQueryHandler) {
+      sendWake(false, '', 'voice handler missing');
+      return;
+    }
+    const audio = typeof msg.audio === 'string' ? msg.audio : '';
+    if (!audio) {
+      sendWake(false);
+      return;
+    }
+    try {
+      const result = await voiceQueryHandler(agentId, {
+        id: replyId,
+        mode: 'wake',
+        audio,
+        mime: String(msg.mime || 'audio/wav').slice(0, 80),
+      });
+      if (result && typeof result === 'object' && 'wake' in result) {
+        sendWake(result.wake, result.text || '');
+      } else {
+        sendWake(false, String(result || ''));
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('[agent] voice_wake failed:', e?.message || e);
+      sendWake(false, '', e?.message || String(e));
+    }
+    return;
+  }
+
+  if ((msg.type === 'voice_query' || msg.type === 'voice_audio') && msg.id) {
+    const ws = sockets.get(String(agentId));
+    const replyId = String(msg.id).slice(0, 80);
+    const sendAnswer = (answer, error = null) => {
+      if (!ws || ws.readyState !== ws.OPEN) return;
+      ws.send(
+        JSON.stringify({
+          type: 'voice_answer',
+          id: replyId,
+          text: String(answer || '').slice(0, 2000),
+          ...(error ? { error: String(error).slice(0, 300) } : {}),
+        })
+      );
+    };
+    if (!voiceQueryHandler) {
+      sendAnswer('Jefe, el oído de la PC aún no está configurado en el servidor.');
+      return;
+    }
+    const text = String(msg.text || '').trim().slice(0, 1000);
+    const audio = typeof msg.audio === 'string' ? msg.audio : '';
+    if (!text && !audio) {
+      sendAnswer('Jefe, no le escuché. ¿Me lo repite?');
+      return;
+    }
+    try {
+      const answer = await voiceQueryHandler(agentId, {
+        id: replyId,
+        mode: 'command',
+        text: text || undefined,
+        audio: audio || undefined,
+        mime: String(msg.mime || 'audio/wav').slice(0, 80),
+      });
+      sendAnswer(typeof answer === 'string' ? answer : answer?.text || 'Jefe, no tengo respuesta ahora.');
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn(`[agent] ${msg.type} failed:`, e?.message || e);
+      sendAnswer(`Jefe, no pude procesar eso: ${e?.message || e}`, e?.message || String(e));
+    }
+    return;
+  }
+
   if (msg.type === 'result' && msg.id) {
     const ok = Boolean(msg.ok);
     const result = {
@@ -238,7 +333,8 @@ function extractToken(req) {
 
 export function attachAgentHub(server, getDbFn) {
   getDb = getDbFn;
-  const wss = new WebSocketServer({ noServer: true, maxPayload: 64 * 1024 });
+  // Voice WAV (~12s 16kHz mono) base64 can exceed 500 KB; keep headroom for Whisper uploads.
+  const wss = new WebSocketServer({ noServer: true, maxPayload: 2.5 * 1024 * 1024 });
 
   server.on('upgrade', async (req, socket, head) => {
     let pathname = '';
