@@ -56,7 +56,7 @@ export async function transcribeVoiceAudio(base64, mime = 'audio/wav', opts = {}
       ? 'mp3'
       : 'wav';
   const contentType = kind.startsWith('audio/') ? kind : `audio/${ext}`;
-  const file = await toUploadFile(buffer, `cleo-${opts.mode || 'command'}.${ext}`, contentType);
+  const file = await toUploadFile(buffer, `maria-${opts.mode || 'command'}.${ext}`, contentType);
 
   const body = {
     file,
@@ -66,7 +66,7 @@ export async function transcribeVoiceAudio(base64, mime = 'audio/wav', opts = {}
   };
   // Bias wake clips toward the name so Whisper locks faster / more reliably.
   if (opts.mode === 'wake') {
-    body.prompt = 'Cleo. Clio. Kleo. Oye Cleo.';
+    body.prompt = 'Maria. María. Oye Maria. Hola Maria.';
   }
 
   const result = await openai.audio.transcriptions.create(body);
@@ -75,12 +75,21 @@ export async function transcribeVoiceAudio(base64, mime = 'audio/wav', opts = {}
   return text.trim();
 }
 
-/** True if transcription contains the wake name (Cleo / Clio / Ocleo / …). */
+/** True if transcription contains the wake name (Maria / María / …). */
 export function textHasWakeWord(text) {
   const t = String(text || '')
     .normalize('NFD')
     .replace(/\p{M}/gu, '')
     .toLowerCase();
-  // Substring: "¡Ocleo!", "Clio", "oye cleo", etc.
-  return /cleo|clio|kleo|clea/.test(t);
+  return /\b(maria|mariah|marya)\b/.test(t) || /maria|mariah|marya/.test(t);
+}
+
+/** Strip leading wake phrase so the assistant sees only the command. */
+export function stripWakeWord(text) {
+  return String(text || '')
+    .replace(
+      /^\s*((oye|oiga|hola|hey|ok|ea)\s+)?(mar[ií]a|mariah|marya)[\s,.:;¡!¿?-]*/iu,
+      ''
+    )
+    .trim();
 }

@@ -36,7 +36,7 @@ import {
 } from './baileysWhatsApp.mjs';
 import { ensureOwnerSchema } from './ownerStore.mjs';
 import { formatAgentResult, handleOwnerMessage } from './ownerAssistant.mjs';
-import { textHasWakeWord, transcribeVoiceAudio } from './voiceTranscribe.mjs';
+import { stripWakeWord, textHasWakeWord, transcribeVoiceAudio } from './voiceTranscribe.mjs';
 import { startOwnerReminders } from './ownerReminders.mjs';
 import {
   ensureAgentSchema,
@@ -475,7 +475,7 @@ async function start() {
     const cfg = await getWhatsAppConfig(db);
     const phone = String(cfg.owner_phone || '').trim();
     if (!phone) {
-      return 'Jefe, configure su teléfono de dueño en WhatsApp del panel para que Cleo use el mismo asistente.';
+      return 'Jefe, configure su teléfono de dueño en WhatsApp del panel para que Maria use el mismo asistente.';
     }
 
     let text = String(msg.text || '').trim();
@@ -487,11 +487,14 @@ async function start() {
       console.log(`[agent] whisper: ${text.slice(0, 120)}`);
     }
     if (!text) {
-      return 'Jefe, no le entendí. Digame Cleo y repítalo, por favor.';
+      return 'Jefe, no le entendí. Digame Maria y repítalo, por favor.';
     }
 
+    // Local wake already fired; strip "Maria …" if the user said name+command together.
+    const command = stripWakeWord(text) || text;
+
     return handleOwnerMessage(db, {
-      text,
+      text: command,
       jid: `pc-voice:${agentId}`,
       phone,
       source: 'pc-voice',

@@ -179,11 +179,11 @@ function systemPrompt(source = 'whatsapp') {
   const voice = source === 'pc-voice';
   return [
     voice
-      ? 'Eres el asistente personal del dueño de CastleXpert. Te habla por voz desde su PC (LocalBot / Cleo). Responde para ser leída en voz alta: frases cortas, sin markdown, sin listas largas ni enlaces.'
+      ? 'Eres Maria, asistente personal del dueño de CastleXpert por voz en su PC (LocalBot). Responde para voz alta: máximo 1-2 frases cortas, sin markdown, sin listas ni enlaces.'
       : 'Eres el asistente personal del dueño de CastleXpert. Le hablas por WhatsApp.',
-    'Llámalo siempre "Jefe". Tono servicial, breve y con energía: "Sí, jefe", "Ok, jefe", "Listo, jefe", "A la orden, jefe".',
+    'Llámalo siempre "Jefe". Tono servicial, breve y con energía: "Sí, jefe", "Ok, jefe", "Listo, jefe".',
     voice
-      ? 'Si el mensaje es un saludo, responde breve: "Hola jefe".'
+      ? 'Si el mensaje es un saludo o solo te llamó, responde solo: "Dígame, jefe".'
       : 'Si el mensaje es un saludo, empieza con "Hola Jefe!!!".',
     'Usa las herramientas para pendientes, notas, recordatorios, control del bot de clientes, mensajes a clientes y su computadora.',
     voice
@@ -356,7 +356,7 @@ function getClient() {
 }
 
 /**
- * Handles a message from the owner's WhatsApp or PC voice (LocalBot / Cleo).
+ * Handles a message from the owner's WhatsApp or PC voice (LocalBot / Maria).
  * @param {*} db
  * @param {{ text: string, jid: string, phone: string, sendText: Function, getConnection: Function, source?: 'whatsapp'|'pc-voice' }} ctx
  * @returns {Promise<string>}
