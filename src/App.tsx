@@ -14,6 +14,7 @@ import ContactCardPage from './pages/ContactCardPage';
 import ContactPage from './pages/ContactPage';
 import DemoProductPage from './pages/DemoProductPage';
 import MockupsPage from './pages/MockupsPage';
+import OwnerVoicePage from './pages/OwnerVoicePage';
 import { enableSiteAnalytics, trackPageView } from './lib/siteAnalytics';
 import { oracleMigrationUrl, readStoredLanguage, storeLanguage } from './lib/siteLanguage';
 
@@ -38,6 +39,8 @@ function OracleMigrationRedirect() {
 function App() {
   const location = useLocation();
   const contactCardOnly = isContactCardPath(location.pathname);
+  const voiceOnly = location.pathname === '/voz' || location.pathname === '/penelope';
+  const chromeLess = contactCardOnly || voiceOnly;
   const [language, setLanguage] = useState<Language>(() => readStoredLanguage());
   const [cookiePolicyOpen, setCookiePolicyOpen] = useState(false);
   const [hasCookieConsent, setHasCookieConsent] = useState(() => hasStoredCookieConsent());
@@ -58,10 +61,10 @@ function App() {
   }
 
   useEffect(() => {
-    if (!hasCookieConsent || contactCardOnly) return;
+    if (!hasCookieConsent || chromeLess) return;
     enableSiteAnalytics();
     trackPageView(location.pathname);
-  }, [location.pathname, hasCookieConsent, contactCardOnly]);
+  }, [location.pathname, hasCookieConsent, chromeLess]);
 
   function handleAcceptCookies() {
     storeCookieConsent();
@@ -72,9 +75,11 @@ function App() {
 
   return (
     <div className="min-h-screen bg-transparent text-zinc-900">
-      {!contactCardOnly && <SiteBackground />}
-      <SeoHead language={language} pathname={location.pathname} />
+      {!chromeLess && <SiteBackground />}
+      {!voiceOnly && <SeoHead language={language} pathname={location.pathname} />}
       <Routes>
+        <Route path="/voz" element={<OwnerVoicePage />} />
+        <Route path="/penelope" element={<OwnerVoicePage />} />
         <Route
           path="/"
           element={
@@ -214,7 +219,7 @@ function App() {
           element={<OracleMigrationRedirect />}
         />
       </Routes>
-      {!contactCardOnly && (
+      {!chromeLess && (
         <>
           <CookiePolicyModal open={cookiePolicyOpen} onClose={() => setCookiePolicyOpen(false)} content={content.cookies} />
           <CookieBanner

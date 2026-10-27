@@ -37,6 +37,7 @@ import {
 import { ensureOwnerSchema } from './ownerStore.mjs';
 import { formatAgentResult, handleOwnerMessage } from './ownerAssistant.mjs';
 import { stripWakeWord, textHasWakeWord, transcribeVoiceAudio } from './voiceTranscribe.mjs';
+import { handleOwnerVoiceTurn } from './ownerVoice.mjs';
 import { startOwnerReminders } from './ownerReminders.mjs';
 import {
   ensureAgentSchema,
@@ -57,7 +58,7 @@ const app = express();
 app.disable('x-powered-by');
 
 app.use(cors());
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: '3mb' }));
 app.use((err, _req, res, next) => {
   if (err?.type === 'entity.parse.failed') {
     res.status(400).json({ error: 'Invalid JSON body.' });
@@ -361,6 +362,23 @@ app.post('/api/agents/:id/command', requireAdminKey, async (req, res) => {
   }
 });
 
+/** Owner voice PWA (Penélope): push-to-talk → Whisper → assistant → TTS. */
+app.post('/api/owner-voice/turn', requireAdminKey, async (req, res) => {
+  try {
+    const db = await getDb();
+    const result = await handleOwnerVoiceTurn(db, {
+      audio: typeof req.body?.audio === 'string' ? req.body.audio : '',
+      mime: String(req.body?.mime || 'audio/webm').slice(0, 80),
+      text: String(req.body?.text || '').trim().slice(0, 1000),
+      deviceId: String(req.body?.deviceId || '').slice(0, 64),
+    });
+    res.json(result);
+  } catch (e) {
+    const status = Number(e?.status) || 500;
+    res.status(status).json({ error: e?.message || 'voice turn failed' });
+  }
+});
+
 app.get('/api/agents/commands', requireAdminKey, async (req, res) => {
   try {
     const db = await getDb();
@@ -475,7 +493,7 @@ async function start() {
     const cfg = await getWhatsAppConfig(db);
     const phone = String(cfg.owner_phone || '').trim();
     if (!phone) {
-      return 'Jefe, configure su teléfono de dueño en WhatsApp del panel para que Maria use el mismo asistente.';
+      return 'Jefe, configure su teléfono de dueño en WhatsApp del panel para usar Penélope.';
     }
 
     let text = String(msg.text || '').trim();
@@ -487,7 +505,7 @@ async function start() {
       console.log(`[agent] whisper: ${text.slice(0, 120)}`);
     }
     if (!text) {
-      return 'Jefe, no le entendí. Digame Maria y repítalo, por favor.';
+      return 'Jefe, no le entendí. ¿Me lo repite?';
     }
 
     // Local wake already fired; strip "Maria …" if the user said name+command together.

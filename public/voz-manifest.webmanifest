@@ -1,0 +1,25 @@
+{
+  "name": "CastleXpert Penélope",
+  "short_name": "Penélope",
+  "description": "Asistente de voz del dueño CastleXpert",
+  "start_url": "/voz",
+  "scope": "/voz",
+  "display": "standalone",
+  "background_color": "#0a1f18",
+  "theme_color": "#0d4d38",
+  "lang": "es-CR",
+  "icons": [
+    {
+      "src": "/castlexpert-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/castlexpert-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

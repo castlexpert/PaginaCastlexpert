@@ -81,14 +81,17 @@ export function textHasWakeWord(text) {
     .normalize('NFD')
     .replace(/\p{M}/gu, '')
     .toLowerCase();
-  return /\b(maria|mariah|marya)\b/.test(t) || /maria|mariah|marya/.test(t);
+  return (
+    /\b(maria|mariah|marya|penelope|pen[eé]lope)\b/.test(t) ||
+    /maria|mariah|penelope|penelope/.test(t)
+  );
 }
 
 /** Strip leading wake phrase so the assistant sees only the command. */
 export function stripWakeWord(text) {
   return String(text || '')
     .replace(
-      /^\s*((oye|oiga|hola|hey|ok|ea)\s+)?(mar[ií]a|mariah|marya)[\s,.:;¡!¿?-]*/iu,
+      /^\s*((oye|oiga|hola|hey|ok|ea)\s+)?(mar[ií]a|mariah|marya|pen[eé]lope|penelope)[\s,.:;¡!¿?-]*/iu,
       ''
     )
     .trim();
